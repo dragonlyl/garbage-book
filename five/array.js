@@ -37,3 +37,16 @@ console.log(arr1.join(),'join内没任何参数,同toString')
 //实现 栈的效果 push pop  实现队列的效果 push shift  (从头部插入新元素用unshift)
 arr1.unshift('a', 'b'); //这个会返回新数组的长度
 console.log(arr1,'是a在前,b在后')
+
+
+//sort 方法是依据每个数组项调用toString()方法然后比较字符串大小 所以会造成如下
+var arr2 = [0,1,5,10,15]
+console.log(arr2.sort(),arr2.sort((a,b)=>a>b));//1,2,10,15,5  ;所以sort往往带个函数  
+
+//concat 不是数组就会黏贴在数组后面
+var a11 = ['1','2']; var a22 = [{b:2},['4','5'],'3']
+console.log(a11.concat(a22), a11.concat({ b: 2},['4','5'],'3'),'concat');//两种形式不一样
+
+//splice() 可以实现 删除 ,插入 , 替换功能
+
+//every 和some区别在于  前者全true才true  后者一个true就true
