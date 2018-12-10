@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //扩宽上个文档的内容
+        // 提供 FormData 来进行表单的序列化
+        var data= new FormData();
+        data.append('name','value'); // 这样就插入一项数据了
+        // 当然 可以直接将表单传入
+        // var data = new FormData(document.forms[0]) // 这个方法用于取得文档的第一个form表单 ,与下面的写法类似
+        // var form = doucment.getElementById('user-info'); var data = new FormData(form)
+
+        //timeout 属性 用来设置 超时时间    IE8+ 之后的浏览器支持
+        // xhr.timeout = 1000 ;//1s的超时
+        // xhr.ontimeout = function () {
+        //     console.log('time out '); // 超时了就会触发该方法 , 建议在status的包裹一层try catch
+        // }
+
+        //overrideMimeType() 方法  用于重写XHR响应的MIME类型 
+
+        //进入事件 load事件  progress 事件
+
+        // XHR对象只能访问与包含它的页面位于同一个域中的资源  ,对于跨域请求 即 CORS(跨域源资源共享)
+
+        // IE对于跨域的解决之后再看(引入XDR)  ,其他的浏览器对于跨域使用 XMLHttpRequest对象实现了对CORS的原生支持
+        //即 假如这边是http 访问https的话 照常在 xhr.open() 里面写url链接就好
+        //虽然跨域的XHR对象的status和statusText属性和同异步访问这个没关系 ,但是XHR对象还是有限制的 ,
+        //但是1.不能使用 setRequestHeader() 设置头部; 2.不能接受和发送cookie 3.调用getAllResponseHeaders() 方法会返回空字符串.
+        // 所以无论同源请求还是跨域请求都使用相同接口, 对于本地资源,最好使用相对URL,访问远程资源时再使用绝对URL
+        // 于是说如果要设置自定义的头部  用叫 Preflighted Reqeusts  
+        //将 withCredentials 属性设置为true 
+
+        // 所以将ie 和其他浏览器的跨域联合起来就是  是否存在 withCredentials 属性(XHR) .再结合检测XDomainRequest对象(XDR)是否存在
+
+
+        // 其他跨域的方法(因为跨域的ajax通信颇费周折)
+        // 1.图像ping(因为网页可以从任何网页中加载图像) 通过动态创建图像,使用它们的onload和onerror事件处理程序来确定是否接受到响应
+        var img = new Image();
+        //这里是请求完成,无论成功和失败都调用同一个函数,跟有没有成功载入DOM树没任何关系
+        //当时这种方法有两种缺点:1.只能他发送get .2.无法访问服务器的响应文本(只能用于浏览器与服务器之间的单项通信)
+        img.onload = img.onerror = function () {
+            console.log(this.src)
+        }
+        img.src = './first.jpg'
+        // console.log(img)
+        document.body.appendChild(img)
+
+        //2.JSONP (JSON with padding 填充式json或参数式json)
+        // 但是有缺点就是 1.保证访问的是安全的服务,因为这是双向通信 
+        //    2.请求失败无法知晓,虽然script后面新增onerror事件,但还没有支持,所以只能用计时器在规定时间返回
+
+        function handleResponse(response) {
+            alert(response.ip+','+response.city + ',' +response.region_name);
+        }
+        var script = document.createElement('script');
+        script.src = 'http://freegeoip.net/json/?callback=handleResponse';
+        document.body.insertBefore(script,document.body.firstChild);
+
+
+
+        // Comet(不同于ajax,前者是从页面向服务器请求数据的技术,后者是服务器向页面向页面推送数据的技术)
+        // 长轮询和流  
+        //轮询中 不管长轮询还是短轮询都要在接收数据前发起对服务器的连接 ,区别在于短轮询是服务器立即发送响应,
+        //      长轮询是等待发送响应
+        //流:http流  不同轮询 在页面的整个生命周期内只使用一个HTTP连接.即第一次发送请求,服务器保持连接状态
+        //      然后周期性的向浏览器发送数据
+        //用流的方式 ,将XHR包装的函数中 ,有两个回调,一个是readyState为3,返回服务器给的数据,另一个是4,表示已接收全部数据
+
+        //后面有推出了几个API来扩展Comet 
+        // 1.SSE  2.Web Socket
+        // 用 sse 和web socket  首先考虑你的服务是否支持 ,sse是通过常规的http通信, 
+        //      但是web socket不使用http协议,使用自定义协议
+
+    
+    </script> 
+    
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //对于不想兼容IE7以下的版本 创建XHR对象 直接用如下的声明就能创建 调用XMLHttpRequest构造函数了
+        var xhr = new XMLHttpRequest();
+        //创建完该对象后 调用open() 方法,接受三个参数:('get','post') ,请求的URL  和是否异步发送请求的布尔值 (建议用异步 ,同步会阻拦js运行,即true)
+        //调用完open()并不会真正发送请求,只是启动一个请求以备发送
+        xhr.open('get','http://127.0.0.1:2018',false);
+        //调用完send() 之后 ,请求就会被分派到服务器了,如不需要发送数据将其设置为null
+        xhr.send(null)
+        //其中要说明一下 open()的最后一个参数,如果是false表示这次请求是同步的,即js代码等服务器响应之后再继续执行.
+        //在收到响应后,响应的数据会自动填充XHR对象的属性, 有如下几个相关属性
+        /*
+            responseText: 作为响应主体被返回的文本;
+            responseXML: 如果响应的内容类型是'text/xml' 或'application/xml',这个属性将保持包含着响应数据的XML DOM文档
+            status: 响应的http状态
+            statusText: HTTP状态的说明
+        */
+        if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304){
+            console.log(xhr.responseText);//如果返回类型不是 XML ,那么 .responseXML是null
+        }
+        //接收到响应  要先看status  如果 status是 200-300之间 或者 304(请求资源未被修改,可以直接使用浏览器中缓存的版本),
+        //就表示 ,responseText属性已经就绪了,(当然 ,内容类型的情况下,responseXML也能够访问)
+        // 当然 可以通过 XHR对象的 readyState属性来确认当前请求/响应过程的当前活动阶段 
+        var state =  xhr.readyState ;// 0:未初始化 1:启动 2:发送 3:接收 4:完成
+        //每次 readyState 变换 都会触发一次readyStatechange 事件  不过必须在open()之前 指定 onreadstatechange事件处理程序才能确保跨浏览器的兼容性
+        xhr.onreadystatechange = function () { //用DOM0 级方法添加的事件处理程序 ,毕竟 DOM2的addEventListener 怕有低级浏览器
+            if(xhr.readyState == 4){
+                if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+                    console.log(xhr.responseText);
+                }else{
+                    console.log('request was unsuccessful');
+                }
+            }
+        } 
+        // xhr.abort()  用这个可以取消异步请求 ,不仅停止触发事件,也不再允许访问任何与响应有关的对象属性
+
+        //补充  : xhr 对象也提供了 修改(请求头部和响应头部) 信息的方法    用setRequestHeader() 方法必须在 open()之后 ,send()之前
+        // xhr.setRequestHeader('MyHeader','Myvalue')
+        // 用  getResponseHeader() 方法并传入头部字段名称,可以取得响应的响应头部信息, getAllResponseHeaders() 取得所有头部信息
+        // xhr.getResponseHeader('MyHeader');
+
+        //GET 请求 为了防止 查询字符串的格式有问题 ,将查询字符串中每个参数的名称和值都通过encodeURIComponent() 编码,可以用下面的方法封装一下
+        function addURLParam(url,name,value) {
+            //第一次调用 后面加个?   第二次调用 (即已经成功加入了一个参数了 ,只需要加& 并入另外一个参数就可以了)
+           url += (url.indexOf('?') == -1 ? '?' : '&');
+           url += encodeURIComponent(name) + '=' + encodeURIComponent(value);
+           return url 
+        }
+        // 只需要 let url = 'www.xxxx'; url = addURLParam(url,'name1','value1'); url = addURLParam(url,'name2','value2'); 然后在放入open中就可以了 
+
+
+        //POST 请求  可以同过  XHR 对象中的send() 方法来发送内容主体, 由于原本的send() 方法是用于发送XML 所以该方法也可以发送XML DOM文档
+        // 由于 post请求和提交web表单的请求并不会一视同仁 ,所以可以在头部的 Content-Type 头部信息设置为 application/x-www-form-urlencoded 方法来模仿表单提交时的内容类型
+        // 可以通过 serialize() 函数 来将表单的数据直接进行序列化 ,然后通过XHR发送到服务器  
+        // var form = doucment.getElementById('user-info');
+        // xhr.send(serialize(form));
+    </script>
+</body>
+</html>

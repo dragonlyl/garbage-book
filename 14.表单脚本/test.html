@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" class="test" value="111" placeholder="无文本">
+    <input type="button" value="select" class="button">
+    <script>
+        //粘贴板 
+        var EventUtil = {
+            getClipboardText: function (event) {
+                //兼容chrome 和IE
+                var clipboardData = (event.clipboardData || window.clipboardData);
+                return clipboardData.getData('text')
+            },
+            setClipboardText: function (event, value) {
+                if (event.clipboardData) {
+                    return event.clipboardData.setData('text/plain', value)
+                } else if (window.clipboardData) {
+                    return window.clipboardData.setData('text', value)
+                }
+            }
+        } 
+    </script>
+    <script>
+        let input = document.querySelector('.test');
+        let button = document.querySelector('.button')
+        button.addEventListener('click',function (e) {
+            input.select()
+            //可以实现黏贴
+            document.execCommand("Copy");]
+            // EventUtil.setClipboardText(e,input.value)
+            // window.clipboardData.setData('text/plain','222')
+            console.log(input.value.substring(input.selectionStart,input.selectionEnd));
+            // 还提供了一种可以选择选择范围的方法  .setSelectionRange(0,input.value.length)
+
+            
+        })
+        input.addEventListener('paste',function (e) {
+            EventUtil.getClipboardText(e)
+            if(e == '222' || e == 222){
+                 e.preventDefault();
+            }
+        })
+        // input.select()
+        input.addEventListener('keypress',function (e) {
+            // if(!/\d/.test(String.fromCharCode(input.value))){
+            // }
+            // e.preventDefault();//阻止默认事件,就能阻止键盘输入了
+        })
+
+         
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .outer{
+            background: #000;
+            width: 80px;
+            height: 80px;
+            text-align: center;
+            display: inline-block;
+            position: relative;
+        }
+        .inner{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            /* top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%); */
+            transform: translateX(-50%);
+            border-radius: 50%;
+            border: 2px solid #fff;
+            border-bottom-color: transparent;
+            animation:rotating 1.2s linear infinite;
+        }
+        @keyframes rotating{
+            from{transform:rotate(0)}
+            to{transform:rotate(360deg)}
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <span class="inner"></span>
+    </div>
+</body>
+</html>
