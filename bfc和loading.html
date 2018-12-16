@@ -32,11 +32,34 @@
             from{transform:rotate(0)}
             to{transform:rotate(360deg)}
         }
+        .test-bfc{
+            overflow: hidden;
+            background: blue;
+        }
+        p{
+            margin: 10px 0;
+            background: yellow;
+        }
     </style>
 </head>
 <body>
     <div class="outer">
         <span class="inner"></span>
     </div>
+    <div class="test-bfc">
+        <!-- 浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和
+        table-captions），以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的BFC（块级格式上下文） -->
+        <!-- 是BFC容器 第一个p上部的margin和最后一个p下部的margin是存在的  不是不会存在
+        BFC可以避免外边距折叠 外边距折叠要满足一个条件：两个相邻元素要处于同一个BFC中 -->
+        <p>测试第一个内容区域</p>
+        <p>测试第二个内容区域</p>
+        <!-- 第二 BFC包含浮动 浮动就不会把容器高度撑开 但是bfc容器可以被浮动元素撑开 -->
+    </div>
+    <script>
+        var a = 0.3
+        var b = 0.1 + 0.2
+
+        console.log(0.1+0.2 === 0.3,typeof a,typeof b)
+    </script>
 </body>
 </html>

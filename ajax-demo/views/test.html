@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>test哈哈</h2>
+    <img src="/public/img/first.jpg">
+    <script>
+        var xhr = new XMLHttpRequest();
+        //readyState为0 初始化请求代理对象
+        xhr.open('post','http://127.0.0.1:8071/test');
+        //readyState为1 open已调用,建立一个无服务器端口的连接
+        // xhr.send(null)
+        xhr.setRequestHeader('name','jack');//设置请求头
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xhr.send('key1=1&key2=2')
+        xhr.onreadystatechange = function () {
+            //在readyState为2时 的时候拿到响应报文的响应头
+            if(xhr.readyState == 2){
+                console.log(this.getAllResponseHeaders())
+            }
+            //readyState为3 正在下载响应报文的响应体
+            if (xhr.readyState == 4) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    alert(xhr.responseText)
+                } else {
+                    alert('request was unsuccessful:' + xhr.status)
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>test</h2>
+    <!-- <img src="http://127.0.0.1:8071/public/img/first.jpg" alt="kong"> -->
+    <script>
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                    alert(xhr.responseText)
+                } else {
+                    alert('request was unsuccessful:' + xhr.status)
+                }
+            }
+            // console.log(this,this.readyState)
+        }
+        xhr.open('get', 'http://127.0.0.1:8071/test', true);
+        // xhr.open("GET",'http://localhost:8071/')
+        xhr.send(null);
+        var img = new Image();
+        img.onload = function () {
+            alert('done')
+        }
+        img.src = 'http://127.0.0.1:8071/public/img/first.jpg?name=jack'
+        // document.body.appendChild(img) //用img不用append到body也能运行
+
+        var script = document.createElement('script');
+        var callbackName = "test1"
+        script.src = `http://127.0.0.1:8071/jsonp?callback=${callbackName}`
+        document.body.appendChild(script);//这里才开始发送请求
+        window[callbackName] = function (res) {
+            console.log(res)
+            // 这里在做获取数据后的操作
+            // 每次请求完都会有个scrpit标签 所以要在使用完删除这个标签
+            delete window[callbackName]
+            document.body.removeChild(script)
+        }
+    </script>
+</body>
+
+</html>
