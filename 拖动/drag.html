@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .test1,.test2{
+            height: 200px;
+            width: 200px;
+            background: yellow;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .test2{
+            background: blue;
+        }
+        .img{
+            width: 100px;
+            height: auto;
+        }
+        .showText{
+            font-size: 12px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="test1"></div>
+    <div class="test2"></div>
+    <img src="./first.jpg" class="img">
+    <span class="showText"></span>
+    <script>
+        // 因为任何的drag的放置目标事件默认是不被放置的,所以要阻止默认事件
+        let d1 = document.querySelector('.test1');
+        let d2 = document.querySelector('.test2')
+        let i1 = document.querySelector('.img');
+        let text1 = document.querySelector('.showText')
+        console.log(d1,text1)
+        d1.ondragover = function (e) {
+            e.preventDefault();
+        };
+        d2.ondragover = function (e) {
+            e.preventDefault();
+        };
+        i1.ondragstart = function (e) {
+            e.dataTransfer.setData('imgId','.img')
+            // console.log(e.dataTransfer)
+        }
+        d1.ondrop = dropImghandler;
+        d2.ondrop = dropImghandler;
+        function dropImghandler(e) {
+            showObj(e.dataTransfer)
+            e.preventDefault();
+            if(e.dataTransfer.getData('imgId')){
+                var img = document.querySelector(e.dataTransfer.getData('imgId'))
+                e.target.appendChild(img);
+            }
+            if(e.dataTransfer.files.length){
+                let f = e.dataTransfer.files[0];
+                let fr = new FileReader();
+                fr.onload = function (event) {
+                    var im = new Image();
+                    im.src = fr.result
+                    im.width = 50;
+                    im.height = 50;
+                    e.target.appendChild(im);
+                }
+                fr.readAsDataURL(f)
+            }
+        } 
+        function showObj(obj) {
+            var s = '';
+            for (var key in obj) {
+                // if (obj.hasOwnProperty(key)) {
+                    s+= key +":"+ obj[key] +'<br/>';
+                // }
+            }
+            text1.innerHTML = s;
+        }
+    </script>
+</body>
+</html> 
