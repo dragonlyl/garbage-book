@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="tab-bar" @click="changeTest()" :class="{left:mtest == 1,right:mtest == 2}">
+        <span>热门</span>
+        <span>最新</span>
+    </div>
+    <script>
+        // data() {
+        //     return {
+        //         mtest:1
+        //     }
+        // }
+        // changeTest(){
+        //     this.mtest = this.mtest == 1 ? 2 : 1;
+        // }
+
+    </script>
+    <style lang="scss">
+    .tab-bar {
+        width: 82px;
+        height: 26px;
+        display: inline-block;
+        background: #EAEEF4;
+        border-radius: 13px;
+        &::after {
+            transition: all  0.2s ease;
+            position: absolute;
+            left: 1px;
+            top: 1px;
+            bottom: 1px;
+            right: 50%;
+            content: '';
+            border-radius: 12px;
+            background: #fff;
+            z-index: 2;
+            display: block;
+        }
+        &::before {
+            transition: all  0.2s ease;
+            position: absolute;
+            right: 1px;
+            top: 1px;
+            bottom: 1px;
+            left: 50%;
+            content: '';
+            display: block;
+            border-radius: 12px;
+            background: #fff;
+            z-index: 2;
+        }
+        &.left {
+            position: relative;
+            z-index: 1;
+            span:first-child {
+                color: #4E4E4E;
+            }
+            &::after{
+                opacity: 1;
+            }
+            &::before {
+                transform: translateX(-50%);
+                opacity: 0;
+                
+            }
+        }
+        &.right {
+            position: relative;
+            z-index: 1;
+            span:last-child {
+                color: #4E4E4E;
+            }
+            &::after {
+                opacity: 0;
+                transform: translateX(50%);
+            }
+            &::before {
+                opacity: 1;
+                
+            }
+        }
+        >span {
+            width: 50%;
+            display: inline-block;
+            text-align: center;
+            line-height: 26px;
+            color: #A5A5A5;
+            user-select: none;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            z-index: 3;
+            transition: color 0.2s linear;
+        }
+    }
+</style>
+</body>
+</html>
