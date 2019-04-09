@@ -350,9 +350,12 @@ var myObject = {
         console.log(this.num)
     }
 }
-myObject.add(); // 3  4
-console.log(myObject.num); //4
-console.log(num); // 
+myObject.add(); // 到 this.num = 3 => 隐式绑定 修改myObject.number = 3;
+// 然后里面 函数默认绑定 输出window.num = 1; 到 this.num = 4 => 默认绑定 window.num = 4 
+console.log(myObject.num); 
+console.log(num); 
 var sub = myObject.sub;
+// 丢失了隐式绑定的 myObject,所以使用默认绑定 输出 4
 sub();
+// 1、3、3、4、4
 
