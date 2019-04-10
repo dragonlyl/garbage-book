@@ -21,6 +21,13 @@ const myPromise = new Promise(function(res, rej) {
     // If Math.random() returns 0.9 or greater the following is logged:
     // "Error: On no!"
 
+    
+    // promise all 
+    // return Promise.all([Core.Api.Wx.encryptedData(code, encryptedData, iv), 
+                            // Core.Api.Wx.decryptPhone(code, encryptedData, iv)])
+    // .then(res => { res[0] res[1] }
+
+
 async function basicDemo() {
     let result = await Math.random();
     console.log(result);
