@@ -4,7 +4,7 @@
 
 // 调用位置就是函数在代码中被调用的位置（而不是声明的位置）。
 
-// 1.默认绑定
+// 1.默认绑定 (严格模式,this为undefined ,不严格为全局对象)
 
 // 独立函数调用，可以把默认绑定看作是无法应用其他规则时的默认规则，this指向全局对象。
 // 严格模式下，不能将全局对象用于默认绑定，this会绑定到undefined。只有函数运行在非严格模式下，
@@ -74,7 +74,26 @@ doFoo(obj.foo); // "oops, global"
 
 // ----------------------------------------
 
-// JS环境中内置的setTimeout()函数实现和下面的伪代码类似：
+// JS环境中内置的setTimeout()函数实现和下面的伪代码类似：  (参数传递也是一种隐式赋值,传入函数时也会被隐式赋值)
+function foo() {
+    console.log( this.a );
+}
+
+function doFoo(fn) {
+    // fn其实引用的是foo
+    
+    fn(); // <-- 调用位置！
+}
+
+var obj = {
+    a: 2,
+    foo: foo
+};
+
+var a = "oops, global"; // a是全局对象的属性
+
+doFoo( obj.foo ); // "oops, global"  (既即使是obj.foo  但是打印的还是全局的)
+
 function setTimeout(fn, delay) {
     // 等待delay毫秒
     fn(); // <-- 调用位置！
@@ -87,7 +106,6 @@ function setTimeout(fn, delay) {
 // 显示绑定无法解决丢失绑定问题。
 
 // 解决方案：
-
 // 1、硬绑定
 // 创建函数bar() ，并在它的内部手动调用foo.call(obj) ，强制把foo的this绑定到了obj。
 // 这种方式让我想起了借用构造函数继承
@@ -146,6 +164,23 @@ var bar = bind(foo, obj);
 var b = bar(3); // 2 3
 console.log(b); // 5
 
+// JS许多内置函数提供了一个可选参数，被称之为“上下文”（context），其作用和bind(..)一样，确保回调函数使用指定的this。
+// 这些函数实际上通过call(..)和apply(..)实现了显式绑定。
+
+// function foo(el) {
+// 	console.log( el, this.id );
+// }
+
+// var obj = {
+//     id: "awesome"
+// }
+
+// var myArray = [1, 2, 3]
+// // 调用foo(..)时把this绑定到obj
+// myArray.forEach( foo, obj );
+// // 1 awesome 2 awesome 3 awesome
+
+
 // 4 new绑定
 
 // 在JS中，构造函数只是使用new操作符时被调用的普通函数，他们不属于某个类，也不会实例化一个类。
@@ -171,8 +206,8 @@ console.log(bar.a); // 2
 function create() {
     // 创建一个空的对象
     var obj = new Object(),
-        // 获得构造函数，arguments中去除第一个参数
-        Con = [].shift.call(arguments);
+    // 获得构造函数，arguments中去除第一个参数
+    Con = [].shift.call(arguments);
     // 链接到原型，obj 可以访问到构造函数原型中的属性
     obj.__proto__ = Con.prototype;
     // 绑定 this 实现继承，obj 可以访问到构造函数中的属性
@@ -189,6 +224,22 @@ var person = new Person(...)
 // 使用手写的new，即create
 var person = create(Person, ...)
 
+// 代码原理解析：
+
+// 1、用new Object() 的方式新建了一个对象obj
+
+// 2、取出第一个参数，就是我们要传入的构造函数。此外因为 shift 会修改原数组，所以 arguments 会被去除第一个参数
+
+// 3、将 obj 的原型指向构造函数，这样obj就可以访问到构造函数原型中的属性
+
+// 4、使用 apply，改变构造函数 this 的指向到新建的对象，这样 obj 就可以访问到构造函数中的属性
+
+// 5、返回 obj
+
+
+
+
+
 // 在new中使用硬绑定函数的目的是预先设置函数的一些参数，
 // 这样在使用new进行初始化时就可以只传入其余的参数（柯里化）
 function foo(p1, p2) {
@@ -202,6 +253,7 @@ var bar = foo.bind(null, "p1");
 var baz = new bar("p2"); 
 
 baz.val; // p1p2
+
 
 // 4 绑定例外
 // 4.1 被忽略的this
@@ -328,11 +380,29 @@ var obj2 = {
     a: 3
 }
 
-var bar = foo.call(obj1); // 这里绑定的环境是obj1  此时bar 为foo的内部函数
-bar.call(obj2); // 2，不是3！
+var bar = foo.call(obj1); // 这里绑定的环境是obj1  此时foo内部的this是obj1  bar = () => {console.log(this.a)}
+bar.call(obj2); // 2，不是3！  这里改变了bar的调用环境为obj2,但没有影响到之前为箭头函数的this
 
+// foo()内部创建的箭头函数会捕获调用时foo()的this。由于foo()的this绑定到obj1，
+// bar(引用箭头函数)的this也会绑定到obj1，箭头函数的绑定无法被修改(new也不行)。
 
+// ES6之前和箭头函数类似的模式，采用的是词法作用域取代了传统的this机制。
 
+// function foo() {
+//     var self = this; // lexical capture of this
+//     setTimeout( function() {
+//         console.log( self.a ); // self只是继承了foo()函数的this绑定
+//     }, 100 );
+// }
+
+// var obj = {
+//     a: 2
+// };
+
+// foo.call(obj); // 2
+// 代码风格统一问题：如果既有this风格的代码，还会使用 seft = this 或者箭头函数来否定this机制。
+    // 只使用词法作用域并完全抛弃错误this风格的代码；
+    // 完全采用this风格，在必要时使用bind(..)，尽量避免使用 self = this 和箭头函数。
 
 
 var num = 1;

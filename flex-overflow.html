@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flex</title>
+    <style>
+        .main {
+            display: inline-flex;
+            width: 400px;
+            background-color: aquamarine;
+        }
+        .logo {
+            /* width: 100px;
+            height: 100px;
+            margin: 10px; */
+            display: inline-block;
+            width: 100px;
+            margin-right: 10px;
+        }
+        .content {
+            flex: 1;
+            width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .content .notice {
+            vertical-align: middle;
+
+            /* white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; */
+        }
+        .content .name {
+            vertical-align: middle;
+            width: 20px;
+            flex-shrink: 0;
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <!-- <img alt="" class="logo" src="./test.png"> -->
+        <span class="logo">
+            hhhh 
+        </span>
+        <div class="content">
+            <span class="notice">This is notice content.This is notice content.This is notice content.This is notice content.</span>
+            <span class="name"></span>
+        </div>
+    </div>
+</body>
+</html>

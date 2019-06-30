@@ -25,7 +25,7 @@ function foo() {
 }
 foo(); // foo2
 
-// 声明优先级，函数 > 变量
+// 声明优先级，函数 > 变量 (函数声明提升，变量声明提升，但赋值不提升,所以说优先级有点不正确)
 foo();  // foo2  (函数声明优先级高)
 var foo = function() {
     console.log('foo1');
@@ -35,6 +35,21 @@ function foo() {
     console.log('foo2');
 }
 foo(); // foo1
+/**
+ * 解释   
+ *  var foo; // undefined/变量声明提升/
+    function foo() {
+    console.log('foo2');
+    } /函数声明提升/ // foo -> function foo(){}
+    foo(); // foo2 (上述代码的第一个f00)
+    foo = function() {
+    console.log('foo1');
+    } /重新赋值/
+    foo(); // foo1  (上述代码的第二个f00)
+ * 
+ * 
+ */
+
 
 
 var scope = "global scope";
@@ -43,10 +58,11 @@ function checkscope(){
     function f(){
         return scope;
     }
-    return f();
-}
-// checkscope();
-// checkscope()();
+    // return f();  //1
+    // return f;    //2
+}   
+// checkscope();    //1
+// checkscope()();  //2
 // 上面两个  方法虽然最后的结果是一样的  但是 他们执行上下文栈的变化不一样
 
 // 第一段代码：
