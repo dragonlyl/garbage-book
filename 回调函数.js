@@ -1,4 +1,4 @@
-function test(content,done) {
+ function test(content,done) {
     this.content = content
     setTimeout(() => {
         let b = 2;
