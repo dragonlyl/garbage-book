@@ -1,6 +1,6 @@
 # 关于 Babel 你必须知道的
 
-## Babel 官方文档: https://babeljs.io/
+## Babel 官方文档: <https://babeljs.io/>
 
 ## babel 编译的阶段
 
@@ -44,4 +44,3 @@ preset（即一组预先设定的插件）
 
 babel-core（核心）
 这个模块是最能顾名思义的了，即 babel 的核心模块。babel 的核心 api 都在这个模块中。也就是这个模块会把我们写的 js 代码抽象成 AST 树；然后再将 plugins 转译好的内容解析为 js 代码。
-
