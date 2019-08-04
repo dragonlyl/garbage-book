@@ -1,6 +1,6 @@
 # 前端基础篇之CSS世界
 
-https://juejin.im/post/5ce607a7e51d454f6f16eb3d
+<https://juejin.im/post/5ce607a7e51d454f6f16eb3d>
 
 流体布局之下，块级元素的宽度width: auto是默认撑满父级元素的。这里的撑满并不同于width: 100%的固定宽度，而是像水一样能够根据margin不同而自适应的宽度。
 
