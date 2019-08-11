@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .canvas-test{
+            width: 300px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <canvas class="canvas-test" id="test">
+
+    </canvas>
+    <canvas id="test-2" style="width: 300px;">
+
+    </canvas>
+    <script>
+        var canvas = document.getElementById('test');
+        // canvas.width = 300;
+        // canvas.height = 300;
+        if(canvas.getContext) {
+            let context = canvas.getContext('2d');
+            // 规定了关于描边和填充的颜色
+            context.strokeStyle = 'red';
+            context.fillStyle = '#0000ff';
+
+            context.fillRect(10,10,50,50);
+            context.fillStyle = 'rgba(0,255,0,.5)';
+            context.lineWidth = 2;
+            context.strokeRect(30,30,50,50);
+            context.fillRect(30,30,50,50);
+            // 清除交汇的区域中间的一小块
+            context.clearRect(40,40,10,10);
+
+            // 将canvas 的内容变成图片
+            var imgUrl = canvas.toDataURL('image/png');
+            var img = document.createElement('img');
+            img.src = imgUrl;
+            document.body.appendChild(img);
+        }
+        var canvas2 = document.getElementById('test-2');
+        if(canvas2.getContext) {
+            let context = canvas2.getContext('2d');
+            context.beginPath();
+            context.arc(100,100,99,0,2*Math.PI,false);
+            context.moveTo(194,100);
+            context.arc(100,100,94,0,2*Math.PI,false);
+            context.moveTo(100,100);
+            context.lineTo(100,15);
+            context.moveTo(100,100);
+            context.lineTo(35,100);
+            context.stroke();
+            // 将canvas 的内容变成图片
+            var imgUrl = canvas2.toDataURL('image/png');
+            var img = document.createElement('img');
+            img.src = imgUrl;
+            document.body.appendChild(img);
+
+        }
+    </script>
+</body>
+</html>
