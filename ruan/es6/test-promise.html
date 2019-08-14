@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="outer">
+    </div>
+    <script>
+        let outer = document.getElementById('outer')
+        function loadImg (url) {
+            return new Promise ((resolve,reject) => {
+                let image = new Image();
+                image.onload = function (e){
+                    resolve (image);
+                }
+                image.onerror = function () {
+                    reject (new Error('Could not load image at ' + url))
+                }
+                image.src = url;
+            })
+        }
+        loadImg('https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3291717660,4222873552&fm=58&bpow=450&bpoh=316')
+        .then(res => {
+            outer.appendChild(res);
+            console.log(1111);
+            return res;
+        }
+        // ,error => {
+        //     console.log(error)
+        // }
+        )
+        .then(res => {
+            console.log(2222)
+        })
+        // 好像两种写法都可以  catch的写法比较好
+        //理由是第二种写法可以捕获前面then方法执行中的错误，也更接近同步的写法（try/catch）。
+        //跟传统的try/catch代码块不同的是，如果没有使用catch方法指定错误处理的回调函数，
+        //Promise 对象抛出的错误不会传递到外层代码，即不会有任何反应。
+        .catch(err => {
+            console.log(err,'errr')
+        })
+        // 封装promise
+        const getJSON = function(url) {
+            const promise = new Promise(function(resolve, reject){
+                const handler = function() {
+                if (this.readyState !== 4) {
+                    return;
+                }
+                if (this.status === 200) {
+                    resolve(this.response);
+                } else {
+                    reject(new Error(this.statusText));
+                }
+                };
+                const client = new XMLHttpRequest();
+                client.open("GET", url);
+                client.onreadystatechange = handler;
+                client.responseType = "json";
+                client.setRequestHeader("Accept", "application/json");
+                client.send();
+
+            });
+            return promise;
+        };
+
+        // getJSON("/posts.json").then(function(json) {
+        // console.log('Contents: ' + json);
+        // }, function(error) {
+        // console.error('出错了', error);
+        // });
+    </script>
+</body>
+</html>
