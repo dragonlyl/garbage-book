@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用法</title>
+</head>
+<body>
+    <div class="outer">
+        <div class="inner" data-name="jack" data-gender="boy">
+            <span>文字测试</span> 
+            <!-- 变成display:none 而不是visible:hidden -->
+            <span hidden>hidden</span>
+            <p contenteditable class="test1">我是P元素，但是我也可以被编辑</p>
+            <textarea spellcheck="true" cols="30" rows="10"></textarea>
+        </div>
+    </div>
+    <script>
+        // 可以用这种复杂的方式来寻找元素
+        let inner = document.querySelector('.outer .inner');
+        // close向上查找
+        let outer = inner.closest('.outer');
+        // 获取的是个对象 里面是 {name: 'jack',gender: 'boy'}
+        inner.dataset
+        let test1 = inner.querySelector('.test1');
+        test1.classList.add('test1-title');
+        test1.classList.remove('test1-title');
+        // 有就移除 没有就添加
+        test1.classList.toggle('test1-title-1');
+        // 替换
+        test1.classList.replace('test1-title-1','test1-title-2');
+        // 监测是否包含该类名
+        let t_resoult = test1.classList.contains('test1-title-1');
+        // 指定元素在当前页面的空间信息
+        // top是距离文档顶部的距离，y则是距离可视窗口（浏览器屏幕）的顶部距离
+        // ，如果浏览器滚动，top值不变，y值会变
+        let t_rect = test1.getBoundingClientRect();
+        // a 是否包含b元素
+        let con = inner.contains(test1);
+        //获取url ?后面的参数 后面还可以跟属性   .get('id');//获取 ?后面id的值
+        new URLSearchParams(location.search)
+        // 切换为在线的时候 会调用方法
+        // 还有offline 可以观察到是否离线
+        window.addEventListener("online", ()=> {
+            console.log('在线')
+        });
+        navigator.getBattery().then(battery => console.log(battery));
+        // {
+        //     charging, // 是否在充电
+        //     chargingTime, // 充满电所需时间
+        //     dischargingTime, // 当前电量可使用时间
+        //     level, 剩余电量
+
+        //     onchargingchange, // 监听充电状态变化
+        //     onchargingtimechange, // 监听充满电所需时间变化
+        //     ondischargingtimechange, // 监听当前电量可使用时间变化
+        //     onlevelchange // 监听电量变化
+        // }
+        // 震动一次
+        navigator.vibrate(100);
+        // 连续震动，震动200ms、暂停100ms、震动300ms
+        navigator.vibrate([200, 100, 300]);
+        // 页面是否可见
+        document.addEventListener("visibilitychange", () => {
+            console.log(`页面可见性：${document.visibilityState}`);
+        });
+        window.addEventListener("deviceorientation", event => {
+        let {
+            alpha,
+            beta,
+            gamma
+        } = event;
+
+        console.log(`alpha：${alpha}`);
+        console.log(`beta：${beta}`);
+        console.log(`gamma：${gamma}`);
+        });
+        // 将图片链接变成data64 但是跨域的只能预览
+        // 封装一下可以解决上面的问题
+        const downloadImage = (url, name) => {
+            // 实例化画布
+            let canvas = document.createElement("canvas");
+            let context = canvas.getContext("2d");
+
+            // 实例化一个图片对象
+            let image = new Image();
+            image.crossOrigin = "Anonymous";
+            image.src = url;
+
+            // 当图片加载完毕
+            image.onload = () => {
+                // 将图片画在画布上
+                canvas.height = image.height;
+                canvas.width = image.width;
+                context.drawImage(image, 0, 0);
+
+                // 将画布的内容转换成base64地址
+                let dataURL = canvas.toDataURL("image/png");
+
+                // 创建a标签模拟点击进行下载
+                let a = document.createElement("a");
+                a.hidden = true;
+                a.href = dataURL;
+                a.download = name;
+
+                document.body.appendChild(a);
+                a.click();
+            }
+        }
+        // 自定义事件，就跟vue里面的on跟emit一样；
+        // 监听自定义事件
+        window.addEventListener("follow", event => {
+            console.log(event.detail); // 输出 {name: "前端宇宙情报局"}
+        });
+        // 派发自定义事件
+        window.dispatchEvent(new CustomEvent("follow", {
+            detail: {
+                name: "前端宇宙情报局"
+            }
+        }));
+        // // pc端桌面通知
+        // const notice = new Notification("前端宇宙情报局", {
+        //     body: "这20个不常用的Web API真的有用吗?，别问，问就是有用🈶",
+        //     icon: "我的掘金头像",
+        //     data: {
+        //         url: "https://www.baidu.com"
+        //     }
+        // });
+
+        // // 点击回调
+        // notice.onclick = () => {
+        //     window.open(notice.data.url); // 当用户点击通知时，在浏览器打开百度网站
+        // }
+        // 上述功能要实现  首先要授权
+        // Notification.requestPermission(prem => {
+        //     prem == "granted" // 同意
+        //     prem == "denied" // 拒绝
+        // })
+        let permission = Notification.permission;
+        console.log(permission,'permission')
+        if (permission == "granted") {
+            // 已同意，开始发送通知
+            const notice = new Notification("前端宇宙情报局", {
+                body: "这20个不常用的Web API真的有用吗?，别问，问就是有用🈶",
+                icon: "我的掘金头像",
+                data: {
+                    url: "https://www.baidu.com"
+                }
+            });
+
+            // 点击回调
+            notice.onclick = () => {
+                window.open(notice.data.url); // 当用户点击通知时，在浏览器打开百度网站
+            }
+        } else if (permission == "denied") {
+            // 不同意，发不了咯
+        } else {
+        // 其他状态，可以重新发送授权提示
+            Notification.requestPermission();
+        }
+
+
+        // 指定某个元素全屏
+        /**
+         * @method launchFullScreen 开启全屏
+         * @param {Object} elem = document.documentElement 作用的元素
+         */
+        const launchFullScreen = (elem = document.documentElement) => {
+            if(elem.requestFullScreen) {
+                elem.requestFullScreen();
+            } else if(elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if(elem.webkitRequestFullScreen) {
+                elem.webkitRequestFullScreen();
+            }
+        }
+        // 监听屏幕变化
+        window.addEventListener("orientationchange", () => {
+            document.body.innerHTML += `<p>屏幕旋转后的角度值：${window.orientation}</p>`;
+        }, false);
+        // 也可以用css控制样式
+        // /* 竖屏时样式 */
+        // @media all and (orientation: portrait) {
+        //     body::after {
+        //         content: "竖屏"
+        //     }
+        // }
+
+        // /* 横屏时样式 */
+        // @media all and (orientation: landscape) {
+        //     body::after {
+        //         content: "横屏"
+        //     }
+        // }
+
+        // console.log(con,'##')
+    </script>
+</body>
+</html>

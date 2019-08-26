@@ -9,9 +9,18 @@ function create() {
     obj.__proto__ = Con.prototype;
     // 将构造函数中的this指向新对象，这样新对象就可以访问构造函数中的属性和方法了
     let result = Con.apply(obj,arguments);
+    console.log(result,obj,typeof result)
     // result 就是要返回的对象
     // 但如果result 不是对象那么就返回构造函数的一个实例对象
     return typeof result === "object" ? result : obj;
 }
-// let test = new Obj(1,2);
+function Car(make, model, year) {
+    this.make = make;
+    this.model = model;
+    this.year = year;
+    return {year:this.year}
+  }
+let test = new Car(1,2,3);
+let test2 = create(Car,2,3,4)
+console.log(test,test2,'test')
 // let test2 = create(Obj,1,2)

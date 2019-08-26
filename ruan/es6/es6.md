@@ -28,6 +28,15 @@ bar(); // 报错
 
 如果真要变量不变  用 Object.freeze(obj)
 // 最高级保护  还有seal 最低级是preventExtensions
+三者区别
+
+1. preventExtensions 用Obejct.isExtensible用来判断是否可以被扩展
+锁住对象属性，使其不能够拓展，也就是不能增加新的属性，但是属性的值仍然可以更改，也可以把属性删除
+2. seal 用Object.isSealed由于判断对象是否被密封
+把对象密封，也就是让对象既不可以拓展也不可以删除属性（把每个属性的configurable设为false）,但是属性值仍然可以修改
+3. Object.freeze 用Object.isFrozen判断对象是否被冻结
+在seal的基础上，属性值也不可以修改（每个属性的wirtable也被设为false）
+
 const foo = Object.freeze({});
 foo.prop = 123; // 严格模式报错；常规模式代码无效
 
