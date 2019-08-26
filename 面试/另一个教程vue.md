@@ -58,10 +58,16 @@ v-cloak 可以用于防止闪现表达式 配合css中 [v-cloak] { display:none 
     因为在实例被载入之前  <P v-cloak>{{msg}}</p> 里面的msg就是msg不会拿到data中msg值(因为vue实例还未创建)
     那么就会 display为none  ,实例载入成功就会自动显现替换msg的内容了
 
-## 自定义指令 下面是全局指令 Vue.directive('upper-text',(el,binding) => { el.textContent = binding.value.toUpperCase() })
+## 自定义指令 下面是全局指令 Vue.directive('upper-text',bind: (el,binding) => { el.textContent = binding.value.toUpperCase() })
 
 这里定义的指令  在  标签中  `<p v-upper-text>{{msg}}</p>`   // msg值就是binding.value
 特殊说明 :   el: 指令属性所在的标签对象    binding: 包含指令相关信息数据的对象
+
+上面是bind的钩子
+bind：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+官方实例的focus用的是下面的inserted
+inserted：被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+update
 
 // 定义vue插件   Vue.use(MyPlugin) // 这句话会执行MyPlugin.install(Vue)
 //   即我们的插件 只要是个立即执行函数 并把MyPlugin暴露出去 window.MyPlugin = MyPlugin
