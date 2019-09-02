@@ -576,3 +576,107 @@ export { foo, bar } from 'my_module';
 // 可以简单理解为
 import { foo, bar } from 'my_module';
 export { foo, bar };
+
+## Class
+
+// 普通写法
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+
+Point.prototype.toString = function () {
+  return '(' + this.x + ', ' + this.y + ')';
+};
+
+var p = new Point(1, 2);
+
+// es6写法
+
+``` // es6写法
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  toString() {
+    return '(' + this.x + ', ' + this.y + ')';
+  }
+}
+```
+
+### 立即执行class
+
+let person = new class {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayName() {
+    console.log(this.name);
+  }
+}('张三');
+
+person.sayName(); // "张三"
+
+**注意：class中的方法的this如果是单独使用可能会造成问题**
+如 test是继承Test()的类且里面有fun方法内部有this变量，如果让fun = test.fun;  那么此时调用fun的this就会指向全局；
+
+为了解决上述问题 有两种解决方法
+1.在constructor里面绑定this的指向
+constructor() {
+    this.printName = this.printName.bind(this);
+}
+
+### 静态方法
+
+如果在方法前面加 static 那么该方法**实例不会继承**，即无法调用 但是原类可以调用
+但是 却可以**被子类继承**
+class Foo {
+  static classMethod() {
+    return 'hello';
+  }
+}
+Foo.classMethod() // 'hello'
+
+var foo = new Foo();
+foo.classMethod(); // 报错
+
+class Bar extends Foo {
+}
+Bar.classMethod() // 'hello'
+
+### 继承extends
+
+class ColorPoint extends Point {
+  constructor(x, y, color) {
+    super(x, y); // 调用父类的constructor(x, y)
+    this.color = color;
+  }
+
+  toString() {
+    return this.color + ' ' + super.toString(); // 调用父类的toString()
+  }
+}
+**子类必须在constructor方法中调用super方法，否则新建实例时会报错**。这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。如果不调用super方法，子类就得不到this对象。
+
+住：**在子类的构造函数中，只有调用super之后，才可以使用this关键字，否则会报错。这是因为子类实例的构建，基于父类实例，只有super方法才能调用父类实例。**
+
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+class ColorPoint extends Point {
+  constructor(x, y, color) {
+    this.color = color; // ReferenceError
+    super(x, y);
+    this.color = color; // 正确
+  }
+}
+**父类的静态方法，也会被子类继承。**
+作为函数时，super()只能用在子类的构造函数之中，用在其他地方就会报错。
+第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
