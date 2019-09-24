@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试</title>
+</head>
+<body>
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <script>
+        //  即给ul绑定事件  false是冒泡事件  所以li点击的时候都会冒泡到ul上
+        let ul = document.querySelector('#ul');
+        ul.addEventListener('click',test,false);
+        function test(e) {
+            var e= e||window.event;
+            console.log(e.target,'eee')
+        }
+    </script>
+</body>
+</html>
