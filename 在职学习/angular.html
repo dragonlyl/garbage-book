@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<h1 ng-click='fun()'>{{carname}}</h1>
+<ul>
+    <li ng-repeat='x in items'>
+        <input type="text" ng-model="x.a">
+    </li>
+</ul>
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.carname = "Volvo";
+    let c = console;
+    $scope.fun = function () {
+    }
+    $scope.items=[
+        {a:1},
+        {a:2},
+        {a:3}];
+    $scope.$watch('items',function(){
+        console.log(1111111)
+    },true);
+
+});
+</script>
+
+
+</body>
+</html>
