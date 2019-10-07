@@ -1,0 +1,50 @@
+<html ng-app='expanderModule'>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+	</head>
+	<body>
+	<!--指定一个controller为SomeController-->
+		<div ng-controller='SomeController'>
+		<!--自定义指令expander-->
+			<expander class='expander' expander-title='title'>
+				{{text}}
+			</expander>
+        </div>
+        <script>
+            var expanderModule=angular.module('expanderModule', []);
+            //expander指令
+            expanderModule.directive('expander', function() {
+                return {
+                    restrict : 'EA',
+                    replace : true,
+                    //直接把expander替换掉了
+                    transclude : true,
+                    //transclude表示可以嵌套标签
+                    scope : {
+                        title : '=expanderTitle'
+                    //这里是双向绑定，使用了'='进行双向绑定!
+                    },
+                    //直接替换掉,ng-show通过参数'showMe'来决定是否显示。ng-transclude指定了就是expander内部添加到ng-transclude中
+                    template : '<div>'
+                            + '<div class="title" ng-click="toggle()">{{title}}</div>'
+                            + '<div class="body" ng-show="showMe" ng-transclude></div>'
+                            + '</div>',
+                    //这里指定link函数
+                    link : function(scope, element, attrs) {
+                        scope.showMe = false;
+                        scope.toggle = function() {
+                            scope.showMe = !scope.showMe;
+                        }
+                    }
+                }
+            });
+            //这里指定controller控制器
+            expanderModule.controller('SomeController',function($scope) {
+                //在$scope中指定title和text
+                $scope.title = '点击展开';
+                $scope.text = '这里是内部的内容。';
+            });
+        </script>
+	</body>
+</html>
