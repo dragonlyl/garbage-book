@@ -1,0 +1,16 @@
+{
+	"id": "",
+	"modelName": "",
+	"picUrl": "",
+	"content": "",
+	"tips": "",
+	"redPointAward": false,
+	"installation": ["surface", "flush"],
+	"systemType": "ip",
+	"scene": ["apartment", "villa", "commercial"],
+	"techType": "modular",
+	"spec": [{
+		"specName": "",
+		"specParam": ""
+	}]
+}
