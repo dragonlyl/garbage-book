@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>弧度</title>
+</head>
+<body>
+    <canvas id='canvas' width="1024" height="768" style="border: 1px solid yellow; display: block;">
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById('canvas');
+            canvas.width = 1024;
+            canvas.height = 768;
+            var context = canvas.getContext('2d'); 
+            if (context) {
+                // 1.context.arc(centerx, centery,radius,startAngle, endAngle, anticlockwise = false);// false是顺时针 true 逆时针
+                // 1.即从 第一象限 的o 到 第三项的0.5π 到 第二象限的水平线的1π 到   这个π数是固定的  无论是顺时针还是逆时针，都是固定在这个位置的
+                // 2. 顺时针 
+                context.lineWidth = 5;
+                context.strokeStyle = "#005588";
+                // context.arc(300, 300, 200, 0, 1.5*Math.PI);
+                // context.arc(300, 300, 200, 0, 1.5*Math.PI, true); 
+                // 3. 要想逆时针也画出3/4个圆  要使用如下
+                // context.arc(300, 300, 200, 0, 0.5*Math.PI, true); 
+                // context.stroke();
+                // 4.使用closePath 会是圆具有一个连接线 不太好
+                for (let i = 0; i < 10; i++) {
+                    // beginPath 代表要开始一个路径  不一定要和closePath成对出现
+                    context.beginPath();
+                    context.arc(50 + i*100, 50, 40, 0, 2*Math.PI*(i+1)/10);
+                    context.closePath();
+                    // 5.不用closePath 也可以用fill来填充 ，会自动把没有封闭的首尾相连变成封闭的进行填充
+                    context.stroke();
+                }
+
+            } else {
+                alert('浏览器不支持');
+            }
+        }
+    </script>
+</body>
+</html>

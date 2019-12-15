@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>五角星</title>
+</head>
+<body>
+    <canvas id='canvas' width="1024" height="768" style="border: 1px solid yellow; display: block;">
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById('canvas');
+            canvas.width = 400;
+            canvas.height = 400;
+            var context = canvas.getContext('2d'); 
+            let iOuter = 150; //外圆半径
+            let iInner = 75; // 内圆半径
+            let rotate = 45; // 五角星旋转的角度
+            let x = 200; // 圆形
+            let y = 200;// 圆形
+            if (context) {
+                // 上面的尖角是90度  然后 右边的尖角是18度 然后右边和上边的内折角是54度
+                // 90 - 18 = 72
+                // 为什么sin前面要添负号  因为canvas y轴是向下的、、
+                context.beginPath();
+                for (let index = 0; index < 5; index++) {
+                    // 设半径为 300
+                    context.lineTo(Math.cos(2 * ((18 + 72 * index - rotate) * Math.PI) / 360) * iOuter + x,
+                        -Math.sin(2 * ((18 + 72 * index - rotate) * Math.PI) / 360) * iOuter  + y);
+                    context.lineTo(Math.cos(2 * ((54 + 72 * index - rotate) * Math.PI) / 360) * iInner + x,
+                        -Math.sin(2 * ((54 + 72 * index - rotate) * Math.PI) / 360) * iInner + y);
+                }
+                context.closePath();
+                context.stroke();
+
+            } else {
+                alert('浏览器不支持');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>矩形</title>
+</head>
+<body>
+    <canvas id='canvas' width="1024" height="768" style="border: 1px solid yellow; display: block;">
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById('canvas');
+            canvas.width = 1024;
+            canvas.height = 768;
+            var context = canvas.getContext('2d'); 
+            let x = 100;
+            let y = 100;
+            let width = 100;
+            let height = 100;
+            if (context) {
+                // canvas的属性值
+                // lineWidth
+                // lineCap  线条两端的情况 butt 默认  round square 即多出方形和圆形的块
+                context.lineWidth = 5;
+                context.beginPath();
+                context.moveTo(100,100);
+                context.lineTo(200,100);
+                context.stroke();
+                context.beginPath();
+                context.moveTo(100,200);
+                context.lineTo(200,200);
+                context.lineCap = 'round';
+                context.stroke();
+                context.beginPath();
+                context.moveTo(100,300);
+                context.lineTo(200,300);
+                context.lineCap = 'square';
+                context.stroke();
+                context.beginPath();
+                context.strokeStyle = "blue";
+                context.lineWidth = 1;
+                context.moveTo(100, 90);
+                context.lineTo(100, 310);
+                context.moveTo(200, 90);
+                context.lineTo(200, 310);
+                context.stroke();
+                // 注意： 这个只在线段的开始是这样的，线段的中间衔接的地方还是尖角
+
+                // 绘制封闭图像还是用closePath  虽然用 lineCap的 square可以解决 但还是不要
+
+            } else {
+                alert('浏览器不支持');
+            }
+        }
+    </script>
+</body>
+</html>

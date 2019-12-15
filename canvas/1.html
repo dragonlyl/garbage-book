@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>1</title>
+</head>
+<body>
+    <canvas id='canvas' width="1024" height="768" style="border: 1px solid yellow; display: block;">
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <script>
+        // 不要用css的属性来改变canvas的值，要用width和height 为什么呢？ 因为这不仅仅是边框的宽高还有内部的啥啥 同时width和height不带px
+        window.onload = function () {
+            var canvas = document.getElementById('canvas');
+            canvas.width = 1024;
+            canvas.height = 768;
+            var context = canvas.getContext('2d'); 
+            if (context) {
+                // 1.canvas是基于状态来绘制的  下面很生动的可以声明 
+                // 2.划线 从100，100 到700，700 然后再调用stroke才可以开始画图
+                // 2.先描述绘图的状态再调用具体的方法画出图 即先状态设置 再 绘制
+                // 5.那么我们如何绘制两条但是又不互相干扰的线呢
+                // 5.可以加入beginPath() 和 closePath()
+                context.beginPath();
+                context.moveTo(100, 100);
+                context.lineTo(700, 700);
+                context.lineTo(100, 700);
+                context.lineTo(100, 100); // 最后一笔设置封闭的区间 
+                context.lineWidth = 5;
+                context.strokeStyle = '#00ff00';
+                context.stroke();
+                context.closePath();
+                // 3、下面这两行 即使没有 上面的stroke函数也能被填充上
+                context.fillStyle = "#ff0000";
+                context.fill();
+
+                context.beginPath();
+                // 清空上次的点位，从下面的某点重新开始；下面可以不用moveto  直接lineto下面的坐标达到一样的效果
+                context.moveTo(120, 100);
+                context.lineTo(720,700)
+                // 4.这里的颜色会把上面的覆盖了 即使上面调用了 storke画出了线段
+                context.strokeStyle = 'black';
+                context.stroke(); 
+                context.closePath();
+                // 6。 学完这一课程就可以去试着写一个七巧板了
+                
+            } else {
+                alert('浏览器不支持');
+            }
+        }
+    </script>
+</body>
+</html>

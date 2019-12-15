@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>矩形</title>
+</head>
+<body>
+    <canvas id='canvas' width="1024" height="768" style="border: 1px solid yellow; display: block;">
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById('canvas');
+            canvas.width = 1024;
+            canvas.height = 768;
+            var context = canvas.getContext('2d'); 
+            let x = 100;
+            let y = 100;
+            let width = 100;
+            let height = 100;
+            if (context) {
+                // 画矩形
+                context.rect(x, y, width, height);
+                context.stroke();
+                // 等价于下面的
+                // context.moveTo(x,y);
+                // context.lineTo(x + width,y);
+                // context.lineTo(x + width,y + height);
+                // context.lineTo(x , y + height);
+                // 还有更方便的  直接填充和划线 上面如果有定义好的填的style 和划线style就默认用上面的
+                context.fillStyle = '#00ff00';
+                context.strokeStyle = "blue";
+                x += 50;
+                y += 50;
+                context.fillRect(x, y, width, height);
+                x += 50;
+                y += 50;
+                context.strokeRect(x, y, width, height);
+            } else {
+                alert('浏览器不支持');
+            }
+        }
+    </script>
+</body>
+</html>
