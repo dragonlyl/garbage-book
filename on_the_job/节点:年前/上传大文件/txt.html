@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传</title>
+</head>
+<body>
+    <div>
+        <input type="file" onchange='handleFileChange(this)'>
+        <button onclick="handleUpload()">上传</button>
+    </div>
+    <script>
+        var _file = {
+            file: null
+        };
+        function handleFileChange () {
+            let e = window.event || arguments.callee.caller.arguments[0];
+            console.log(e, this);
+            const [file] = e.target.files;
+            if (!file) return;
+            _file.file = file;
+
+        }
+        function handleUpload(e) {
+            console.log('upload')
+        }
+    </script>
+</body>
+</html>
