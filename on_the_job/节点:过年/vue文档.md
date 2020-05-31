@@ -22,3 +22,7 @@ function deepClone (source) {
     return cloneTarget;
 }
 ```
+
+## 获取多语言当前语言
+
+this.$i18n.locale 可以获取是什么语言
