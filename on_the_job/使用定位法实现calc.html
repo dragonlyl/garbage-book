@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用定位法实现calc</title>
+    <style>
+        .wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150px;
+            height: 200px;
+            background-color: yellow;
+        }
+        .right {
+            padding-left: 150px;
+            height: 200px;
+            background-color: springgreen;
+        }
+    </style>
+</head>
+<body>
+    <!-- 具体使用场景是 ， key： value 此时的key要占页面的固定宽度，
+    而value（可能是input输入框，需要根据页面的宽度进行相对应的拉伸） -->
+    <!-- 用 calc是非常简单，但是 有些浏览器不兼容 所以要采用定位来实现这种效果 -->
+    <div class="wrapper">
+        <div class="left">
+        </div>
+        <div class="right">
+
+        </div>
+    </div>
+</body>
+</html>

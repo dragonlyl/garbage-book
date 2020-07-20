@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>矩形</title>
+</head>
+<body>
+    <!-- style="border: 1px solid yellow; display: block;" -->
+    <canvas id='canvas' width="1024" height="768" >
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <canvas id='canvas1' width="1024" height="768" >
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById('canvas');
+            // canvas.width = 1000;
+            canvas.width = 500;
+            canvas.height = 300;
+            var ctx = canvas.getContext('2d'); 
+            let x = 0;
+            let y = 0;
+            // let width = 1000;
+            let width = 500;
+            let floorGap = 40;
+            let moveX = 40;
+            let blockX = 100;
+            let canvas1 = document.getElementById('canvas1');
+            canvas1.width = 500;
+            canvas1.height = 60;
+            var ctx1 = canvas1.getContext('2d'); 
+            if (ctx1) {
+                let width = 500;
+                let gap = 20;
+                let bHeight = 60;
+                ctx1.beginPath();
+                for (let i = 0; i < width/gap +2; i++) {
+                    ctx1.moveTo(gap*(i + 1), 0);
+                    ctx1.lineTo(gap*(i + 1) - bHeight, bHeight);
+                    console.log(gap*(i + 1))
+                }
+                ctx1.stroke(); 
+                ctx1.closePath();
+
+            } else {
+                alert('浏览器不支持');
+            }
+            if (ctx) {
+                let floorNum = 3;
+                ctx.beginPath();
+                // 上边
+                for (let i = 0; i < floorNum + 1; i++) {
+                    ctx.moveTo(0, i*floorGap);
+                    ctx.lineTo(width, i*floorGap);
+                }
+                ctx.moveTo(width, 0);
+                // 左边
+                ctx.lineTo(width, floorNum*floorGap);
+                // 右边
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, floorNum*floorGap);
+                for (let index = 0; index < floorNum; index++) {
+                    for (let inner = 0; inner < width/blockX; inner++) {
+                        ctx.moveTo(index*moveX + blockX*inner, index*floorGap)
+                        ctx.lineTo(index*moveX + blockX*inner, floorGap + index*floorGap);
+                    }
+                }
+                ctx.stroke(); 
+                ctx.closePath();
+                // 前4个是被画到图像的区域， 后4项是拷贝过来的区域内容
+                ctx.drawImage(canvas1, 0, 3*floorGap, canvas1.width, canvas1.height)
+            } else {
+                alert('浏览器不支持');
+            }
+        }
+    </script>
+</body>
+</html>

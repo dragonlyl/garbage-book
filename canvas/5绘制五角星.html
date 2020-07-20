@@ -22,9 +22,10 @@
             let x = 200; // 圆形
             let y = 200;// 圆形
             if (context) {
-                // 上面的尖角是90度  然后 右边的尖角是18度 然后右边和上边的内折角是54度
-                // 90 - 18 = 72
-                // 为什么sin前面要添负号  因为canvas y轴是向下的、、
+                // 图例中的为什么旋转了， 是因为加了rotate
+                // 五角星中心画坐标轴x,y 上面的尖角和x轴形成90度  然后 右边的尖角是跟x轴形成18度 然后右边和上边的内折角跟x轴形成54度
+                // 90 - 18 = 72 即从右边尖角到上面尖角的角度只差(即所有两个相连顶点的弧度只差)
+                // 为什么sin前面要添负号  因为canvas y轴是向下的
                 context.beginPath();
                 for (let index = 0; index < 5; index++) {
                     // 设半径为 300
@@ -35,6 +36,13 @@
                 }
                 context.closePath();
                 context.stroke();
+                // context.beginPath();
+                // for (let index = 0; index < 5; index++) {
+                //     context.lineTo(Math.cos(Math.PI * (18 + 72*index)/180)*iOuter + x, -Math.sin(Math.PI * (18 + 72*index)/180)*iOuter + y);
+                //     context.lineTo(Math.cos(Math.PI * (54 + 72*index)/180)*iInner + x, -Math.sin(Math.PI * (54 + 72*index)/180)*iInner + y);
+                // }
+                // context.closePath();
+                // context.stroke();
 
             } else {
                 alert('浏览器不支持');
