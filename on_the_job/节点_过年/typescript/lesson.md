@@ -267,7 +267,7 @@ console.log(add(1,2))
 `let mySum = function (x: number, y: number): number { return x + y; };`
 实际写法
 `let mySum: (x: number, y: number) => number = function (x: number, y: number): number { return x + y; };`
-这里的箭头跟es6的箭头不是一个箭头 
+这里的箭头跟es6的箭头不是一个箭头
 >在 TypeScript 的类型定义中，=> 用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型。
 
 #### 用接口定义函数的形状
@@ -523,7 +523,7 @@ tom = ['Tom'];
 #### 手动赋值
 
 ``` ts
-// 这里Web跟 Sun重复了， 虽然两者都指向3， 但是从3指向的挚友Web
+// 这里Web跟 Sun重复了， 虽然两者都指向3， 但是从3指向的只有Web
 enum Days {Sun = 3, Mon = 1, Tue, Wed, Thu, Fri, Sat};
 
 console.log(Days["Sun"] === 3); // true
@@ -573,7 +573,8 @@ declare enum Directions {
 }
 
 let directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right];
-// 之前提到过，declare 定义的类型只会用于编译时的检查，编译结果中会被删除。编译后代码
+// 之前提到过，declare 定义的类型只会用于编译时的检查，编译结果中会被删除。
+// 编译后代码
 var directions = [Directions.Up, Directions.Down, Directions.Left, Directions.Right];
 ```
 

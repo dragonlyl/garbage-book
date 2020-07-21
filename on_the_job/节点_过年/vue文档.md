@@ -26,3 +26,12 @@ function deepClone (source) {
 ## 获取多语言当前语言
 
 this.$i18n.locale 可以获取是什么语言
+
+用的是-webkit-私有属性。
+text-overflow: -o-ellipsis-lastline;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+https://www.cnblogs.com/zpsong/p/5406494.html
