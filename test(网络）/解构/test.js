@@ -1,6 +1,6 @@
 // https://www.cnblogs.com/zfdai/p/9473825.html
 // https://www.cnblogs.com/imwtr/p/5893814.html
-
+// 解构
 const ORDER_LIST_STATUS = {
     APPLIED:1,  //已申请
     APPLY:2,    //待提交
