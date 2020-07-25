@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>矩形</title>
+    <title>测试内容</title>
 </head>
 <body>
     
@@ -14,7 +14,8 @@
         不支持该浏览器就会显示内部的内容，支持的话就不会显示
     </canvas>
     <canvas id='canvas1' width="1024" height="768" >
-        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <canvas id='led' width="1024" height="768" >
     </canvas>
     <script>
         window.onload = function () {
@@ -76,6 +77,47 @@
                 ctx.drawImage(canvas1, 0, 3*floorGap, canvas1.width, canvas1.height)
             } else {
                 alert('浏览器不支持');
+            }
+            let led = document.getElementById('led');
+            led.width = 200;
+            led.height = 300;
+            let ctxLed = led.getContext('2d');
+            if (ctxLed) {
+                // 偏移量
+                let moveX = 10;
+                let moveY = 20;
+                let width = 50;
+                let height = 40;
+                ctxLed.beginPath();
+                // ctxLed.moveTo(0, 0);
+                // ctxLed.lineTo(width, 0);
+                // ctxLed.lineTo(width, height);
+                // ctxLed.lineTo(0, height);
+                // ctxLed.lineTo(0, 0);
+                let row = 2;
+                let col = 3;
+                ctxLed.strokeStyle = '#547DD1';
+                // ctxLed.strokeStyle = 'yellow';
+                
+                for (let iRow = 0; iRow < row; iRow++) {
+                    
+                    for (let iCol = 0; iCol < col; iCol++) {
+                        ctxLed.strokeRect(moveX + iRow*width, moveY + iCol*height, width, height);
+                        let gradient = ctxLed.createLinearGradient(moveX + iRow*width, moveY + iCol*height, moveX + iRow*width + width, moveY + iCol*height);
+                        // let gradient = ctxLed.createLinearGradient(0, 0, width, 0);
+                        gradient.addColorStop(0, '#B4CDFF');
+                        gradient.addColorStop(1, '#9CBBFC');
+                        ctxLed.fillStyle = gradient;
+                        ctxLed.fillRect(moveX + iRow*width, moveY + iCol*height, width, height);
+                    }                    
+                }
+                
+                // ctxLed.strokeRect(50, 0, width, height);
+                // ctxLed.fillRect(50, 0, width, height);
+                // ctxLed.stroke();
+                
+                
+                ctxLed.closePath();
             }
         }
     </script>
