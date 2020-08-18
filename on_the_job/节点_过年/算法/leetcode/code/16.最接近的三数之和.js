@@ -11,7 +11,11 @@
  * @return {number}
  */
 var threeSumClosest = function(nums, target) {
-
+    nums.sort((a,b) => a - b)
+    for (let i = 0; i < nums; i++) {
+        const element = array[i];
+        
+    }
 };
 // @lc code=end
 
