@@ -15,4 +15,8 @@
 }
 ```
 
-## test
+## 两个边框重合
+
+添加样式，这样会导致最右边多出一点点
+margin-right: -1px;
+margin-bottom: -1px
