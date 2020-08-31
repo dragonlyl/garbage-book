@@ -24,6 +24,17 @@ iLeft为当前元素最最左边的元素距离浏览器最左边的距离，通
 width,height,left,right,top,bottom
 可以获取宽度，高度，左边距离最左边浏览器，右边距离最左边浏览器距离，距离浏览器顶部（会随着滚动条变化而变化）
 
+## JS如何设置获取盒模型对应的宽和高
+
+<https://www.jianshu.com/p/c2fe6281388d>
+
+```js
+dom.style.width/height （只能取内联）
+dom.currentStyle.width/height//渲染后的宽高，ie支持
+window.getComputedStyle(dom).width/height//所有浏览器支持，渲染后宽高
+dom.getBoundingClientRect().width/height//计算元素的绝对位置，根据viewport左上角确定，会得到left top width height
+```
+
 ## demo
 
 ![avatar](./domoffset.png)
