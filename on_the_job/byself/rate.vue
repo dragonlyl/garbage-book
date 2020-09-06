@@ -106,5 +106,5 @@
       <h3>只读，显示数字：</h3>
       <rate :score="4" :disabled="true" showText/>
       <h3>鼠标点击评分,显示数字：</h3>
-      <rate v-model:score="curScore" showText/> -->
+      <rate :score.sync="curScore" showText/> -->
       <!-- https://www.cnblogs.com/z-j-c/p/12979861.html -->
