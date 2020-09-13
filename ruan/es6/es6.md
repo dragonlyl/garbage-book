@@ -621,7 +621,7 @@ let person = new class {
 person.sayName(); // "张三"
 
 **注意：class中的方法的this如果是单独使用可能会造成问题**
-如 test是继承Test()的类且里面有fun方法内部有this变量，如果让fun = test.fun;  那么此时调用fun的this就会指向全局；
+如 test是继承Test()的类且里面有fun方法内部有this变量，如果让fun1 = test.fun;  那么此时调用fun1的this就会指向全局；
 
 为了解决上述问题 有两种解决方法
 1.在constructor里面绑定this的指向
