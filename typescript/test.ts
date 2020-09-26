@@ -1,3 +1,4 @@
+// @ts-check
 // https://www.runoob.com/typescript/ts-tutorial.html
 // 查看版本 tsc -v 
 // 运行要先转换成js 再用node 运行 tsc xx node xx
