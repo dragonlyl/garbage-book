@@ -23,12 +23,12 @@
             canvas1.width = 300;
             canvas1.height = 24;
             let ctx1 = canvas1.getContext('2d'); 
-            drawLine(ctx1, '3x600 = 1800', 0, canvas1)
+            drawLine(ctx1, '3x600 = 1800', 180, canvas1)
             let led = document.getElementById('led');
             led.width = 24;
             led.height = 300;
             let ctxLed = led.getContext('2d'); 
-            drawLine(ctxLed, '3x600 = 1800', 270, led)
+            drawLine(ctxLed, '3x600 = 1800', 90, led)
         }
         function drawLine(ctx, txt, rotate, dom) {
             ctx.save();
@@ -46,18 +46,11 @@
             ctx.textBaseline = "middle";
             ctx.lineWidth = 1; //设置线宽
             let txtLength = ctx.measureText(txt).width;
-            console.log(txtLength, drawLength);
             let dotLength = 6;
             let base = 0;
             if (txtLength > drawLength) {
                 // 另外的写法
             } else {
-                if (rotate === 90) {
-                    base = -6;
-                    // if (isOver) {
-                    //     base = -24
-                    // }
-                }
                 if (rotate === 180 || rotate === 0) {
                     let cy = 12;
                     let cx = drawLength / 2;
@@ -76,7 +69,13 @@
                     ctx.restore()
                 }
                 if (rotate === 270 || rotate === 90 ) {
-                    base = -6;
+                    ctx.save();
+                    if (rotate === 90) {
+                        base = -6;
+                    }
+                    if (rotate === 270) {
+                        base = -24
+                    }
                     ctx.rotate(90*Math.PI/180);
                     ctx.moveTo(1, base);
                     ctx.lineTo(1, base + dotLength);
@@ -84,24 +83,20 @@
                     ctx.lineTo(drawLength - 1, base + 3);
                     ctx.moveTo(drawLength - 1, base);
                     ctx.lineTo(drawLength - 1, base + dotLength);
-                    // 文字在线段上面就 减 ，在上就加 偏移为6
+                    //  添加文字
                     if (rotate === 270) {
-                        ctx.translate(-12, -150);
-                        ctx.rotate(180*Math.PI/180);
-                        ctx.translate(12, 150);
-                        ctx.fillText(txt, drawLength / 2, base - 6);
+                        ctx.restore();
+                        ctx.save();
+                        console.log(drawLength / 2)
+                        ctx.translate(12, drawLength / 2);
+                        ctx.rotate(270*Math.PI/180);
+                        ctx.translate(-12, -drawLength / 2);
+                        ctx.fillText(txt, 12, drawLength / 2);
                     } else {
                         ctx.fillText(txt, drawLength / 2, base - 6);
                     }
-                    // ctx.restore()
-                    // ctx.translate(12, 150);
-                    // ctx.rotate(90*Math.PI/180);
-                    // ctx.translate(-12, -150);
-
+                    ctx.restore()
                 }
-                
-                
-
             }
             ctx.stroke();
 

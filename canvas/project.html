@@ -100,7 +100,6 @@
                 // ctxLed.strokeStyle = 'yellow';
                 
                 for (let iRow = 0; iRow < row; iRow++) {
-                    
                     for (let iCol = 0; iCol < col; iCol++) {
                         ctxLed.strokeRect(moveX + iRow*width, moveY + iCol*height, width, height);
                         let gradient = ctxLed.createLinearGradient(moveX + iRow*width, moveY + iCol*height, moveX + iRow*width + width, moveY + iCol*height);
