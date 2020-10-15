@@ -30,8 +30,10 @@
             let electricityHeight = 20;
             let hangCeilHeight = 20;
             // 离地高度
-            let fromBottom = 120;
+            let fromBottom = 100;
+            // 3列
             let ledCol = 3;
+            // 2行
             let ledRow = 2;
             let ledWidth = 120;
             let ledHeight = 80;
@@ -81,17 +83,14 @@
             let secondRoomBeginY = roomBeginY;
             let sideWallHeight = roomHeight + ceilHeight;
             let sideWallWidth = 40;
-            let sideLedDeep = 60;
+            let sideLedDeep = 25;
             let sideWallBeginX = secondRoomBeginX + roomWidth / 2 - sideWallWidth / 2
             let sideHeaderFloorNum = Math.floor(sideWallHeight / ceilFloorGap);
             // 头部
             header({ ctx: ctx, width: sideWallWidth, floorGap: ceilFloorGap, blockWidth: 26, floorNum: sideHeaderFloorNum,
                 positionX: sideWallBeginX, positionY: secondRoomBeginY, offsetX: 8});
             // 侧边挂在墙面的led
-            sideLed({ ctx: ctx, width: sideLedDeep, height: ledWallHeight, supportType: 2, material: 2,
-                supportLength: 40, fromBottom: fromBottom, row: 4, col: 3,
-                positionX: sideWallBeginX + sideWallWidth, positionY: ledBeginY});
-            overTxtDisplay({ctx: ctx, txt: '150-160',length: sideLedDeep,
+            sideLed({ ctx: ctx, width: sideLedDeep, height: ledWallHeight, supportType: 1, material: 2,supportLength: 40,
                 positionX: sideWallBeginX + sideWallWidth, positionY: ledBeginY});
             // 地板文字
             floor({ctx: ctx,width:roomWidth, gap:8,height:24,txt: "侧视图",
@@ -99,21 +98,40 @@
             // 静电地板
             electricityFloor({ctx: ctx,width: roomWidth,height: electricityHeight,
                 positionX: secondRoomBeginX, positionY: ceilHeight + secondRoomBeginY + roomHeight - electricityHeight});
-            bottomTxt({ctx: ctx, type: 2, 
-                positionX: 20, positionY: 600});
-            
+            // bottomTxt({ctx: ctx, type: 2, positionX: 20, positionY: 600});
+            overTxtDisplay({ctx: ctx, txt: '150-160',length: sideLedDeep,
+                positionX: sideWallBeginX + sideWallWidth, positionY: ledBeginY});
             // 柜子（型材）
-            // sideCabinet({ctx: ctx, col: 1, row: 1, width: 40, height: 60, material: 1,
+            // sideCabinet({ctx: ctx, col: 1, row: 1, width: 40, height: 60,
             //     positionX: 20, positionY: 500})
+            let testOffsetY = 540;
+            let testHeight = 200;
+            let testWidth = 140;
+            let testFromBottom = 80;
+            outer({ctx: ctx,width: testWidth, height: testHeight, fromBottom: testFromBottom,
+                positionX: 20, positionY: testOffsetY})
             // 柜子门
-            // door({ctx: ctx,height: 80, width: 120,
-            //     positionX: 20, positionY: 500})
-            // 梯子
+            let shroudingDeep = 6;
+            let doorNum = 2;
+            let leftDoor = (testWidth - 2 * shroudingDeep) / doorNum
+            door({ctx: ctx,height: testFromBottom - 2*shroudingDeep, width: leftDoor, addBorderRight: true, close: false,
+                positionX: 20 + shroudingDeep, positionY: testOffsetY + testHeight - testFromBottom + shroudingDeep});
+            door({ctx: ctx,height: testFromBottom - 2*shroudingDeep, width: leftDoor, addBorderRight: true, close: false,
+                positionX: 20 + shroudingDeep + leftDoor, positionY: testOffsetY + testHeight - testFromBottom + shroudingDeep});
+            // 通过 row和col来反推展示的长宽 2行3列
+            let testCol = 3;
+            let testRow = 7;
+            let testLedHeight = (testHeight - testFromBottom - 2 * shroudingDeep) / testRow;
+            let testLedWidth = (testWidth - 2 * shroudingDeep) / testCol;
+            ledWall({ctx: ctx, ledWidth: testLedWidth,ledHeight: testLedHeight,row: testRow, col: testCol,
+                positionX: 20 + shroudingDeep, positionY: testOffsetY + shroudingDeep})
             // ladder({ctx: ctx, colorType: 1,  height: 80,
             //     positionX: 20, positionY: 500})
-            // 镂空梯形
-            // ledSkeleton({ctx: ctx, col: 7, row: 13, width: 40, height: 20, material: 2,
-            //     positionX: 20, positionY: 500})
+            outer({ctx: ctx, width: testWidth, height: testHeight, fromBottom: testFromBottom,
+                positionX: 220, positionY: testOffsetY});
+            ledSkeleton({ctx: ctx, col: 1, row: 7, width: (testWidth- 2 * 6) / 1, height: (testHeight - testFromBottom - 2 * 6) / 7, material: 1,
+                positionX: 220 + 6, positionY: testOffsetY + 6})
+
         }
         /*
         width: 墙面宽
@@ -154,56 +172,35 @@
             ctx.closePath();
         }
         /*
-        supportType: 1: 壁挂； 2：落地
+        supportType: 1: 壁挂 白； 2：壁挂黑
         material: 1: 型材  2：镀金
-        supportLength： 垂直拉杆的长度
-        fromBottom: 离地距离 （即底部高度，在为落地的时候需要
         */
-        function sideLed({ctx, width, height, supportType = 1, material = 1,
-            fromBottom = 0, row = 1, col = 1,
-            supportLength, positionX, positionY}) {
+        function sideLed({ctx,width, height, supportType = 1, material = 1,
+            positionX,positionY}) {
             ctx.beginPath();
             ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
             if (supportType === 1) {
-                ctx.translate(positionX || 0, positionY || 0);
-            } else {
-                ctx.translate(positionX + supportLength || 0, positionY || 0);
-            }
-            let support = width * 19 / 25;
-            let ledDeep = width * 6 / 25;
-            if (supportType === 2) {
-                support = width * 4 / 5;
-                ledDeep = width / 5;
-            }
-            let gradient = ctx.createLinearGradient(0, 0, support, height);
-            if (material === 2) {
-                gradient.addColorStop(0, '#2F2F2F');
-                gradient.addColorStop(1, '#484848');
-            }
-            if (material === 1) {
-                gradient.addColorStop(0, '#ABB1BD');
-                gradient.addColorStop(1, '#C3C8D1');
-            }
-            let gradient1 = ctx.createLinearGradient(support, 0, ledDeep, height);
-            gradient1.addColorStop(0, '#9CBBFC');
-            gradient1.addColorStop(1, '#B4CDFF');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, support, height);
-            ctx.fillStyle = gradient1;
-            ctx.fillRect(support, 0, ledDeep, height);
-            if (supportType === 1) {
-            } else {
-                let drawRod = 8;
-                ctx.fillStyle = '#CDD1DB';
-                ctx.fillRect(-supportLength, 10, supportLength, drawRod);
-                // ctx.save();
-                // ctx.restore()
+                let support = width * 19 / 25;
+                let ledDeep = width * 6 / 25;
+                let gradient = ctx.createLinearGradient(0, 0, support, height);
+                if (material === 1) {
+                    gradient.addColorStop(0, '#2F2F2F');
+                    gradient.addColorStop(1, '#484848');
+                }
+                if (material === 2) {
+                    gradient.addColorStop(0, '#ABB1BD');
+                    gradient.addColorStop(1, '#C3C8D1');
+                }
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, support, height);
+                let gradient1 = ctx.createLinearGradient(support, 0, ledDeep, height);
+                gradient1.addColorStop(0, '#9CBBFC');
+                gradient1.addColorStop(1, '#B4CDFF');
+                ctx.fillStyle = gradient1;
+                ctx.fillRect(support, 0, ledDeep, height);
             }
             ctx.restore();
-            sideCabinet({ctx: ctx, col: 1, row: 1, width: width, height: fromBottom - 6,
-                material: material,
-                positionX: positionX + supportLength, positionY: positionY + height});
-
             ctx.closePath();
         }
         /*
@@ -463,7 +460,7 @@
             ctx.stroke();
             ctx.closePath();
         }
-        function baseCabinet({ctx, row, col, height, width, material = 1, positionX, positionY}) {
+        function baseCabinet({ctx, row, col, height, width, positionX, positionY}) {
             ctx.beginPath();
             ctx.save();
             ctx.translate(positionX || 0, positionY || 0);
@@ -472,28 +469,20 @@
                 // ctx.moveTo(0, 0);
                 // ctx.lineTo(0, col * height);
                 // ctx.moveTo)
-                if (material === 1) {
-                    let gradient = ctx.createLinearGradient(0, 0,
-                        0, row*height);
-                    gradient.addColorStop(0, '#ABB1BD');
-                    gradient.addColorStop(1, '#C3C8D1');
-                    let gradientX = ctx.createLinearGradient(0, 0,
-                        row * width, 0);
-                    gradientX.addColorStop(0, '#ABB1BD');
-                    gradientX.addColorStop(1, '#C3C8D1');
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, deep, row*height);
-                    ctx.fillRect(width - deep, 0, deep, row*height);
-                    ctx.fillStyle = gradientX;
-                    ctx.fillRect(deep, 0, col * width - deep, deep)
-                    ctx.fillRect(deep, row*height - deep, col * width - deep, deep)
-                } else {
-                    let gradient = ctx.createLinearGradient(0, 0, 0, height);
-                    gradient.addColorStop(0, '#2F2F2F');
-                    gradient.addColorStop(1, '#484848');
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, width, height);
-                }
+                let gradient = ctx.createLinearGradient(0, 0,
+                    0, col*height);
+                gradient.addColorStop(0, '#ABB1BD');
+                gradient.addColorStop(1, '#C3C8D1');
+                let gradientX = ctx.createLinearGradient(0, 0,
+                    row * width, 0);
+                gradientX.addColorStop(0, '#ABB1BD');
+                gradientX.addColorStop(1, '#C3C8D1');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, deep, col*height);
+                ctx.fillRect(width - deep, 0, deep, col*height);
+                ctx.fillStyle = gradientX;
+                ctx.fillRect(deep, 0, row * width - 2* deep, deep)
+                ctx.fillRect(deep, col*height - deep, row * width - 2* deep, deep)
                 // ctx.fillRect(0, 0,24, 34)
             }
             ctx.restore();
@@ -582,13 +571,75 @@
             ctx.restore();
             ctx.closePath();
         }
-        function sideCabinet({ctx, row, col, material = 1, height, width,
-            positionX, positionY}) {
-            baseCabinet({ctx: ctx, col: 1, row: 1, width: width, height: height, material: material,
-                positionX: positionX, positionY: positionY});
+        function sideCabinet({ctx, row, col, height, width, positionX, positionY}) {
+            baseCabinet({ctx: ctx, col: 1, row: 1, width: 40, height: 60,
+                positionX: 20, positionY: 500});
             let footOffsetX = 4;
             footing({ctx: ctx, positionX: positionX + footOffsetX, positionY: positionY + height})
-            footing({ctx: ctx, positionX: positionX + width - 2 *footOffsetX, positionY: positionY + height})
+            footing({ctx: ctx, positionX: positionX + width - footOffsetX - 4, positionY: positionY + height})
+
+        }
+        /*
+        height: 总高度
+        width: 总宽度
+        fromBottom： 离地高度
+        deep： 封板的宽度， 后续是个默认值
+        material: 1 ： 型材  2：钣金
+        */
+        function outer({ctx, type, height, width, deep = 6, fromBottom, material = 1, positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            let materialColorBlackBegin = '#484848';
+            let materialColorBlackEnd = '#2F2F2F';
+            let materialColorWhiteBegin = '#ABB1BD';
+            let materialColorWhiteEnd = '#C3C8D1';
+            let gradient = ctx.createLinearGradient(0, 0,
+                    deep, height);
+            gradient.addColorStop(0, materialColorBlackBegin);
+            gradient.addColorStop(1, materialColorBlackEnd);
+            let gradientX = ctx.createLinearGradient(0, 0,
+                width, deep);
+            gradientX.addColorStop(0, materialColorBlackBegin);
+            gradientX.addColorStop(1, materialColorBlackEnd);
+            let gradient1 = ctx.createLinearGradient(0, 0,
+                    deep, height);
+            gradient1.addColorStop(0, materialColorWhiteBegin);
+            gradient1.addColorStop(1, materialColorWhiteEnd);
+            let gradientX1 = ctx.createLinearGradient(0, 0,
+                width, deep);
+            gradientX1.addColorStop(0, materialColorWhiteBegin);
+            gradientX1.addColorStop(1, materialColorWhiteEnd);
+            ctx.fillStyle = gradient1;
+            if (material === 2) {
+                ctx.fillStyle = gradient;
+            }
+            ctx.fillRect(0, 0, deep, height);
+            ctx.fillRect(width - deep, 0, deep, height);
+            ctx.strokeStyle = '#808080';
+            ctx.lineJoin = 'round';
+            ctx.strokeRect(0, 0, deep, height);
+            ctx.strokeRect(width - deep, 0, deep, height);
+            ctx.fillStyle = gradientX1;
+            if (material === 2) {
+                ctx.fillStyle = gradientX;
+            }
+            ctx.clearRect(deep, 0, width - 2 *deep, deep)
+            ctx.clearRect(deep, height - deep, width - 2 *deep, deep)
+            ctx.strokeRect(deep, 0, width - 2 *deep, deep);
+            ctx.strokeRect(deep, height - deep, width - 2 *deep, deep);
+            ctx.fillRect(deep, 0, width - 2 * deep, deep);
+            ctx.fillRect(deep, height - deep, width - 2 * deep, deep);
+            // 中间的 线 （封板
+            let ledBottomLine = height - fromBottom;
+            ctx.clearRect(deep, ledBottomLine - deep, width - 2 *deep, deep);
+            ctx.strokeRect(deep, ledBottomLine - deep, width - 2 *deep, deep);
+            ctx.fillRect(deep, ledBottomLine - deep, width - 2 *deep, deep); 
+            ctx.clearRect(deep, ledBottomLine + 1, width - 2 *deep, deep);       
+            ctx.strokeRect(deep, ledBottomLine + 1, width - 2 *deep, deep);
+            ctx.fillRect(deep, ledBottomLine + 1, width - 2 *deep, deep)
+            ctx.restore();
+            ctx.closePath();
         }
         function ledSkeleton({ctx, row, col, material = 1, height, width,
             positionX, positionY}) {
@@ -596,7 +647,7 @@
             ctx.save();
             ctx.translate(positionX || 0, positionY || 0);
             ctx.fillStyle = '#4D4D4D';
-            ctx.strokeRect(0, 0, col * width ,row *height);
+            // ctx.strokeRect(0, 0, col * width ,row *height);
             // 剩下一个单独成列
             let b = col % 2;// 只有 0 或1
             // 有几个 合并的（两列合成一列）
@@ -612,11 +663,18 @@
             // let arrRow = [0];
             let arrCol = [];
             let arrRow = [];
+            let gradient1 = ctx.createLinearGradient(0, 0,
+                width * col, deep);
+            gradient1.addColorStop(0, '#484848');
+            gradient1.addColorStop(1, '#2F2F2F');
             let gradient = ctx.createLinearGradient(0, 0,
                 width * col, deep);
-            gradient.addColorStop(0, '#484848');
-            gradient.addColorStop(1, '#2F2F2F');
+            gradient.addColorStop(0, '#ABB1BD');
+            gradient.addColorStop(1, '#C3C8D1');
             ctx.fillStyle = gradient;
+            if(material === 2) {
+                ctx.fillStyle = gradient1;
+            }
             if (row > 6) {
                 if (c >= 1 && d > 0) {
                     ctx.fillRect(0, d * height - deep / 2 , col * width, deep); 
@@ -692,7 +750,6 @@
             ctx.restore();
             ctx.closePath();
         }
-        
     </script>
 </body>
 </html>
