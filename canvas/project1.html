@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +14,8 @@
     </canvas>
     <img src="./image_ceiling.png"/ style="visibility: hidden;" id="img-ceiling">
     <script>
+        // https://www.cnblogs.com/liutongqing/p/13567363.html
+        // https://www.jianshu.com/p/854ef5c37098?utm_campaign=hugo&utm_medium=reader_share&utm_content=note
         window.onload = function () {
             let canvas = document.getElementById('canvas');
             let ctx = canvas.getContext('2d');
@@ -88,7 +89,7 @@
             header({ ctx: ctx, width: sideWallWidth, floorGap: ceilFloorGap, blockWidth: 26, floorNum: sideHeaderFloorNum,
                 positionX: sideWallBeginX, positionY: secondRoomBeginY, offsetX: 8});
             // 侧边挂在墙面的led
-            sideLed({ ctx: ctx, width: sideLedDeep, height: ledWallHeight, supportType: 2, material: 2,
+            sideLed({ ctx: ctx, width: sideLedDeep, height: ledWallHeight, supportType: 2, material: 1,
                 supportLength: 40, fromBottom: fromBottom, row: 4, col: 3,
                 positionX: sideWallBeginX + sideWallWidth, positionY: ledBeginY});
             overTxtDisplay({ctx: ctx, txt: '150-160',length: sideLedDeep,
@@ -115,13 +116,15 @@
             // ledSkeleton({ctx: ctx, col: 7, row: 13, width: 40, height: 20, material: 2,
             //     positionX: 20, positionY: 500})
         }
-        /*
-        width: 墙面宽
-        floorNum: 墙面层数
-        floorGap：每层墙的间隙  总高度height: floorNum*floorGap
-        blockWidth： 横行每块砖直接的距离
-        offsetX 每个相连横行的x轴偏移量
-        */
+        /**
+         * @description: 头部墙面， 主视和侧视都能用
+         * @param {number} width 墙面总宽度
+         * @param {number} floorNum 墙面总宽度
+         * @param {number} floorGap 每层墙的间隙 
+         * @param {number} blockWidth  横行每块砖长度
+         * @param {number} offsetX 每个相连横行的x轴偏移量
+         * @return {type} 
+         */
         function header({ctx,positionX,positionY,width, height, floorNum,floorGap,offsetX,blockWidth}) {
             ctx.beginPath();
             ctx.save();
@@ -153,12 +156,14 @@
             ctx.restore();
             ctx.closePath();
         }
-        /*
-        supportType: 1: 壁挂； 2：落地
-        material: 1: 型材  2：镀金
-        supportLength： 垂直拉杆的长度
-        fromBottom: 离地距离 （即底部高度，在为落地的时候需要
-        */
+        /**
+         * @description: 头部墙面， 主视和侧视都能用
+         * @param {number} supportType  支架类型 1: 壁挂; 2:落地
+         * @param {number} material 支架材料 1: 型材  2: 钣金
+         * @param {number} supportLength 垂直拉杆的长度 supportType为落地有效
+         * @param {number} fromBottom  离地距离 （即底部高度，supportType为落地有效
+         * @return {type} 
+         */
         function sideLed({ctx, width, height, supportType = 1, material = 1,
             fromBottom = 0, row = 1, col = 1,
             supportLength, positionX, positionY}) {
@@ -172,8 +177,8 @@
             let support = width * 19 / 25;
             let ledDeep = width * 6 / 25;
             if (supportType === 2) {
-                support = width * 4 / 5;
-                ledDeep = width / 5;
+                support = width * 22 / 25;
+                ledDeep = width * 3/ 25;
             }
             let gradient = ctx.createLinearGradient(0, 0, support, height);
             if (material === 2) {
@@ -187,17 +192,40 @@
             let gradient1 = ctx.createLinearGradient(support, 0, ledDeep, height);
             gradient1.addColorStop(0, '#9CBBFC');
             gradient1.addColorStop(1, '#B4CDFF');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, support, height);
+            // led屏幕侧边
             ctx.fillStyle = gradient1;
             ctx.fillRect(support, 0, ledDeep, height);
             if (supportType === 1) {
             } else {
+                // 落地后边支撑杆
                 let drawRod = 8;
                 ctx.fillStyle = '#CDD1DB';
                 ctx.fillRect(-supportLength, 10, supportLength, drawRod);
                 // ctx.save();
                 // ctx.restore()
+            }
+            // 支架后面样式
+            ctx.fillStyle = gradient;
+            // 落地型材后不一样的地方
+            if (supportType === 2 && material  === 1) {
+                let supportDeep = support *6/7;
+                baseCabinet({ctx: ctx, col: col, row: row, width: supportDeep, height: height, material: material,
+                    positionX: 0, positionY: 0});
+                let smallDeep = 4;
+                for (let i = 0; i < row; i++) {
+                    if (i > 0) {
+                        ctx.strokeStyle = '#547DD1';
+                        ctx.moveTo(support, height / row * i + smallDeep/2);
+                        ctx.lineTo(support + ledDeep - 1, height / row * i + smallDeep/2);
+                        // ctx.strokeRect(support, height / row * i, ledDeep - 1, 0.5)
+                    }
+                    ctx.fillRect(supportDeep, height / row * i, support - supportDeep, smallDeep);
+                    
+                }
+                ctx.stroke()
+                ctx.fillRect(supportDeep, height - smallDeep, support - supportDeep, smallDeep);
+            } else {
+                ctx.fillRect(0, 0, support, height);
             }
             ctx.restore();
             sideCabinet({ctx: ctx, col: 1, row: 1, width: width, height: fromBottom - 6,
@@ -206,6 +234,7 @@
 
             ctx.closePath();
         }
+
         /*
             width: 地板宽
             gap:  每条线间隙
@@ -463,18 +492,26 @@
             ctx.stroke();
             ctx.closePath();
         }
+        /*
+        底部抽屉或者 侧边抽屉和上部
+        height： 总高度
+        col: 固定值为 1
+        */
         function baseCabinet({ctx, row, col, height, width, material = 1, positionX, positionY}) {
+            // console.log(ctx, row, col, height, width, material, positionX, positionY)
             ctx.beginPath();
             ctx.save();
             ctx.translate(positionX || 0, positionY || 0);
             let deep = 8;
-            if (row === col && row === 1) {
+            let rowHeight = height / row;
+            col = 1;
+            // if (1 >= col) {
                 // ctx.moveTo(0, 0);
                 // ctx.lineTo(0, col * height);
                 // ctx.moveTo)
                 if (material === 1) {
                     let gradient = ctx.createLinearGradient(0, 0,
-                        0, row*height);
+                        0, row*rowHeight);
                     gradient.addColorStop(0, '#ABB1BD');
                     gradient.addColorStop(1, '#C3C8D1');
                     let gradientX = ctx.createLinearGradient(0, 0,
@@ -482,11 +519,17 @@
                     gradientX.addColorStop(0, '#ABB1BD');
                     gradientX.addColorStop(1, '#C3C8D1');
                     ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, deep, row*height);
-                    ctx.fillRect(width - deep, 0, deep, row*height);
+                    ctx.fillRect(0, 0, deep, row*rowHeight);
+                    ctx.fillRect(width - deep, 0, deep, row*rowHeight);
                     ctx.fillStyle = gradientX;
                     ctx.fillRect(deep, 0, col * width - deep, deep)
-                    ctx.fillRect(deep, row*height - deep, col * width - deep, deep)
+                    ctx.fillRect(deep, row*rowHeight - deep, col * width - deep, deep)
+                    if (row > 1) {
+                        for (let i = 1; i < row; i++) {
+                            ctx.fillRect(deep, i*rowHeight - deep / 2,
+                                col*width - deep, deep)                            
+                        }
+                    }
                 } else {
                     let gradient = ctx.createLinearGradient(0, 0, 0, height);
                     gradient.addColorStop(0, '#2F2F2F');
@@ -495,7 +538,7 @@
                     ctx.fillRect(0, 0, width, height);
                 }
                 // ctx.fillRect(0, 0,24, 34)
-            }
+            // }
             ctx.restore();
             ctx.closePath();
         }
@@ -584,7 +627,7 @@
         }
         function sideCabinet({ctx, row, col, material = 1, height, width,
             positionX, positionY}) {
-            baseCabinet({ctx: ctx, col: 1, row: 1, width: width, height: height, material: material,
+            baseCabinet({ctx: ctx, col: col, row: row, width: width, height: height, material: material,
                 positionX: positionX, positionY: positionY});
             let footOffsetX = 4;
             footing({ctx: ctx, positionX: positionX + footOffsetX, positionY: positionY + height})
@@ -687,7 +730,7 @@
                         }
                     }
                 }
-                console.log(arrCol, arrRow);
+                // console.log(arrCol, arrRow);
             }
             ctx.restore();
             ctx.closePath();
