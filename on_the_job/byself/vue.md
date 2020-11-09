@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-27 09:19:19
+ * @LastEditTime: 2020-10-26 09:28:05
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \garbage-book\on_the_job\byself\vue.md
+-->
 # vue
 
 ## 双向绑定
@@ -62,6 +70,12 @@ console.log(obj.c);
 // [ '排序', '递归', '二叉分法' ]
 
 ```
+
+### 缺点
+
+1. 只能监听对象，不能监听数组变化，无法触发push,pop...
+2. 必须遍历对象的每个属性
+3. 只能劫持当前对象属性，想要深度劫持，必须深层遍历嵌套对象
 
 ### Proxy
 
