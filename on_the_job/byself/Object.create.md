@@ -128,6 +128,7 @@ let person = {
 let o = {sex: 'girl'};
 Object.setPrototypeOf(o, person);
 console.dir(o)
+console.log(o.age) // 也有该属性
 ```
 
 ### 原型属性的拷贝（继承）

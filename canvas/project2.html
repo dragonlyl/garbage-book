@@ -129,7 +129,7 @@
             //     positionX: 20, positionY: 500})
             outer({ctx: ctx, width: testWidth, height: testHeight, fromBottom: testFromBottom,
                 positionX: 220, positionY: testOffsetY});
-            ledSkeleton({ctx: ctx, col: 1, row: 7, width: (testWidth- 2 * 6) / 1, height: (testHeight - testFromBottom - 2 * 6) / 7, material: 1,
+            ledSkeleton({ctx: ctx, col: 1, row: 7, width: (testWidth- 2 * 6) / 1, height: (testHeight - testFromBottom - 2 * 6) / 7, material: 2,
                 positionX: 220 + 6, positionY: testOffsetY + 6})
 
         }
@@ -689,6 +689,7 @@
             if (material === 2) {
                 ctx.fillStyle = '#808080';
             }
+            console.log(col, 'col')
             if (col > 1 && col < 4) {
                 ctx.strokeRect(width - doorLine / 2, 0, doorLine, row * height);
             }
