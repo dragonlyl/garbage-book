@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-10-22 09:17:41
- * @LastEditTime: 2020-10-26 09:48:14
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \garbage-book\on_the_job\byself\es6.md
--->
 # 项目实用 | 看完阮一峰老师的ECMAScript 6
 
 ## 链接

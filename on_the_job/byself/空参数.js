@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-10-26 14:26:14
- * @LastEditTime: 2020-10-26 14:28:41
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \garbage-book\on_the_job\byself\空参数.js
- */
 function test ({a = 1}){
     console.log(a)
 };

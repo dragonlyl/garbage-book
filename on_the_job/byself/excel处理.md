@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-10-29 17:04:54
- * @LastEditTime: 2020-11-09 09:16:15
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \garbage-book\on_the_job\byself\excel处理.md
--->
 # excel导出整理
 
 ## 解析流程
