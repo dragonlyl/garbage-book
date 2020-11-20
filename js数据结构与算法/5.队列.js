@@ -70,6 +70,7 @@ class Queue {
 }
 
 const queue = new Queue();
+module.exports = new Queue()
 console.log(queue.isEmpty());
 queue.enqueue('tix');
 queue.enqueue('bob');
