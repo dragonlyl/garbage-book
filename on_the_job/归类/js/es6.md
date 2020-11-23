@@ -15,3 +15,7 @@ hash表建议用Map代替object， 有size属性
 <https://juejin.im/post/6868115010913550349>
 循环 `for (let [key, value] of map) { console.log(${key} = ${value}); }`;
 map的key的顺序是有序的； map上面的key不会和原型链上的重名（toString也没有，用object.create(null)可以创建一个空的object
+
+## 项目实用 | 看完阮一峰老师的ECMAScript 6(link)
+
+## proxy_demo(link)

@@ -110,4 +110,3 @@ prop() 方法设置或返回被选元素的属性和值。
 ## 判断数组是否存在某个元素
 
 $.inArray(index, _aCurRelatedDevIdList) >= 0;
-
