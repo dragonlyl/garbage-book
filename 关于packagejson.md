@@ -226,6 +226,4 @@ ode index1.js && node index2.js
 
 ## 环境配置
 
-
-
-https://www.jianshu.com/p/6b816c609669
+<https://www.jianshu.com/p/6b816c609669>
