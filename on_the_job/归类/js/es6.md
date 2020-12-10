@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-21 15:07:35
- * @LastEditTime: 2020-11-21 15:09:07
+ * @LastEditTime: 2020-12-10 20:12:48
  * @LastEditors: Please set LastEditors
  * @Description: es6特殊用法
  * @FilePath: \garbage-book\on_the_job\归类\js\es6.md
@@ -19,3 +19,5 @@ map的key的顺序是有序的； map上面的key不会和原型链上的重名�
 ## 项目实用 | 看完阮一峰老师的ECMAScript 6(link)
 
 ## proxy_demo(link)
+
+## async不用再包promise(link)
