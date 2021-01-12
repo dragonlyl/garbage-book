@@ -10,4 +10,4 @@ function fibonacci(n){
     }
     return fn(n)
 }
-console.log(fibonacci(4))
+console.log(fibonacci(45))
