@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-11-21 15:09:57
- * @LastEditTime: 2021-01-12 10:41:05
+ * @LastEditTime: 2021-01-19 13:48:02
  * @LastEditors: Please set LastEditors
  * @Description: node内容
  * @FilePath: \garbage-book\on_the_job\归类\node\node.md
@@ -47,3 +47,5 @@ path.resolve('home', 'foo', 'build','aaaa','aadada','../../..', 'asset') //retur
 
 公司的node里面使用，是先用`__dirname`获取当前绝对路径，然后`../../`到最外面的路径（即自己计算当前目录在根目录有几层），之后拼上 `/public/img/`的路径获取静态资源路径
 `const ROOTPATH = path.resolve(__dirname, '../../');`
+
+## node浏览器调试
