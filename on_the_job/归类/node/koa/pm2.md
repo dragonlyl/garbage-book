@@ -6,8 +6,7 @@
 一般是是用于生产环境下的(界面不会有显现)
 在package.js中
 dependencies是生产环境,即部署需要使用的库(jquery)
-devDependcies是开发环境,即开发要使用的(webpack
-)
+devDependcies是开发环境,即开发要使用的(webpack)
 
 ## 参数介绍
 
@@ -58,6 +57,6 @@ pm2 reload all         # 0秒停机重载进程 (用于 NETWORKED 进程)
 pm2 stop 0             # 停止指定的进程
 pm2 restart 0          # 重启指定的进程
 pm2 startup            # 产生 init 脚本 保持进程活着
-pm2 web                # 运行健壮的 computer API endpoint (http://localhost:9615)
+pm2 web                # 运行健壮的 computer API endpoint (<http://localhost:9615>)
 pm2 delete 0           # 杀死指定的进程
 pm2 delete all         # 杀死全部进程
