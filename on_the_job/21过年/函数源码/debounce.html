@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>debounce</title>
+</head>
+<body>
+    <div style="height: 120px;overflow: auto;" id="outer">
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+        <p>测试</p>
+    </div>
+    <script>
+        let outer = document.getElementById('outer');
+        function throttle (fn ,time = 500) {
+            let canRun = true;
+            return function () {
+                if (!canRun) return;
+                canRun = false;
+                setTimeout(() => {
+                    fn.apply(this,arguments);
+                    canRun = true;
+                }, time);
+            }
+        }
+        function fn() {console.log('log', this)}
+        let test = throttle(fn)
+        // 调用1
+        // outer.onscroll = throttle(fn)
+        // 调用2
+        // outer.onscroll = () => {
+        //     test(fn)
+        // }
+        // 调用3
+        outer.addEventListener('scroll', throttle(fn));
+    </script>
+</body>
+</html>
