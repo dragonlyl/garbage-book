@@ -29,3 +29,8 @@ let __const = function(data,value) {
 __const('a', 10)
 console.log(a)
 a = 20
+
+// 更简单的实现
+var f = Object.freeze({'name':'admin'});
+f.name = 'hello'; // 严格模式下是会报错的
+f.name; // 打印出admin ,值没有被改变
