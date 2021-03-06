@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.1/axios.js"></script>
+</head>
+<body>
+    <script>
+        // https://juejin.cn/post/6934155066198720519
+        function test() {
+            console.log(222)
+        }
+        const options = {
+            url: 'http://example.com/',
+            method: "POST",
+            headers: {
+                Accept: 'application/json',
+                'Content-type': 'application/json;charset=UTF-8'
+            },
+            data: {
+                a: 10,
+                b: 20
+            }
+        }
+        const url = "http://example.com/";
+        const options1 = {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+            },
+            body: JSON.stringify({
+                a: 10,
+                b: 20,
+            }),
+        };
+
+        fetch(url, options).then((response) => {
+            console.log(response.status);
+        });
+
+
+
+        window.onload = () => {
+            axios(options).then(res => {
+                console.log(res.status);
+            })
+        }
+        // 唯一区别就是 原生支持
+        // 直接在浏览器里面调用，不需要引用库
+        fetch('https://api.juejin.cn/interact_api/v1/message/count').then(res => res.json()).then(data => {console.log(data)})
+    </script>
+</body>
+</html>
