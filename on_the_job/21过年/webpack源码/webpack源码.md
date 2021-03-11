@@ -3,6 +3,8 @@
 ## 源码地址
 
 [Webpack 是怎样运行的？(一)](https://juejin.cn/post/6844903747508781069)
+// 同步和异步都有
+[【Webpack 进阶】Webpack 打包后的代码是怎样的？](https://juejin.cn/post/6937086236926410783)
 
 ## 源码分析
 
