@@ -37,3 +37,4 @@ exports的一生
 上面的是将不同的打包进一个main文件里面,会消耗太多网络资源,导致用户等待很久才开始和网络交互
 [Webpack 是怎样运行的?（二）](https://zhuanlan.zhihu.com/p/53044886)
 ![avatar](异步加载.jpg)
+![avatar](异步加载2.jpg)
