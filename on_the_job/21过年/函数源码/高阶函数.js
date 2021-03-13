@@ -16,4 +16,4 @@ var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 arr.map(Math.pow); // [1, 4, 9, 16, 25, 36, 49, 64, 81]
 // 变为string
 arr.map(String); // ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-https://segmentfault.com/a/1190000012505900
+// [JS 利用高阶函数实现函数缓存(备忘模式)](https://segmentfault.com/a/1190000012505900)

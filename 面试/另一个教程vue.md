@@ -88,8 +88,8 @@ update
 
 //  一丶将伪数组转换成数组    [].slice.call(arr);   或者  Array.from(arr)
 
-/**
- * 假设空数组的原型slice方法为testSlice
+```js
+//假设空数组的原型slice方法为testSlice
 Array.prototype.testSlice = function () {
     var start = 0
     var end = this.length
@@ -113,10 +113,12 @@ var arguments = {
     length: 3
 }
 [].testSlice.call(arguments);
+```
+
 这样就一目了然了，[].testSlice.call(arguments)，即空数组调用了testSlice函数，只不过也改变了this的指向，
 此时这个this为arguments，那arr.push(this[i])==arr.push(arguments[i])，arr是函数里的新建的空数组 ,
 函数里把伪数组的元素赋值给arr数组，返回值是arr，所以伪数组转化成了数组。
- 
+
 arguments本身并不是数组 而是对象
 
 首先要说明[].slice.call()与Array.prototype.slice.call() 有什么区别?
@@ -124,9 +126,6 @@ arguments本身并不是数组 而是对象
 []为创建数组,当[].slice的时候,自然会去找原型链
 
 [].__proto__.slice === Array.prototype.slice   //true
- * 
- */
-
 
  // 二丶node.nodeType
 
