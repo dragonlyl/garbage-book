@@ -52,5 +52,18 @@ module.exports = smart(
         mode: 'production'
     }
 )
+```
 
 `npm  run build --config webpack.dev.js`
+
+```js
+webpack --config XXX.js //使用另一份配置文件（比如webpack.config2.js）来打包
+
+webpack --watch //监听变动并自动打包
+
+webpack -p//压缩混淆脚本，这个非常非常重要！
+// -p 是很重要的参数，曾经一个未压缩的 700kb 的文件，压缩后直接降到 180kb （主要是样式这块一句就独占一行脚本，导致未压缩脚本变得很大）
+webpack -d//生成map映射文件，告知哪些模块被最终打包到哪里了其中的 
+webpack --progress //显示进度条
+webpack --color //添加颜色
+```
