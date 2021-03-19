@@ -67,3 +67,8 @@ webpack -d//生成map映射文件，告知哪些模块被最终打包到哪里�
 webpack --progress //显示进度条
 webpack --color //添加颜色
 ```
+
+## import from 'xxx'是如何找到node_modules目录下的
+
+首先会在当前目录下的同级寻找node_module 里面的包内容
+先去查询 package.json 里面的 main字段指定的 文件(如果没有这个文件那么就用默认的 index.js文件)
