@@ -1,5 +1,5 @@
+// 链接 https://zhuanlan.zhihu.com/p/72179476
 // 转换成字符串
-
 function add (x, y) {
     let str1 = x.toString();
     let str2 = y.toString();
