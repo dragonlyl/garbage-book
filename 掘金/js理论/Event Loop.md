@@ -1,6 +1,7 @@
 # Event Loop
 
-<https://juejin.im/post/5d4d64d1e51d4561ff6667de>
+[8道JavaScript面试题解析，你真的掌握JavaScript了吗？](https://juejin.im/post/5d4d64d1e51d4561ff6667de)
+
 浏览器是提供运行时环境来给我们执行JS代码的。浏览器的主要组成包括有调用堆栈，事件循环，任务队列和WEB API。像什么常用的定时器setTimeout，setInterval这些全局函数就不是JavaScript的一部分，而是WEB API给我们提供的。
 
 事件循环(Event loop)不断地监视任务队列(Task Queue)，并按它们排队的顺序一次处理一个回调。每当调用堆栈(call stack)为空时，Event loop获取回调并将其放入堆栈(stack )(箭头3)中进行处理。请记住，如果调用堆栈不是空的，则事件循环不会将任何回调推入堆栈。
