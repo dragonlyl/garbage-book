@@ -2,7 +2,7 @@
 
 ## 浏览器渲染过程及优化建议
 
-<https://juejin.im/post/5d8989296fb9a06b1f147070>
+[前端开发中79条不可忽视的知识点汇总](https://juejin.im/post/5d8989296fb9a06b1f147070)
 
 1. 解析：一个是HTML/SVG/XHTML，事实上，Webkit有三个C++的类对应这三类文档。
 解析这三种文件会产生DOM Tree；CSS，解析CSS会产生CSS规则树；Javascript，脚本，主要是通过DOM API和CSSOM API来操作DOM Tree和CSS Rule Tree；
