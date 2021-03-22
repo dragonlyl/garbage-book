@@ -1,10 +1,11 @@
 # 自定义组件
 
-<https://www.jianshu.com/p/166608639757>
+[Vue初探--组件化篇](https://www.jianshu.com/p/166608639757)
 
 ## 样式上的补充
 
-``` // not 除了xx之外的元素样式
+```css
+// not 除了xx之外的元素样式
 @each $type in (primary, success, warning, danger, info) {
     .el-button--#{$type} {
       &:first-child {
@@ -29,7 +30,8 @@
 
 可以使用不带任何参数的 v-bind (即用 v-bind 而不是 v-bind:prop-name)。
 
-``` // 具体写法
+```html
+// 具体写法
 todo: {
   text: 'Learn Vue',
   isComplete: false
@@ -48,7 +50,8 @@ todo: {
 
 ## props的验证
 
-``` // props的验证
+```js
+// props的验证
 Vue.component('example', {
   props: {
     // 基础类型检测 (`null` 指允许任何类型)
@@ -103,7 +106,8 @@ Vue.component('example', {
 
 比如父想要子的数据可以使用这个
 
-``` // 情景再现
+```html
+// 情景再现
 //子
 <span>
   <slot>{{ user.lastName }}</slot>

@@ -8,7 +8,7 @@ routers路由，功能为分发请求。
 views为视图文件，jade是一个文本格式，其内容还可以是我们最熟悉的html。
 app.js和package.json是配置文件。
 
-链接：https://www.jianshu.com/p/6b816c609669
+[「新手向」koa2从起步到填坑](https://www.jianshu.com/p/6b816c609669)
 
 "dev": "./node_modules/.bin/nodemon bin/www",
 `nodemon`插件的作用是在你启动了服务之后，修改文件可以自动重启服务。
@@ -143,4 +143,3 @@ console.log("process.env.NODE_ENV=" + process.env.NODE_ENV);
 
 `"start": "NODE_ENV=development ./node_modules/.bin/nodemon bin/run",`
 可以将代码改造成这样
-
