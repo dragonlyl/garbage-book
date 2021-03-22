@@ -6,7 +6,7 @@
 
 1. 解析：一个是HTML/SVG/XHTML，事实上，Webkit有三个C++的类对应这三类文档。
 解析这三种文件会产生DOM Tree；CSS，解析CSS会产生CSS规则树；Javascript，脚本，主要是通过DOM API和CSSOM API来操作DOM Tree和CSS Rule Tree；
-2. 渲染：浏览器引擎通过DOM Tree 和 CSS Rule Tree 来构造Rendering Tree。 rendering tree 并不等于 dom tree ， 因为像header标签 和 display：none的东西就没必要放在渲染树中了。 CSS Rule Tree主要完成匹配并把css rule附加到rendering tree 上的每个element（DOM 结点），也就是所谓的Frame，然后技术每个element的位置（又叫layout和reflow过程）
+2. 渲染：浏览器引擎通过DOM Tree 和 CSS Rule Tree 来构造Rendering Tree。 rendering tree 并不等于 dom tree ， 因为像header标签 和 display：none的东西就没必要放在渲染树中了。 CSS Rule Tree主要完成匹配并把css rule附加到rendering tree 上的每个element（DOM 结点），也就是所谓的Frame，然后记住每个element的位置（又叫layout和reflow过程）
 3. 绘制：最后通过调用操作系统Native GUI的API绘制
 
 所以对于html的优化减少(reflow和repaint) 可以是：

@@ -1,6 +1,6 @@
 # 前端基础篇之CSS世界
 
-<https://juejin.im/post/5ce607a7e51d454f6f16eb3d>
+[前端基础篇之CSS世界](https://juejin.im/post/5ce607a7e51d454f6f16eb3d)
 
 流体布局之下，块级元素的宽度width: auto是默认撑满父级元素的。这里的撑满并不同于width: 100%的固定宽度，而是像水一样能够根据margin不同而自适应的宽度。
 
@@ -49,7 +49,7 @@ line-height
 
 一个line-height为30px的div 里面有个span font-size为30px;结果导致div的实际高度大于30了为什么？
 >由于div行高是30px，所以字母x和span元素的高度都是30px。但是字母x的font-size较小，span元素的font-size较大，而行高一样的情况下font-size越大基线的位置越偏下，所以两者的基线不在同一水平线上。
-![avatar](./1-2)
+![avatar](./1-2.png)
 由于 ***内联元素默认基线对齐，所以字母x和span元素发生了位移以使基线对齐，导致div高度变大*** 。而此时字母x的半行距比span元素的半行距大，**大出的部分就是div的高度增加的部分**。
 
 test.html中的inline-block实例中 既然最后多了一片白的区域
@@ -105,3 +105,14 @@ pre-wrap：不合并空白符，允许换行符换行和文本自动换行
 ### text-align: justify 重点
 
 display: none会影响css3的transition过渡效果。 但是display: none并不会影响css animation动画的效果。
+
+### border-box设置为默认值
+
+```css
+:root {
+  box-sizing: border-box;    
+}
+* {
+  box-sizing: inherit;
+}
+```
