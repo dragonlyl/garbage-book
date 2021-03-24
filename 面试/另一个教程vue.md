@@ -2,7 +2,7 @@
 
 ## vue 的构建工具是rollup.js
 
-<https://www.rollupjs.com/guide/zh>
+[rollup.js 中文文档](https://www.rollupjs.com/guide/zh)
 
 // 跑起源码  首先 npm install  之后 npm run dev 就能跑通了
 

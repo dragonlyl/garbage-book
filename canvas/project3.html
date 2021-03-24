@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>测试内容</title>
+</head>
+<body>
+    
+    <!-- style="border: 1px solid yellow; display: block;" -->
+    <canvas id='canvas' width="1224" height="800" >
+        不支持该浏览器就会显示内部的内容，支持的话就不会显示
+    </canvas>
+    <img src="./image_ceiling.png"/ style="visibility: hidden;" id="img-ceiling">
+    <script>
+        window.onload = function () {
+            let canvas = document.getElementById('canvas');
+            let ctx = canvas.getContext('2d');
+            let roomBeginY = 40;
+            let roomBeginX = 50;
+            let ceilFloorGap = 10;
+            let ceilFloorNum = 3;
+            // 总墙面高度
+            let roomHeight = 400;
+            let roomWidth = 500;
+            // 天花板高度
+            let ceilHeight = ceilFloorGap * ceilFloorNum;
+            let electricityHeight = 20;
+            let hangCeilHeight = 20;
+            // 离地高度
+            let fromBottom = 100;
+            // 3列
+            let ledCol = 3;
+            // 2行
+            let ledRow = 2;
+            let ledWidth = 120;
+            let ledHeight = 80;
+            let ledWallHeight = ledRow * ledHeight;
+            let ledWallWidth = ledCol * ledWidth;
+            let ledWallHeightTxt = `${ledRow}x${ledHeight}=${ledWallHeight}`;
+            let ledWallWidthTxt = `${ledCol}x${ledWidth}=${ledWallWidth}`;
+            let ledBeginX = (roomWidth - ledWallWidth) / 2 + roomBeginX;
+            let ledBeginY = roomHeight + roomBeginY + ceilHeight - fromBottom - ledWallHeight;
+            // 头部
+            header({ ctx: ctx, width: 500, floorGap: ceilFloorGap, blockWidth: 30, floorNum: ceilFloorNum,
+                positionX: roomBeginX, positionY: roomBeginY, offsetX: 10});
+            // 墙面虚线
+            wall({ctx: ctx,width: roomWidth,height: roomHeight,
+                positionX: roomBeginX, positionY: ceilHeight + roomBeginY});
+            // 地板文字
+            floor({ctx: ctx,width:roomWidth, gap:8,height:24,txt: "正视图",
+                positionX: roomBeginX, positionY: ceilHeight + roomBeginY + roomHeight });
+            // 静电地板
+            electricityFloor({ctx: ctx,width: roomWidth,height: electricityHeight,
+                positionX: roomBeginX, positionY: ceilHeight + roomBeginY + roomHeight - electricityHeight});
+            // 吊顶
+            hangCeiling({ctx: ctx, width: roomWidth,height: hangCeilHeight,
+                positionX: roomBeginX, positionY: ceilHeight + roomBeginY})
+            // 吊顶文字
+            drawLine({ctx: ctx, txt:'吊顶 ' + hangCeilHeight, rotate: 90, length: hangCeilHeight,overTxt: false,
+                positionX: roomBeginX + roomWidth, positionY: ceilHeight + roomBeginY})
+            // 静电地板文字
+            drawLine({ctx: ctx, txt:'静电地板 ' + electricityHeight, rotate: 90, length: electricityHeight,overTxt: false,
+                positionX: roomBeginX + roomWidth, positionY: ceilHeight + roomBeginY + roomHeight- electricityHeight})
+            // 房间高度文字
+            drawLine({ctx: ctx, txt:'安装空间高 ' + roomHeight, rotate: 270, length: roomHeight,
+                positionX: roomBeginX, positionY: ceilHeight + roomBeginY})
+            // 天花板文字
+            drawLine({ctx: ctx, txt:'安装空间宽 ' + roomWidth, rotate: 0, length: roomWidth,
+                positionX: roomBeginX, positionY: roomBeginY})
+            // led墙面
+            ledWall({ctx: ctx,ledWidth: ledWidth,ledHeight: ledHeight,row: ledRow, col: ledCol,
+                positionX: ledBeginX, positionY: ledBeginY})
+            // led左边文字
+            drawLine({ctx: ctx, txt: ledWallHeightTxt, rotate: 270, length: ledWallHeight,
+                positionX: ledBeginX, positionY: ledBeginY})
+            // led上边文字
+            drawLine({ctx: ctx, txt: ledWallWidthTxt, rotate: 0, length: ledWallWidth,
+                positionX: ledBeginX, positionY: ledBeginY})
+            let secondRoomBeginX = roomBeginX + roomWidth + 60;
+            let secondRoomBeginY = roomBeginY;
+            let sideWallHeight = roomHeight + ceilHeight;
+            let sideWallWidth = 40;
+            let sideLedDeep = 25;
+            let sideWallBeginX = secondRoomBeginX + roomWidth / 2 - sideWallWidth / 2
+            let sideHeaderFloorNum = Math.floor(sideWallHeight / ceilFloorGap);
+            // 头部
+            header({ ctx: ctx, width: sideWallWidth, floorGap: ceilFloorGap, blockWidth: 26, floorNum: sideHeaderFloorNum,
+                positionX: sideWallBeginX, positionY: secondRoomBeginY, offsetX: 8});
+            // 侧边挂在墙面的led
+            sideLed({ ctx: ctx, width: sideLedDeep, height: ledWallHeight, supportType: 1, material: 2,supportLength: 40,
+                positionX: sideWallBeginX + sideWallWidth, positionY: ledBeginY});
+            // 地板文字
+            floor({ctx: ctx,width:roomWidth, gap:8,height:24,txt: "侧视图",
+                positionX: secondRoomBeginX, positionY: ceilHeight + secondRoomBeginY + roomHeight });
+            // 静电地板
+            electricityFloor({ctx: ctx,width: roomWidth,height: electricityHeight,
+                positionX: secondRoomBeginX, positionY: ceilHeight + secondRoomBeginY + roomHeight - electricityHeight});
+            // bottomTxt({ctx: ctx, type: 2, positionX: 20, positionY: 600});
+            overTxtDisplay({ctx: ctx, txt: '150-160',length: sideLedDeep,
+                positionX: sideWallBeginX + sideWallWidth, positionY: ledBeginY});
+            // 柜子（型材）
+            // sideCabinet({ctx: ctx, col: 1, row: 1, width: 40, height: 60,
+            //     positionX: 20, positionY: 500})
+            let testOffsetY = 540;
+            let testHeight = 200;
+            let testWidth = 140;
+            let testFromBottom = 80;
+            mao({ctx: ctx, positionX: 20, positionY: testOffsetY, type: 'left'});
+            mao({ctx: ctx, positionX: 60, positionY: testOffsetY, type: 'right'});
+            centerMao({ctx: ctx, positionX: 90, positionY: testOffsetY});
+        }
+        /*
+        width: 板宽
+        height: 板长
+        type: 左边在上还是右边在上 （left,right
+        */
+        function mao({ctx, positionX, positionY, width = 8, height = 32, type = 'left'}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.fillStyle = '#a3a3a3';
+            ctx.fillRect(0, type === 'left' ? 0: height/2, width, height);
+            ctx.fillRect(width, type === 'right' ? 0: height/2, width, height);
+            ctx.stroke(); 
+            ctx.restore();
+            ctx.closePath()
+        }
+        function maoConnect({ctx, positionX, positionY, width = 8, height = 32}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            mao({ctx: ctx, positionX: 0, positionY: -3/2*height, width: width, height: height, type: 'left'})
+            mao({ctx: ctx, positionX: 0, positionY: 0, width: width, height: height, type: 'right'})
+            ctx.restore();
+            ctx.closePath()
+        }
+        /*
+        width: 墙面宽
+        floorNum: 墙面层数
+        floorGap：每层墙的间隙  总高度height: floorNum*floorGap
+        blockWidth： 横行每块砖直接的距离
+        offsetX 每个相连横行的x轴偏移量
+        */
+        function header({ctx,positionX,positionY,width, height, floorNum,floorGap,offsetX,blockWidth}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            // 上边
+            ctx.strokeStyle= "#c0c7dc";
+            for (let i = 1; i < floorNum ; i++) {
+                ctx.moveTo(0, i*floorGap);
+                ctx.lineTo(width, i*floorGap);
+            }
+            ctx.moveTo(width, 0);
+            // // 左边
+            // ctx.lineTo(width, floorNum*floorGap);
+            // // 右边
+            // ctx.moveTo(0, 0);
+            // ctx.lineTo(0, floorNum*floorGap);
+            // 填充颜色
+            ctx.fillStyle = '#96a2c2';
+            ctx.fillRect(0,0, width, floorNum*floorGap);
+            for (let index = 0; index < floorNum; index++) {
+                let firstOffsetX = index*offsetX % blockWidth;
+                for (let inner = 0; (inner * blockWidth + firstOffsetX) < width; inner++) {
+                    ctx.moveTo(firstOffsetX + blockWidth*inner, index*floorGap)
+                    ctx.lineTo(firstOffsetX + blockWidth*inner, floorGap + index*floorGap);
+                }
+            }
+            ctx.fillStyle = "red"
+            ctx.stroke(); 
+            ctx.restore();
+            ctx.closePath();
+        }
+        /*
+        supportType: 1: 壁挂 白； 2：壁挂黑
+        material: 1: 型材  2：镀金
+        */
+        function sideLed({ctx,width, height, supportType = 1, material = 1,
+            positionX,positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            if (supportType === 1) {
+                let support = width * 19 / 25;
+                let ledDeep = width * 6 / 25;
+                let gradient = ctx.createLinearGradient(0, 0, support, height);
+                if (material === 1) {
+                    gradient.addColorStop(0, '#2F2F2F');
+                    gradient.addColorStop(1, '#484848');
+                }
+                if (material === 2) {
+                    gradient.addColorStop(0, '#ABB1BD');
+                    gradient.addColorStop(1, '#C3C8D1');
+                }
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, support, height);
+                let gradient1 = ctx.createLinearGradient(support, 0, ledDeep, height);
+                gradient1.addColorStop(0, '#9CBBFC');
+                gradient1.addColorStop(1, '#B4CDFF');
+                ctx.fillStyle = gradient1;
+                ctx.fillRect(support, 0, ledDeep, height);
+            }
+            ctx.restore();
+            ctx.closePath();
+        }
+        /*
+            width: 地板宽
+            gap:  每条线间隙
+            height： 地板高度
+        */
+        function floor({ctx,width, gap, height, positionX, positionY, txt}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.fillStyle = '#f0f0ef';
+            ctx.fillRect(0,0, width, height);
+            ctx.strokeStyle= "#c0c0bf";
+            for (let i = 0; i < width/gap +2; i++) {
+                ctx.moveTo(gap*(i + 1), 0);
+                ctx.lineTo(gap*(i + 1) - height, height);
+                // console.log(gap*(i + 1))
+            }
+            ctx.stroke(); 
+            ctx.clearRect(0, 0, -height,height)
+            ctx.clearRect(width, -1, height,height)
+            ctx.font = 'bold 14px MicrosoftYaHei';
+            ctx.fillStyle = 'rgba(0,0,0,0.7)';
+            // 设置水平对齐方式
+            ctx.textAlign = "center";
+            // 设置垂直对齐方式
+            ctx.textBaseline = "middle";
+            // 绘制文字（参数：要写的字，x坐标，y坐标）
+            ctx.lineWidth = 1; //设置线宽
+            ctx.fillText(txt, width / 2, height / 2);
+            ctx.restore()
+            ctx.closePath();
+        }
+        /*
+            txt: 显示的文字
+            rotate： 线段选择的角度
+            length： 文字显示的长度
+            overTxt: 是否表示为超出样式
+        */
+        function drawLine({ctx, txt, rotate = 0,length,positionX,positionY,overTxt = true}) {
+            ctx.beginPath();
+            ctx.save();
+            // 再加点偏移量 ，以免线段跟内容太近
+            let smallMove = 2;
+            if (rotate === 270) {
+                ctx.translate(positionX - 24 - smallMove, positionY || 0);
+            }
+            if (rotate === 0) {
+                ctx.translate(positionX, positionY - 24  - smallMove);
+            }
+            if (rotate === 90) {
+                ctx.translate(positionX  + smallMove, positionY);
+            }
+            if (rotate === 180) {
+                ctx.translate(positionX, positionY + smallMove);
+            }
+            let drawLength = length;
+            ctx.font = '14px MicrosoftYaHei';
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.lineWidth = 1; //设置线宽
+            let txtLength = ctx.measureText(txt).width;
+            let dotLength = 6;
+            let base = 0;
+            // console.log(txtLength > drawLength , overTxt)
+            if (txtLength > drawLength && overTxt) {
+                // 另外的写法
+                if (rotate === 0) {
+
+                }
+            } else {
+                if (rotate === 180 || rotate === 0) {
+                    let cy = 12;
+                    let cx = drawLength / 2;
+                    // ctx.translate(cx, cy);
+                    base = 18
+                    if (rotate === 180) {
+                        base = 20;
+                    }
+                    // ctx.rotate(rotate*Math.PI/180);
+                    // ctx.translate(-cx, -cy);
+                    ctx.moveTo(0, base);
+                    ctx.lineTo(0, base + dotLength);
+                    ctx.moveTo(1, base + 3);
+                    ctx.lineTo(drawLength - 1, base + 3);
+                    ctx.moveTo(drawLength , base);
+                    ctx.lineTo(drawLength , base + dotLength);
+                    // 文字
+                    if (rotate === 180) {
+                        ctx.fillText(txt, drawLength / 2, base + 14);
+                    } else {
+                        // 文字在线段上面就 减 ，在上就加 偏移为6
+                        ctx.fillText(txt, drawLength / 2, base - 6);
+                    }
+                    ctx.restore()
+                }
+                if (rotate === 270 || rotate === 90 ) {
+                    ctx.save();
+                    if (rotate === 90) {
+                        base = -6;
+                    }
+                    if (rotate === 270) {
+                        base = -24
+                    }
+                    ctx.rotate(90*Math.PI/180);
+                    ctx.moveTo(0, base);
+                    ctx.lineTo(0, base + dotLength);
+                    ctx.moveTo(1, base + 3);
+                    ctx.lineTo(drawLength - 1, base + 3);
+                    ctx.moveTo(drawLength, base);
+                    ctx.lineTo(drawLength, base + dotLength);
+                    //  添加文字
+                    if (rotate === 270) {
+                        ctx.restore();
+                        // console.log(drawLength / 2)
+                        ctx.translate(12, drawLength / 2);
+                        ctx.rotate(270*Math.PI/180);
+                        ctx.translate(-12, -drawLength / 2);
+                        ctx.fillText(txt, 12, drawLength / 2);
+                    } else {
+                        ctx.fillText(txt, drawLength / 2, base - 6);
+                        ctx.restore()
+                    }
+                    ctx.restore()
+                }
+            }
+            ctx.stroke();
+            ctx.closePath();
+        }
+        /*
+            width: 地板宽
+            height:  静电地板高
+        */
+        function electricityFloor({ctx,width,height,positionX,positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX, positionY);
+            ctx.fillStyle = 'rgba(247,181,0,0.18)';
+            ctx.fillRect(0, 0, width, height)
+            ctx.restore();
+            ctx.closePath();
+        }
+        /*
+            width: 地板宽
+            height:  静电地板高
+        */
+        function hangCeiling({ctx,width,height,positionX,positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX, positionY);
+            let img = document.getElementById('img-ceiling');
+            ctx.drawImage(img, 0, 0, 640, 40, 0, 0, width,height)
+            ctx.restore();
+            ctx.closePath();
+        }
+        function wall({ctx,width,height,positionX,positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX, positionY);
+            ctx.strokeStyle = 'rgba(154,164,193,.7)';
+            ctx.setLineDash([4, 3]);
+            ctx.moveTo(1,0);
+            ctx.lineTo(1, height);
+            ctx.moveTo(width - 1,0);
+            ctx.lineTo(width - 1, height);
+            ctx.stroke();
+            ctx.restore();
+            ctx.closePath();
+        }
+        function ledWall({ctx,ledWidth,ledHeight,row, col, positionX,positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            // ctx.lineWidth = 0.5;
+            ctx.lineWidth = 1;
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.strokeStyle = '#547DD1';
+            row = row || 1;
+            col = col || 1;
+            for (let iRow = 0; iRow < row; iRow++) {
+                for (let iCol = 0; iCol < col; iCol++) {
+                    ctx.strokeRect(iCol*ledWidth, iRow*ledHeight, ledWidth, ledHeight);
+                    let gradient = ctx.createLinearGradient(iCol*ledWidth, iRow*ledHeight, iCol*ledWidth + ledWidth, iRow*ledHeight);
+                    gradient.addColorStop(0, '#B4CDFF');
+                    gradient.addColorStop(1, '#9CBBFC');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(iCol*ledWidth, iRow*ledHeight, ledWidth, ledHeight);
+                }                    
+            }
+            ctx.stroke();
+            ctx.restore();
+            ctx.closePath();
+        }
+        function bottomTxt ({ ctx, type = 1, positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.font = 'bold 14px MicrosoftYaHei';
+            ctx.textAlign = "start";
+            ctx.textBaseline = "middle";
+            ctx.fillText('LED单元尺寸', 0, 0);
+            let ledCellWidth = 120;
+            let ledCellHeight = 80;
+            // 20是led单元距离 最上面文字的距离
+            ledWall({ctx: ctx, ledWidth: ledCellWidth, ledHeight:ledCellHeight, positionY: 20});
+            drawLine({ctx: ctx, txt: 600, rotate: 180,length: ledCellWidth,positionX: 0,positionY: ledCellHeight})
+            drawLine({ctx: ctx, txt: 337.5, rotate: 90,length: ledCellHeight,positionX: ledCellWidth, positionY: 20})
+            // 60是 文字距离led单元的距离
+            let tipOffsetY = ledCellHeight + 20 + 60
+            let tipOffsetX = 0;
+            if (type === 2) {
+                tipOffsetY = 20
+                tipOffsetX = ledCellWidth + 20 + 60;
+            }
+            ctx.fillText('注意', tipOffsetX, tipOffsetY);
+            ctx.font = '14px MicrosoftYaHei';
+            if (type === 1) {
+                ctx.fillText('安装时请务必预留30-50mm的安装空间。因生产与拼接误差，实际支架每列可能存在1-2mm的偏差。安装时请务',
+                     0, tipOffsetY + 30)
+                ctx.fillText('必预留30-50mm的安装空间。因生产与拼接误差，实际支架每列可能存在1-2mm的偏差。安装时请务必预留',
+                     0, tipOffsetY + 30 + 20 )
+                ctx.fillText('30-50mm的安装空间。因生产与拼接误差，实际支架每列可能存在1-2mm的偏差。',
+                     0, tipOffsetY + 30 + 20 + 20 )
+            }
+            if (type === 2) {
+                ctx.fillText('安装时请务必预留30-50mm的安装空间。因生产与拼接误差，实际支架每列可能存在1-2mm的偏差。安装时请务',
+                     tipOffsetX, tipOffsetY + 30)
+                ctx.fillText('必预留30-50mm的安装空间。因生产与拼接误差，实际支架每列可能存在1-2mm的偏差。安装时请务必预留',
+                     tipOffsetX, tipOffsetY + 30 + 20 )
+                ctx.fillText('30-50mm的安装空间。因生产与拼接误差，实际支架每列可能存在1-2mm的偏差。',
+                     tipOffsetX, tipOffsetY + 30 + 20 + 20 )
+            }
+            
+            ctx.restore();
+            ctx.closePath();
+        }
+        function overTxtDisplay({ctx, length, positionX, positionY, txt}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            let drawLength = length;
+            ctx.font = '14px MicrosoftYaHei';
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.lineWidth = 1; //设置线宽
+            let txtLength = ctx.measureText(txt).width;
+            let dotLength = 6;
+            let base = -6;
+            ctx.moveTo(0, base);
+            ctx.lineTo(0, base + dotLength);
+            ctx.moveTo(1, base + 3);
+            ctx.lineTo(drawLength - 1, base + 3);
+            ctx.moveTo(drawLength , base);
+            ctx.lineTo(drawLength , base + dotLength);
+            ctx.fillText(txt, drawLength / 2, base - 6);
+            ctx.restore();
+            ctx.stroke();
+            ctx.closePath();
+        }
+        function baseCabinet({ctx, row, col, height, width, positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            let deep = 8;
+            if (row === col && row === 1) {
+                // ctx.moveTo(0, 0);
+                // ctx.lineTo(0, col * height);
+                // ctx.moveTo)
+                let gradient = ctx.createLinearGradient(0, 0,
+                    0, col*height);
+                gradient.addColorStop(0, '#ABB1BD');
+                gradient.addColorStop(1, '#C3C8D1');
+                let gradientX = ctx.createLinearGradient(0, 0,
+                    row * width, 0);
+                gradientX.addColorStop(0, '#ABB1BD');
+                gradientX.addColorStop(1, '#C3C8D1');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, deep, col*height);
+                ctx.fillRect(width - deep, 0, deep, col*height);
+                ctx.fillStyle = gradientX;
+                ctx.fillRect(deep, 0, row * width - 2* deep, deep)
+                ctx.fillRect(deep, col*height - deep, row * width - 2* deep, deep)
+                // ctx.fillRect(0, 0,24, 34)
+            }
+            ctx.restore();
+            ctx.closePath();
+        }
+        // 应该只要材料加长宽就好
+        /*
+        height: 门高
+        width: 门宽
+        material： 材料，不同材料变化颜色
+        addBorderRight: 由于可能是中间门需要画一条最右边的黑线
+        close： 是否为关闭，即把手是不需要
+        */
+        function door({ctx, row, col, height, material, width, 
+          positionX, positionY,addBorderRight = false, close = true}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.fillStyle = '#4D4D4D';
+            ctx.fillRect(0, 0, width / 2, height);
+            ctx.fillRect(width / 2, 0, width / 2, height);
+            ctx.fillStyle = '#949494';
+            let handleWidth = 4;
+            let handleHeight = height / 6;
+            let handleOffsetX = 6;
+            // ctx.lineCap = 'round';
+            ctx.strokeStyle = '#808080';
+            if (close === false) {
+                ctx.fillRect(width / 2 + handleOffsetX, height / 2 - handleHeight / 2, handleWidth, handleHeight);
+                ctx.moveTo(width / 2, 0);
+                ctx.lineTo(width / 2, height);
+            }
+            if (addBorderRight) {
+                ctx.moveTo(width, 0);
+                ctx.lineTo(width, height);
+            }
+            ctx.stroke();
+            ctx.restore();
+            ctx.closePath();
+        }
+        // 现在width没有用处
+        function ladder({ctx, height, width, colorType = 1 , positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.fillStyle = '#fff';
+            ctx.strokeStyle = '#979797';
+            let deep = 4;
+            let floorWidth = 28;
+            let floorHeight = 18;
+            // 第一个梯子开始的位置
+            let floorOffsetY = 12;
+            if (colorType === 2) {
+                ctx.fillStyle = '#fff';
+                ctx.strokeStyle = '#979797';
+            } else {
+                ctx.fillStyle = 'rgba(107,107,107,0.80)';
+                ctx.strokeStyle = 'rgba(255,214,82,0.80)';
+            }
+            ctx.lineWidth = 1
+            ctx.strokeRect(-floorWidth / 2 - deep, 0, deep, height);
+            ctx.fillRect(-floorWidth / 2 - deep, 0, deep, height);
+            ctx.strokeRect(floorWidth / 2, 0, deep, height);
+            ctx.fillRect(floorWidth / 2, 0, deep, height);
+            ctx.lineWidth = 0.5
+            for(let i = 0; (i*floorHeight) + floorOffsetY + deep < height; i++) {
+                ctx.moveTo(-floorWidth / 2, (i*floorHeight) + floorOffsetY);
+                ctx.lineTo(floorWidth / 2, (i*floorHeight) + floorOffsetY)
+                ctx.moveTo(-floorWidth / 2, (i*floorHeight) + floorOffsetY + deep);
+                ctx.lineTo(floorWidth / 2, (i*floorHeight) + floorOffsetY  + deep)
+                // ctx.strokeRect(-floorWidth / 2, (i*floorHeight) + floorOffsetY, floorWidth, deep);
+                ctx.fillRect(-floorWidth / 2, (i*floorHeight) + floorOffsetY, floorWidth, deep);
+            }   
+            ctx.stroke()
+            ctx.restore();
+            ctx.closePath();
+        }
+        function footing({ctx, positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.fillStyle = '#1A1A1A';
+            let footingWidth = 4;
+            let footingHeight = 6;
+            ctx.fillRect(0, 0, footingWidth, footingHeight);
+            ctx.restore();
+            ctx.closePath();
+        }
+        function sideCabinet({ctx, row, col, height, width, positionX, positionY}) {
+            baseCabinet({ctx: ctx, col: 1, row: 1, width: 40, height: 60,
+                positionX: 20, positionY: 500});
+            let footOffsetX = 4;
+            footing({ctx: ctx, positionX: positionX + footOffsetX, positionY: positionY + height})
+            footing({ctx: ctx, positionX: positionX + width - footOffsetX - 4, positionY: positionY + height})
+
+        }
+        /*
+        height: 总高度
+        width: 总宽度
+        fromBottom： 离地高度
+        deep： 封板的宽度， 后续是个默认值
+        material: 1 ： 型材  2：钣金
+        */
+        function outer({ctx, type, height, width, deep = 6, fromBottom, material = 1, positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            let materialColorBlackBegin = '#484848';
+            let materialColorBlackEnd = '#2F2F2F';
+            let materialColorWhiteBegin = '#ABB1BD';
+            let materialColorWhiteEnd = '#C3C8D1';
+            let gradient = ctx.createLinearGradient(0, 0,
+                    deep, height);
+            gradient.addColorStop(0, materialColorBlackBegin);
+            gradient.addColorStop(1, materialColorBlackEnd);
+            let gradientX = ctx.createLinearGradient(0, 0,
+                width, deep);
+            gradientX.addColorStop(0, materialColorBlackBegin);
+            gradientX.addColorStop(1, materialColorBlackEnd);
+            let gradient1 = ctx.createLinearGradient(0, 0,
+                    deep, height);
+            gradient1.addColorStop(0, materialColorWhiteBegin);
+            gradient1.addColorStop(1, materialColorWhiteEnd);
+            let gradientX1 = ctx.createLinearGradient(0, 0,
+                width, deep);
+            gradientX1.addColorStop(0, materialColorWhiteBegin);
+            gradientX1.addColorStop(1, materialColorWhiteEnd);
+            ctx.fillStyle = gradient1;
+            if (material === 2) {
+                ctx.fillStyle = gradient;
+            }
+            ctx.fillRect(0, 0, deep, height);
+            ctx.fillRect(width - deep, 0, deep, height);
+            ctx.strokeStyle = '#808080';
+            ctx.lineJoin = 'round';
+            ctx.strokeRect(0, 0, deep, height);
+            ctx.strokeRect(width - deep, 0, deep, height);
+            ctx.fillStyle = gradientX1;
+            if (material === 2) {
+                ctx.fillStyle = gradientX;
+            }
+            ctx.clearRect(deep, 0, width - 2 *deep, deep)
+            ctx.clearRect(deep, height - deep, width - 2 *deep, deep)
+            ctx.strokeRect(deep, 0, width - 2 *deep, deep);
+            ctx.strokeRect(deep, height - deep, width - 2 *deep, deep);
+            ctx.fillRect(deep, 0, width - 2 * deep, deep);
+            ctx.fillRect(deep, height - deep, width - 2 * deep, deep);
+            // 中间的 线 （封板
+            let ledBottomLine = height - fromBottom;
+            ctx.clearRect(deep, ledBottomLine - deep, width - 2 *deep, deep);
+            ctx.strokeRect(deep, ledBottomLine - deep, width - 2 *deep, deep);
+            ctx.fillRect(deep, ledBottomLine - deep, width - 2 *deep, deep); 
+            ctx.clearRect(deep, ledBottomLine + 1, width - 2 *deep, deep);       
+            ctx.strokeRect(deep, ledBottomLine + 1, width - 2 *deep, deep);
+            ctx.fillRect(deep, ledBottomLine + 1, width - 2 *deep, deep)
+            ctx.restore();
+            ctx.closePath();
+        }
+        function ledSkeleton({ctx, row, col, material = 1, height, width,
+            positionX, positionY}) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.translate(positionX || 0, positionY || 0);
+            ctx.fillStyle = '#4D4D4D';
+            // ctx.strokeRect(0, 0, col * width ,row *height);
+            // 剩下一个单独成列
+            let b = col % 2;// 只有 0 或1
+            // 有几个 合并的（两列合成一列）
+            let a = Number.parseInt(col / 2, 10);
+            let d = row % 6;
+            let c = Number.parseInt(row / 6, 10);
+            let deep = 6;
+            let doorLine = 1;
+            if (material === 1) {
+                doorLine = 6;
+            }
+            // let arrCol = [0];
+            // let arrRow = [0];
+            let arrCol = [];
+            let arrRow = [];
+            let gradient1 = ctx.createLinearGradient(0, 0,
+                width * col, deep);
+            gradient1.addColorStop(0, '#484848');
+            gradient1.addColorStop(1, '#2F2F2F');
+            let gradient = ctx.createLinearGradient(0, 0,
+                width * col, deep);
+            gradient.addColorStop(0, '#ABB1BD');
+            gradient.addColorStop(1, '#C3C8D1');
+            ctx.fillStyle = gradient;
+            if(material === 2) {
+                ctx.fillStyle = gradient1;
+            }
+            if (row > 6) {
+                if (c >= 1 && d > 0) {
+                    ctx.fillRect(0, d * height - deep / 2 , col * width, deep); 
+                    arrRow.push(d)
+                }
+                for (let i = 1; i < c; i++) {
+                    ctx.fillRect(0, (6*i + d)*height - deep / 2, col * width, deep); 
+                    arrRow.push(6*i + d)
+                }
+            }
+            arrRow.push(row);
+            if (material === 2) {
+                ctx.fillStyle = '#808080';
+            }
+            console.log(col, 'col')
+            if (col > 1 && col < 4) {
+                ctx.strokeRect(width - doorLine / 2, 0, doorLine, row * height);
+            }
+            if (col >= 4) {
+                if (b === 1) {
+                    ctx.fillRect(width - doorLine / 2 , 0 , doorLine, row * height); 
+                    arrCol.push(1)
+                }
+                for (let i = 1; i < a; i++) {
+                    ctx.fillRect((2*i + b)*width - doorLine / 2, 0, doorLine, row * height); 
+                    arrCol.push(2*i + b)
+                }
+            }
+            arrCol.push(col);
+            if (material === 2) {
+                let offsetRow = 0;
+                let offsetCol = 0;
+                for(let i = 0; i < arrCol.length; i++) {
+                    if (i > 0) {
+                        offsetCol = arrCol[i] - arrCol[i -1]
+                    }
+                    for (let j = 0; j < arrRow.length; j++) {
+                        if (j > 0) {
+                            offsetRow = arrRow[j] - arrRow[j - 1];
+                        }
+                        if (i === 0) {
+                            if (j === 0) {
+                                door({ctx: ctx, height: arrRow.length === 1 ? height * arrRow[j] : (height * arrRow[j] - deep / 2),
+                                    width: width * arrCol[i] - doorLine / 2,
+                                    positionX: 0, positionY: 0, close: false})
+                            } else if (j === arrRow.length - 1) {
+                                door({ctx: ctx, height: height * offsetRow - deep/2,
+                                    width: width * arrCol[i] - doorLine / 2,
+                                    positionX: 0, positionY: height * arrRow[j - 1] + deep* (1/ 2), close: false})
+                            } else {
+                                door({ctx: ctx, height: height * offsetRow - deep,
+                                    width: width * arrCol[i] - doorLine / 2,
+                                    positionX: 0, positionY: height * arrRow[j - 1] + deep* (1/ 2), close: false})
+                            }
+                        } else {
+                            if (j === 0) {
+                                door({ctx: ctx, height: arrRow.length === 1 ? height * arrRow[j] : (height * arrRow[j] - deep / 2),
+                                    width: width * offsetCol - doorLine / 2,
+                                    positionX: width * arrCol[i - 1], positionY: 0, close: false})
+                            } else if (j === arrRow.length - 1) {
+                                door({ctx: ctx, height: height * offsetRow - deep/2,
+                                    width: width * offsetCol - doorLine / 2,
+                                    positionX: width * arrCol[i - 1], positionY: height * arrRow[j - 1] + deep* (1/ 2), close: false})
+                            } else {
+                                door({ctx: ctx, height: height * offsetRow - deep,
+                                    width: width * offsetCol - doorLine / 2,
+                                    positionX: width * arrCol[i - 1], positionY: height * arrRow[j - 1] + deep* (1/ 2), close: false})
+                            }
+                        }
+                    }
+                }
+                console.log(arrCol, arrRow);
+            }
+            ctx.restore();
+            ctx.closePath();
+        }
+    </script>
+</body>
+</html>
