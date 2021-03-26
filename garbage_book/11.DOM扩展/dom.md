@@ -15,7 +15,7 @@ innerHtml 返回和调用元素所有子节点(不同浏览器可能不同) ,out
 innerText  和outerText(尽量不用,会将自身dom变成文本节点)  用法同上
 textContent(会返回其他文本一样返回行内样式和脚本代码)
 
-('xx');('#xx');('.xx');分别是标签,id,class选择符 同时还支持('img.avatar');//选择img标签中第一个className 为avatar的元素
+('xx'); ('#xx'); ('.xx');分别是标签,id,class选择符 同时还支持('img.avatar');//选择img标签中第一个className 为avatar的元素
 带了 matchesSelector() 用来判断选择符是否兼容这种写法
 
 修复了childNodes  和firstChild属性指向的元素不一致
