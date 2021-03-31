@@ -13,7 +13,6 @@ Function.prototype.myCall = function (context) {
 
 }
 
-
 function test1 () {
     console.log(this,typeof this,this.name,'this');
     // 这里的this指向window 对象 
@@ -24,9 +23,9 @@ let obj = {
 }
 
 test1.call(obj)
-obj.tt = test1
-obj.tt();
-test1.myCall(obj)
+// obj.tt = test1
+// obj.tt();
+test1.myCall(obj, '222')
 
 
 Function.prototype.myApply = function (context) {
@@ -73,7 +72,7 @@ new func();//undefined 20   foo {b: 100}，可以看到此时上面的bind并�
 
 
 
-// https://blog.csdn.net/a_salt_fish/article/details/88047330
+// [使用js实现bind()函数最严谨的方式](https://blog.csdn.net/a_salt_fish/article/details/88047330)
 Function.prototype.bind1 = function (oThis) {
     if (typeof this !== "function") {
       // closest thing possible to the ECMAScript 5 internal IsCallable function
