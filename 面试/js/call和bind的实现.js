@@ -70,6 +70,14 @@ new func();//undefined 20   foo {b: 100}，可以看到此时上面的bind并�
 
 // 所以 实现bind函数 要注意new的情况
 
+/**
+ * https://blog.csdn.net/q3254421/article/details/82999718
+ * 总的来说bind有如下三个功能点：
+ * 1. 改变原函数的 this 指向，即绑定上下文，返回原函数的拷贝
+ * 2. 当 绑定函数 被调用时，bind的额外参数将置于实参之前传递给被绑定的方法。
+ * 3. 注意，一个 绑定函数 也能使用 new 操作符创建对象,这种行为就像把原函数当成构造器，
+ * thisArg 参数无效。也就是 new 操作符修改 this 指向的优先级更高。
+ */
 
 
 // [使用js实现bind()函数最严谨的方式](https://blog.csdn.net/a_salt_fish/article/details/88047330)
@@ -118,3 +126,4 @@ Function.prototype.mybind = function (context) {
       }
     }
 }
+
