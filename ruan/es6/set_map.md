@@ -51,7 +51,7 @@ if (properties.has(someName)) {
 
 set的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。
 
- Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以keys方法和values方法的行为完全一致
+Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以keys方法和values方法的行为完全一致
 
 ```js
 let set = new Set(['red', 'green', 'blue']);
@@ -82,6 +82,7 @@ set 也有foreach
 
 ## 并集交集
 
+```js
 let a = new Set([1, 2, 3]);
 let b = new Set([4, 3, 2]);
 
@@ -95,6 +96,7 @@ let intersect = new Set([...a].filter(x => b.has(x)));
 
 // （a 相对于 b 的）差集
 let difference = new Set([...a].filter(x => !b.has(x)));
+```
 
 ## WeakSet
 
