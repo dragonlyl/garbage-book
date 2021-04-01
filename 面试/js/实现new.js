@@ -24,3 +24,13 @@ let test = new Car(1,2,3);
 let test2 = create(Car,2,3,4)
 console.log(test,test2,'test')
 // let test2 = create(Obj,1,2)
+
+/**
+ * https://zhuanlan.zhihu.com/p/23987456
+ * 图片 new语法糖
+ * new 其实是个语法糖
+ * 1. 不用创建临时对象，因为 new 会帮你做（你使用「this」就可以访问到临时对象）；
+ * 2. 不用绑定原型，因为 new 会帮你做（new 为了知道原型在哪，所以指定原型的名字为 prototype）；
+ * 3. 不用 return 临时对象，因为 new 会帮你做；
+ * 4. 不要给原型想名字了，因为 new 指定名字为 prototype。
+ */

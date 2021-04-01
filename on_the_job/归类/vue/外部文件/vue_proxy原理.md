@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-27 09:19:19
- * @LastEditTime: 2020-10-26 09:28:05
- * @LastEditors: your name
+ * @LastEditTime: 2021-04-01 18:37:27
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \garbage-book\on_the_job\byself\vue.md
 -->
@@ -30,12 +30,12 @@ Object.defineProperty(obj, 'a', {
     set(newVal) {
         _value = newVal;
     }
-    obj.a = 2;
-    console.log(obj.a);
-    // 在get和set里面添加添加相关的打印，在获取值和改变值的时候都会打印（说明set和get方法都被调用了
-
-    // 但是发现如果对于数字的push，并不会有set里面的日志，这也就导致了vue要重写了数组的部分方法（push，pop, shift, unshift, splice, sort, reverse）
 })
+obj.a = 2;
+console.log(obj.a);
+// 在get和set里面添加添加相关的打印，在获取值和改变值的时候都会打印（说明set和get方法都被调用了
+
+// 但是发现如果对于数字的push，并不会有set里面的日志，这也就导致了vue要重写了数组的部分方法（push，pop, shift, unshift, splice, sort, reverse）
 ```
 
 ### 数组hack
