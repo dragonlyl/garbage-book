@@ -187,7 +187,7 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 实现一个订阅者 Watcher：Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁 ，主要的任务是订阅 Observer 中的属性值变化的消息，当收到属性值变化的消息时，触发解析器 Compile 中对应的更新函数。
 实现一个订阅器 Dep：订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher，对监听器 Observer 和 订阅者 Watcher 进行统一管理。
 <https://juejin.im/post/5d421bcf6fb9a06af23853f
-![avatar](数据双向绑定.png)
+![数据双向绑定](数据双向绑定.png)
 
 ## Proxy 与 Object.defineProperty 优劣对比
 

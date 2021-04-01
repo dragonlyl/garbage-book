@@ -2,6 +2,7 @@
 
 ## beforeEach
 
+```js
 const router = new VueRouter({ ... })
 
 router.beforeEach((to, from, next) => {
@@ -16,11 +17,12 @@ router.afterEach((to, from) => {
 
 路由独享的守卫
 routes: [
-    {
-      path: '/foo',
-      component: Foo,
-      beforeEnter: (to, from, next) => {
-        // ...
-      }
+  {
+    path: '/foo',
+    component: Foo,
+    beforeEnter: (to, from, next) => {
+      // ...
     }
-  ]
+  }
+]
+```
