@@ -21,11 +21,15 @@
 
 但为什么splice 和 push 的变化能监听到呢  因为vue对其做了封装 使得这些操作也能够别监听到
 
-//  忽略的用法   vue用来遍历对象  (item,key) in obj   可以输出键值对
+## 忽略的用法
 
-//  你在vue 的data里面申明了一个变量 aaa   你在method可以用  let { aaa } = this  来获取到aaa
+vue用来遍历对象  (item,key) in obj   可以输出键值对
 
-//computed监听事件 只要监听的数据发生改变就会自动调用  比如说 你通过关键字搜索  用computed来筛选出有相应关键字的数组, 这时候你还可以在同一个监听事件中来通过对筛选出来的数据进行按不同方式排序
+你在vue 的data里面申明了一个变量 aaa 你在method可以用  let { aaa } = this  来获取到aaa
+
+## computed监听事件
+
+只要监听的数据发生改变就会自动调用  比如说 你通过关键字搜索  用computed来筛选出有相应关键字的数组, 这时候你还可以在同一个监听事件中来通过对筛选出来的数据进行按不同方式排序
 
 //  点击事件 如果传了参数但又不想影响event  可以将$event作为形参传递进去
 
@@ -141,6 +145,8 @@ arguments本身并不是数组 而是对象
   * get: 回调函数,根据其他相关的属性动态计算得到当前属性值
   * set: 回调函数,监视当前属性值的变化,更新其他相关的属性值
   */
+
+```js
 //  例子
 let obj = { f:'peter',l:'lin' }
 Object.defineProperty(obj,'fullname', {
@@ -161,7 +167,7 @@ obj.fullname = 'ttt-eee';
 console.log(obj.f,obj.l);
 
 Object.defineProperty(obj,'test1',{
-    configurable: false,  // 这里不能重新定义  即你在下面新写 bject.defineProperty(obj,'test1',{ 是不会生效的
+    configurable: false,  // 这里不能重新定义  即你在下面新写 object.defineProperty(obj,'test1',{ 是不会生效的
     enumerable: true,
     value: 'tes111',
     writable: false // 无法修改值
@@ -169,6 +175,7 @@ Object.defineProperty(obj,'test1',{
 console.log(obj.test1);
 obj.test1 = 'tesssss';
 console.log(obj.test1);
+```
 
 //  四丶Object.keys();
 console.log(Object.keys(obj)); // 这里没有fullname
@@ -205,7 +212,7 @@ ul.appendChild(fragment);  // 此时ul变成 <ul><li>新的文本内容</li><li>
  * 比如说 vue里面的 data属性里面定义 各种值  先data中定义一个name
  * console.log(this.name,this);  // 可以在this中移到name 提示 (invoke property getter); vm代理对data数据的读操作
  * this.name = 'xxxx';                                                               vm代理对data数据的写操作
- * console.log(this._data.name,this.name); // _data里面有 get name:  和set name 方法
+ * console.log(this._data.name, this.name); // _data里面有 get name:  和set name 方法
  * 
  * //  即 this.name 时 get 中return的是 this._data['name']
  * //  即this.name = a 时  set中 this._data['name'] = a;

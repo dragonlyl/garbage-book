@@ -1,6 +1,6 @@
 # Vue
 
-<https://juejin.im/post/5d59f2a451882549be53b170?utm_source=gold_browser_extension>
+[30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度）](https://juejin.im/post/5d59f2a451882549be53b170?utm_source=gold_browser_extension)
 
 ## SPA
 
@@ -21,7 +21,7 @@
 ## v-if 和 v-show
 
 前者切换的时候事件监听和标签都会被销毁和重建;条件不成立的时候就不会渲染;
-后者无论条件是否成立都会被渲染,只不过不显示
+后者无论条件是否成立都会被渲染,只不过不显示(类似display: noneo)
 
 ## vue的单向数据流
 
@@ -33,7 +33,7 @@
 
 ## vue生命周期
 
-beforeCreate created beforeMounte mounted
+`beforeCreate` `created` `beforeMounte` `mounted`
 开始创建、初始化数据、编译模版、挂载 Dom -> 渲染、更新 -> 渲染、卸载等一系列过程，我们称这是 Vue 的生命周期。
 beforeCreate
 组件实例被创建之初，组件的属性生效之前
@@ -113,24 +113,24 @@ select 字段将 value 作为 prop 并将 change 作为事件。
 
 父子组件通信、隔代组件通信、兄弟组件通信
 
-（1）props / $emit  适用 父子组件通信
+（1）`props` / `$emit`  适用 父子组件通信
 这种方法是 Vue 组件的基础，相信大部分同学耳闻能详，所以此处就不举例展开介绍。
-（2）ref 与 $parent / $children 适用 父子组件通信
+（2）ref 与 `$parent` / `$children` 适用 父子组件通信
 
 ref：如果在普通的 DOM 元素上使用，引用指向的就是 DOM 元素；如果用在子组件上，引用就指向组件实例
-$parent / $children：访问父 / 子实例
+`$parent` / `$children`：访问父 / 子实例
 
-（3）EventBus （$emit / $on）  适用于 父子、隔代、兄弟组件通信
+（3）EventBus （`$emit` / `$on`）  适用于 父子、隔代、兄弟组件通信
 这种方法通过一个空的 Vue 实例作为中央事件总线（事件中心），用它来触发事件和监听事件，从而实现任何组件间的通信，包括父子、隔代、兄弟组件。
-（4）$attrs/$listeners 适用于 隔代组件通信
+（4）`$attrs`/`$listeners` 适用于 隔代组件通信
 
-$attrs：包含了父作用域中不被 prop 所识别 (且获取) 的特性绑定 ( class 和 style 除外 )。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 ( class 和 style 除外 )，并且可以通过 v-bind="$attrs" 传入内部组件。通常配合 inheritAttrs 选项一起使用。
-$listeners：包含了父作用域中的 (不含 .native 修饰器的)  v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件
+`$attrs`：包含了父作用域中不被 prop 所识别 (且获取) 的特性绑定 ( class 和 style 除外 )。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定 ( class 和 style 除外 )，并且可以通过 `v-bind="$attrs"` 传入内部组件。通常配合 inheritAttrs 选项一起使用。
+`$listeners`：包含了父作用域中的 (不含 .native 修饰器的)  v-on 事件监听器。它可以通过 `v-on="$listeners"` 传入内部组件
 
 （5）provide / inject 适用于 隔代组件通信
 祖先组件中通过 provider 来提供变量，然后在子孙组件中通过 inject 来注入变量。 provide / inject API 主要解决了跨级组件间的通信问题，不过它的使用场景，主要是子组件获取上级组件的状态，跨级组件间建立了一种主动提供与依赖注入的关系。
-（6）Vuex  适用于 父子、隔代、兄弟组件通信
-Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。每一个 Vuex 应用的核心就是 store（仓库）。“store” 基本上就是一个容器，它包含着你的应用中大部分的状态 ( state )。
+（6）`Vuex`  适用于 父子、隔代、兄弟组件通信
+`Vuex` 是一个专为 Vue.js 应用程序开发的状态管理模式。每一个 Vuex 应用的核心就是 store（仓库）。“store” 基本上就是一个容器，它包含着你的应用中大部分的状态 ( state )。
 
 Vuex 的状态存储是响应式的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。
 改变 store 中的状态的唯一途径就是显式地提交  (commit) mutation。这样使得我们可以方便地跟踪每一个状态的变化。
@@ -187,7 +187,7 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 实现一个订阅者 Watcher：Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁 ，主要的任务是订阅 Observer 中的属性值变化的消息，当收到属性值变化的消息时，触发解析器 Compile 中对应的更新函数。
 实现一个订阅器 Dep：订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher，对监听器 Observer 和 订阅者 Watcher 进行统一管理。
 <https://juejin.im/post/5d421bcf6fb9a06af23853f
-![avatar](数据双向绑定.png)
+![数据双向绑定](数据双向绑定.png)
 
 ## Proxy 与 Object.defineProperty 优劣对比
 

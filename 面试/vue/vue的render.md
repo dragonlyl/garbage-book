@@ -1,5 +1,6 @@
 # vue 的render
 
+```js
 JSX react 
 跟methods同级
 render: function (createElement) {
@@ -31,6 +32,6 @@ render: function (createElement) {
      ]
    )
  }
- ———————————————— 
-版权声明：本文为CSDN博主「__Amy」的原创文章，遵循CC 4.0 by-sa版权协议，转载请附上原文出处链接及本声明。
+```
+
 原文链接：https://blog.csdn.net/sansan_7957/article/details/83014838
