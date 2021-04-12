@@ -16,7 +16,7 @@ babel 本身是不具备这种转化功能，提供这些转化功能的是一�
     "presets": ["env", "stage-2"]
 }
 preset（即一组预先设定的插件）
->preset: babel 插件集合的预设，包含某些插件 plugin。显然像上面那样一个一个配置插件会非常的麻烦，为了方便，babel 为我们提供了一个配置项叫做 persets（预设）。
+>preset: babel 插件集合的预设，包含某些插件 plugin。显然像上面那样一个一个配置插件会非常的麻烦，为了方便，babel 为我们提供了一个配置项叫做 presets（预设）。
 
 ### plugins 与 presets 同时存在的执行顺序
 
