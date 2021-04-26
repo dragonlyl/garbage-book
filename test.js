@@ -1,15 +1,13 @@
-let obj = {
-    // [Symbol.toPrimitive](hint) {
-    //     if (hint === 'number') {
-    //         return 42;
-    //     }
-    //     return null;
-    // },
-    toString: function() { 
-        return 4
-    },
-    valueOf: function() { 
-        return 5
-    },
-};
-console.log(+obj);
+function test() {
+    let arr = [];
+    function tst (fn) {
+        return new Promise((resolve, reject) => {
+            // resolve(fn())
+            fn(resolve, reject);
+        })
+    }
+    for(let i = 0; i < arguments.length; i++) {
+        arr.push(tst(arguments[i]))
+    }
+    return Promise.all(arr)
+}
