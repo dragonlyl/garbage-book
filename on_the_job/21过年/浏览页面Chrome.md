@@ -22,3 +22,31 @@ https://github.com/azl397985856/leetcode?utm_source=gold_browser_extension
 socket.io 搭建后台websocket
 
 [js中constructor的作用](https://www.cnblogs.com/aoyo/p/5245162.html)
+
+## koa
+
+[mongoose中聚合——aggregate的使用](https://blog.csdn.net/weixin_43363871/article/details/105293334)
+[Koa洋葱模型 从理解到实现](https://zhuanlan.zhihu.com/p/279391637)
+[koa源码学习](https://juejin.cn/post/6844903559364870151)
+
+## excel
+
+[如何使用JavaScript实现纯前端读取和导出excel文件](https://www.cnblogs.com/liuxianan/p/js-excel.html)
+
+## pdf
+
+[JS - PDF文件生成库jsPDF使用详解5（将html页面导出为pdf）](https://www.hangge.com/blog/cache/detail_2210.html)
+
+## js
+
+[window.postMessage](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage)
+[基于 Javascript 排序算法](https://segmentfault.com/a/1190000016286789)
+[排序图解：js排序算法实现](https://www.cnblogs.com/wteam-xq/p/4752610.html)
+[肝了好多天-动态规划十连-超细腻解析｜刷题打卡](https://juejin.cn/post/6937193443953393700)
+[Webpack 核心库 Tapable 的使用与原理解析](https://zhuanlan.zhihu.com/p/100974318)
+[Webpack 4 Tree Shaking 终极优化指南](https://www.cnblogs.com/lzkwin/p/11878509.html)
+[当面试官问Webpack的时候他想知道什么](https://juejin.cn/post/6943468761575849992)
+[webpack打包原理 ? 看完这篇你就懂了 !](https://segmentfault.com/a/1190000021494964)
+[Plugin API](https://www.webpackjs.com/api/plugins/)
+[编写一个插件](https://www.webpackjs.com/contribute/writing-a-plugin/)
+[插件(plugins)](https://www.webpackjs.com/concepts/plugins/)
