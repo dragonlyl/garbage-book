@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script crossorigin="anonymous" integrity="sha512-rEUmaOwq8RTKLJ+i+F05YDchx4/UJ+yuM83C2RHPV8LqU6xhc03MYUE+6QQM3GGtKNCZCgHmoYKCSSgGSg92ew==" src="https://lib.baomitu.com/vue/3.0.11/vue.cjs.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="tab">
+            <tabs :tabs="aTabs">
+
+            </tabs>
+            
+        </div>
+    </div>
+    <script>
+        // new Vue({
+        //     template: '<div>{{ hi }}</div>'
+        // })
+        Vue.component('tabs', {
+            data() {
+                return {
+                    postTitle: '33'
+                }
+            },
+            props: ['tabs'],
+            computed: {
+                fullName: function () {
+                    console.log(222);
+                    return this.firstName
+                }
+            },
+            watch: {
+                firstName:{ 
+                    handler (val) {
+                        console.log(111);
+                    },
+                    immediate: true
+                },
+            },
+            template: `<div class='tabs'>
+                <div v-for="i in tabs" class="tab-item">
+                    {{i.name}}
+                </div>
+            </div>
+            `
+        })
+        var vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    aTabs: [
+                        {name: 'jack'},
+                        {name: 'dra'}
+                    ]
+                }
+            },
+            // computed: {
+            //     fullName: function () {
+            //         return this.firstName + ' ' + this.lastName
+            //     }
+            // },
+            // watch: {
+            //     firstName: function (val) {
+            //         console.log(1111);
+            //     },
+                
+            // },
+            methods: {
+                changeName() {
+                    this.firstName += 'lll';
+                }
+            }
+            // render (h) {
+            //     return h('div', this.hi)
+            // }
+        })
+        
+    </script>
+</body>
+</html>
