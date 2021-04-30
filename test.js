@@ -1,15 +1,8 @@
-let obj = {
-    // [Symbol.toPrimitive](hint) {
-    //     if (hint === 'number') {
-    //         return 42;
-    //     }
-    //     return null;
-    // },
-    toString: function() { 
-        return 4
-    },
-    valueOf: function() { 
-        return 5
-    },
-};
-console.log(+obj);
+var a = 0
+var b = async () => {
+  a = a + await 10
+  console.log('2', a) // -> ？
+}
+b()
+a++
+console.log('1', a) // -> ？
