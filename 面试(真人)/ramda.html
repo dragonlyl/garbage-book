@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ramda</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/ramda/0.9.1/ramda.js"></script>
+</head>
+<body>
+    <!-- 查询 CDN网站 -->
+    <!-- https://www.bootcdn.cn/ -->
+    <script>
+        var square = n => n * n;
+        let reduce = n => n - 1;
+        let log = console.log;
+        console.log(R.map(square, [4, 8]),R)
+        var mapSquare = R.map(square);
+        // 支持柯里化
+
+        console.log(mapSquare([4, 8]));
+        // console.log(R.gte(1, 2), R.gte(2)(2))
+        // console.log(R.eq(1)(1), R.eqBy(Math.abs, 5)(-5))
+        // log(R.test(/^x/)('xyz'))
+        var addFourNumbers = (a, b, c, d) => a + b + c + d;
+        var curriedAddFourNumbers = R.curry(addFourNumbers);
+        var f = curriedAddFourNumbers(1, 2);
+        var g = f(3);
+        console.log(g(4)); // 10
+    </script>
+</body>
+</html>
