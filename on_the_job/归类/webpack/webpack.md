@@ -19,8 +19,8 @@ __webpack_require__(moduleId) {
 ## 路由懒加载
 
 [路由懒加载](https://www.cnblogs.com/cczlovexw/p/14263654.html)
-```js
 
+```js
 let arr =  [1,2,3]
 for (let i = 0; i < arr.length ; i++) {
     // 通过这个方法 可以从头删到最后一个元素

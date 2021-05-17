@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>懒加载</title>
+    <style>
+        .imglist img {
+            height: 200px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="imglist">
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan1.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan1.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan1.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan2.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan2.png'>
+        <img  src="./loading.gif" data-src='http://localhost:3001/images/schema_plan2.png'>
+    </div>
+    <script>
+        window.onload = function () {
+            let imgs = document.querySelectorAll('img');
+            // 获取元素到浏览器顶部的距离
+            function getTop(e) {
+                return e.offsetTop;
+            }
+            function lazyLoad(imgs) {
+                // 可视区域 (document.body.clientHeight || document.body.offsetHeight )
+                let h = window.innerHeight;
+                // 滚动区域高度
+                let s = document.documentElement.scrollTop || document.body.scrollTop;
+                for (let i = 0; i < imgs.length; i++) {
+                    if ((h + s) > getTop(imgs[i])) {
+                        let tep = new Image();
+                        tep.src = imgs[i].getAttribute('data-src');
+                        tep.onload = function () {
+                            imgs[i].src = imgs[i].getAttribute('data-src');
+                        }
+                    }
+                }
+            }
+            lazyLoad(imgs);
+            window.onscroll = function () {
+                lazyLoad(imgs);
+            }
+        }
+    </script>
+</body>
+</html>
