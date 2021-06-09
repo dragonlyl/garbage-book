@@ -27,6 +27,16 @@
         var f = curriedAddFourNumbers(1, 2);
         var g = f(3);
         console.log(g(4)); // 10
+        var prop = (p, obj) => obj[p]
+        var propRole = R.curry(prop)('role');
+        var isWorker = s => s === 'worker';
+        var getWorkers = R.filter(R.pipe(propRole, isWorker));
+        var data = [
+            {name: '张三', role: 'worker'},
+            {name: '李四', role: 'worker'},
+            {name: '王五', role: 'manager'},
+        ];
+        console.log(getWorkers(data));
     </script>
 </body>
 </html>

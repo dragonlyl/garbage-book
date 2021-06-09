@@ -12,13 +12,13 @@
 var isPalindrome = function(x) {
     // let str = x.toString();
     // return str.split('').reverse().join('') === str;
-    if(x < 0 || (x %10 === 0 && x !== 0)) return false;
+    if (x < 0 || (x % 10 === 0 && x !== 0)) return false;
     let reverseNum = 0
-    while(x >reverseNum) {
+    while (x > reverseNum) {
         reverseNum = reverseNum * 10 + x % 10;
         x = Math.floor(x/10)
     }
-    return reverseNum === x || Math.floor(reverseNum/10) ===x
+    return reverseNum === x || Math.floor(reverseNum/10) === x
 };
 // @lc code=end
 

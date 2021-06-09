@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- https://blog.csdn.net/qq_31967569/article/details/113842854 -->
+    <input type="text" id="edit" onBeforeinput='test'>
+    测试文字文字<span>你说呢</span><b>啊啊啊</b>
+    <br>
+    <input type="text" id="from">
+    <input type="text" id="to">
+    <script>
+        function test() {
+            console.log(222)
+        }
+        document.addEventListener('selectionchange', fn);
+        // console.log(window.getSelection().toString())
+        // 获取鼠标选中的值
+        // https://www.cnblogs.com/richardcastle/p/8297016.html
+        function fn() {
+            let {anchorNode, anchorOffset, focusNode, focusOffset} = document.getSelection();
+            console.log(document.getSelection().toString())
+            from.value = `${anchorNode && anchorNode.data}:${anchorOffset}`
+            to.value = `${focusNode && focusNode.data}:${focusOffset}`
+        }
+    </script>
+
+</body>
+</html>
