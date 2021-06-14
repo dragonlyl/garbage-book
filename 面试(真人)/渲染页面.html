@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+        setTimeout(() => {
+            // 插入XX条数据
+            const total = 10000;
+            // 一次插入XX条数据
+            const once = 10;
+            // 插入数据需要的次数
+            const loopCount = Math.ceil(total / once);
+            let countOfRender = 0;
+            const ul = document.querySelector('#container');
+            // 添加数据的方法
+            function add() {
+                const fragment = document.createDocumentFragment();
+                for(let i = 0; i < once; i++) {
+                    const li = document.createElement('li');
+                    li.innerText = (i + countOfRender*once)+ ' : ' +  Math.floor(Math.random() * total);
+                    fragment.appendChild(li);
+                }
+                ul.appendChild(fragment);
+                countOfRender += 1;
+                loop();
+            }
+            function loop() {
+                if(countOfRender < loopCount) {
+                    window.requestAnimationFrame(add);
+                }
+            }
+            loop();
+        }, 0)
+
+    </script>
+    <script>
+        return
+        // 前端分片优化渲染
+        let ul = document.getElementById("container");
+        // 插入十万条数据
+        // let total = 100000;
+        let total = 10000;
+        // 一次插入 20 条
+        let once = 20;
+        //总页数
+        let page = total / once;
+        //每条记录的索引
+        let index = 0;
+        //循环加载数据
+        function loop(curTotal, curIndex) {
+            if (curTotal <= 0) {
+                return false;
+            }
+            //每页多少条
+            let pageCount = Math.min(curTotal, once);
+            window.requestAnimationFrame(function () {
+                for (let i = 0; i < pageCount; i++) {
+                    let li = document.createElement("li");
+                    li.innerText = curIndex + i + " : " + ~~(Math.random() * total);
+                    ul.appendChild(li);
+                }
+                console.log(curTotal)
+                loop(curTotal - pageCount, curIndex + pageCount);
+            });
+        }
+        loop(total, index);
+        // 数据脱敏 [数据脱敏是什么？](https://www.zhihu.com/question/372531840)
+
+    </script>
+</body>
+</html>

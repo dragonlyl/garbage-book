@@ -32,12 +32,12 @@
                 }, time);
             }
         }
-        function fn() {console.log('log', this)}
+        function fn (val) {console.log('log', val, this)}
         let test = throttle(fn)
         // 调用1
         // outer.onscroll = throttle(fn)
         // 调用2
-        // outer.onscroll = () => {
+        // outer.onscroll = function () {
         //     test(fn)
         // }
         // 调用3
