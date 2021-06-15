@@ -171,3 +171,39 @@ node --expose-gc
 宏任务 macro-task;
 
 ## 千分位
+
+## 前端设置页面缓存
+
+[实践这一次，彻底搞懂浏览器缓存机制](https://segmentfault.com/a/1190000017962411)
+[前端缓存最佳实践](https://juejin.cn/post/6844903737538920462)
+
+## 工程化建设
+
+应用脚手架;业务组件;创建解决方案,sdk (软件开发工具包: 类似api,但是提供了某一项功能)
+
+## queueMicrotask
+
+## chrome控制台
+
+[【干货】【建议收藏】chrome开发者工具最常见的使用方式](https://blog.csdn.net/qq_38164763/article/details/105464755)
+
+## 技术架构
+
+技术架构
+前端架构选型
+架构设计
+
+## 数据属性和访问器属性
+
+[Js中的数据属性和访问器属性](https://www.cnblogs.com/yanan-boke/p/7771264.html)
+数据属性:
+    configurable
+    writable
+    enumerable
+    value
+通过 `Object.getOwnPropertyDescription(obj, key)`
+访问器属性:
+    get
+    set
+
+## 前端架构:从入门到微前端 pdf

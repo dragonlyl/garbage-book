@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="width:100px;height:100px;background-color:red;"></div>
+    <script id="worker">
+        // [Web Worker 使用教程](http://www.ruanyifeng.com/blog/2018/07/web-worker.html)
+        this.addEventListener('message', function (event) {
+            var data = event.data;
+            var ans = fibonacci(data);
+            // self.importScripts() //加载 JS 脚本
+            this.postMessage(ans);
+            // self.close() // 用于关闭自己
+        }, false);
+        function fibonacci(n) {
+            return n < 2 ? n : arguments.callee(n - 1) + arguments.callee(n - 2);
+        }
+    </script>
+    <script>
+        var blob = new Blob([document.querySelector('#worker').textContent]);
+        console.log(new Date().valueOf())
+        var url = window.URL.createObjectURL(blob);
+        console.log(blob, url, 'blob')
+        // var worker= new Worker('./worker.js');
+        // option 用来配置worker的名字
+        var worker= new Worker(url, { name : 'myWorker' });
+        worker.postMessage(40);
+        worker.onmessage = function(event){
+            // 值的拷贝 并不是引用
+            var data = event.data;
+            // worker.terminate(); // 主线程关闭
+            console.log(data,new Date().valueOf())
+        };
+        worker.onerror = function(event){
+            console.log(event.fileName, event.line, event.message);
+        };
+    </script>
+</body>
+</html>

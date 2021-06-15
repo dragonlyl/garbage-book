@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function createWorker(f) {
+            var blob = new Blob(['(' + f.toString() +')()']);
+            var url = window.URL.createObjectURL(blob);
+            var worker = new Worker(url);
+            return worker;
+        }
+
+        var pollingWorker = createWorker(function (e) {
+            var cache;
+
+            function compare(newVal, oldVal) {
+                // 比较 new 和old 区别
+            };
+
+            setInterval(function () {
+                fetch('/my-api-endpoint').then(function (res) {
+                var data = res.json();
+
+                if (!compare(data, cache)) {
+                    cache = data;
+                    self.postMessage(data);
+                }
+                })
+            }, 1000)
+        });
+        pollingWorker.onmessage = function () {
+            // render data
+        }
+
+        pollingWorker.postMessage('init');
+    </script>
+</body>
+</html>
