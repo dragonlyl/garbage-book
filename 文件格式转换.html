@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件转换</title>
+</head>
+<body>
+    <input type="file" onchange="tst(this)" id="test">
+    <!-- <input type="file" id="test"> -->
+    <script>
+        // let input = document.getElementById('test');
+        // console.log(input)
+        // input.addEventListener('change', (e) => {
+        //     console.log(e)
+        // })
+        function tst(e) {
+            // console.log(e.files);
+            let file = e.files[0];
+            console.log(file instanceof Blob);
+            createReader(e.files[0], (e) => {
+                console.log(e, 'callback')
+            });
+        }
+        function createReader(file, callback) {
+            let reader = new FileReader()
+            reader.src = file
+            reader.onload = (e) => {
+                // console.log(e)
+                callback(e.target.result);
+            };
+            reader.readAsDataURL(file)
+        }
+    </script>
+</body>
+</html>
