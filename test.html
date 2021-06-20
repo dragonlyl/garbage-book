@@ -8,10 +8,11 @@
 </head>
 <body>
     <script>
-        // window.addEventListener('error', (e) => { console.log(e.error) })
-        window.addEventListener('unhandledrejection', (e) => { console.log(e) })
+        // window.addEventListener('error', (message, source, line, column, error) => { console.log(message, source, line, column, error) })
+        window.onerror = function (message, source, line, column, error) { console.log(message, source, line, column, error) }
+        // window.addEventListener('unhandledrejection', (e,l,r) => { console.log(e,l,r) })
         a= null;
-        // console.log(a.b);
+        console.log(a.b);
         let testP = new Promise((resolve, reject) => {
             reject(new Error('错误'))
         })
