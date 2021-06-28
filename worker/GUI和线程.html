@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <table border=1>
+        <tr><td><button id='do'>Do long calc - bad status!</button></td>
+            <td><div id='status'>Not Calculating yet.</div></td>
+        </tr>
+        <tr><td><button id='do_ok'>Do long calc - good status!</button></td>
+            <td><div id='status_ok'>Not Calculating yet.</div></td>
+        </tr>
+    </table>  
+    <div class="test">
+        宏微任务之间的区别
+    </div>  
+    <div id="main"></div>
+<script>
+
+function long_running(status_div) {
+
+    var result = 0;
+    for (var i = 0; i < 1000; i++) {
+        for (var j = 0; j < 700; j++) {
+            for (var k = 0; k < 300; k++) {
+                result = result + i + j + k;
+            }
+        }
+    }
+    document.querySelector(status_div).innerHTML = 'calclation done' ;
+}
+
+document.querySelector('#do').onclick = function () {
+    document.querySelector('#status').innerHTML = 'calculating....';
+    long_running('#status');
+};
+
+document.querySelector('#do_ok').onclick = function () {
+    document.querySelector('#status_ok').innerHTML = 'calculating....';
+    window.setTimeout(function (){ long_running('#status_ok') }, 0);
+};
+// 异步操作都会被延迟到同步计算之后执行.
+// 也就是代码的执行顺序变了.calculating....和calclation done的
+// dom操作都被放到事件队列后面而且紧跟在一起,造成了丢帧.无法实时的反应
+
+let test = document.querySelector('.test');
+test.addEventListener('click', (event) => {
+    setTimeout(() => {
+      console.log('宏任务执行');
+      alert('dom 已经插入')
+    }, 500);
+    const main = document.getElementById('main');
+    const frg = document.createDocumentFragment();
+    
+    for(let i = 0; i < 10; i++) {
+      const li = document.createElement('li');
+      li.innerHTML = i;
+      frg.appendChild(li);
+    }
+    main.appendChild(frg);
+    
+    new Promise((resolve) => {
+      resolve();
+    }).then(() => {
+      console.log('微任务已经执行');
+      alert('dom 还未插入')
+    });
+    
+    
+})
+async function asycn1() {
+  console.log('async1 start'); // 2
+  await async2();
+  console.log('async1 end'); // 4
+}
+
+async function async2() {
+  console.log('async2'); // 3
+}
+
+console.log('script start'); // 1
+
+setTimeout(() => {
+  console.log('setTimeout '); // 8
+}, 0);
+
+asycn1();
+
+new Promise((resolve) => {
+  console.log('promise1'); // 5
+  resolve();
+}).then(() => {
+  console.log('promise2'); // 7
+});
+
+console.log('script end'); // 6
+
+</script>
+</body>
+</html>

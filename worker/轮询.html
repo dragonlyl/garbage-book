@@ -9,8 +9,11 @@
 <body>
     <script>
         function createWorker(f) {
+            // 先转换成二进制
             var blob = new Blob(['(' + f.toString() +')()']);
+            // 然后为二进制转换成url
             var url = window.URL.createObjectURL(blob);
+            // 加载这个url
             var worker = new Worker(url);
             return worker;
         }

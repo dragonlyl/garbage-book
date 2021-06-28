@@ -224,3 +224,16 @@ function render(t, d) {
         return d[val];
     })
 }
+
+
+var a = 2;
+function b () {
+    a = 3;
+    return;
+    function a () {
+        console.log(22);
+    }
+}
+
+b();
+console.log(a);

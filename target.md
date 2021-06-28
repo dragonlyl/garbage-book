@@ -14,7 +14,7 @@ Jenkins
 
 ## pv uv
 
-## 错误监控
+## 错误监控 (扩展: 流量监测)
 
 [什么是ARMS前端监控？](https://help.aliyun.com/document_detail/58652.html?spm=5176.11176313.976547.2.251c6fb7jqPrtm)
 
@@ -29,96 +29,15 @@ Jenkins
 关闭tab或者关闭整个浏览器
 但是如果撤销操作还是能够访问到的(原理?)
 
-https://arb.manage.chengecloud.com/system/config
 
 ## vuex和全局变量的区别
 
 1. 使用`vuex`提交数据修改会有记录,可以通过vue-tools查看数据变化
 2. 由统一的方法去修改而不是任意修改 (dispatch 触发action ,action去触发mutation)
 
-## 浏览器缓存
-
-301 和 302的区别
-
-网站权重: 搜索引擎给网站赋予的一定权威值,权重越高在搜索引擎所占分量越大,搜索引擎排名越高
-
-302 搜索引擎抓取新的内容和保留旧的内容
-301 搜索引擎抓取新的内容同时将旧网站替换为重定向的网站(网页权重也转移到新页面上)
-
-## Array 和 [] 的区别
-
-一种是直接创建了一个数组，一个是调用字符串的构造函数创建字符串对象然后再创建这个字符串，中间多了一个创建对象的过程
-Array()是一个对象，[]是一个数据原型, 用new Array()系统每次都会新生成一个对象（浏览器每生成一个对象都会耗费资源去构造他的属性和方法），他的子集是[]
-
-## 路由控制权限
-
-[琛哥demo](https://arb.manage.chengecloud.com/system/config)
-[rouyi代码实现1](https://gitee.com/y_project/RuoYi-Vue/blob/master/ruoyi-ui/src/store/modules/permission.js)
-[rouyi代码实现2](https://gitee.com/y_project/RuoYi-Vue/blob/master/ruoyi-ui/src/permission.js)
-
 ## 架构
 
 [如何一步步设计前端架构？](https://blog.csdn.net/weixin_44811417/article/details/93079579)
-
-## Map Set
-
-### Map
-
-map 的 `entries` 和 `keys`, `values` 返回的都是遍历器对象
-即 `map.keys().next()` 都是可以操作的
-
-map 的 `iterator` 就是 `entries()`函数
-
-`map[Symbol.iterator] === map.entries`
-
-WeakMap只接受对象为key值
-
-### WeakSet 和Set
-
-前者只能存对象(数组也算), 并且是弱引用,如果WeakSet内容没有被引用就会被垃圾处理回收
-所以**不能遍历**(因为里面元素数量取决于垃圾回收的处理时间),也没有`size`属性
-
-## node 垃圾回收
-
-```js
-// 运行能手动触发垃圾回收
-node --expose-gc
-
-// 先触发一次 回收
-> global.gc();
-// 查看内存状态
-> process.memoryUsage();
-{ rss: 21106688,
-  heapTotal: 7376896,
-  heapUsed: 4153936,
-  external: 9059 }
-
-> let wm = new WeakMap();
-
-// 新建一个变量 key，指向一个 5*1024*1024 的数组
-> let key = new Array(5 * 1024 * 1024);
-
-// 设置 WeakMap 实例的键名，也指向 key 数组
-// 这时，key 数组实际被引用了两次，
-// 变量 key 引用一次，WeakMap 的键名引用了第二次
-// 但是，WeakMap 是弱引用，对于引擎来说，引用计数还是1
-> wm.set(key, 1);
-> global.gc();
-// 这时内存占用 heapUsed 增加到 45M 了
-> process.memoryUsage();
-{ rss: 67538944,
-  heapTotal: 7376896,
-  heapUsed: 45782816,
-  external: 8945 }
-// 清除变量 key 对数组的引用，
-// 但没有手动清除 WeakMap 实例的键名对数组的引用
-> key = null;
-// 再次执行垃圾回收
-> global.gc();
-// 内存占用 heapUsed 变回 4M 左右，
-// 可以看到 WeakMap 的键名引用没有阻止 gc 对内存的回收
-> process.memoryUsage();
-```
 
 ## 业务代码
 
@@ -177,10 +96,6 @@ node --expose-gc
 [实践这一次，彻底搞懂浏览器缓存机制](https://segmentfault.com/a/1190000017962411)
 [前端缓存最佳实践](https://juejin.cn/post/6844903737538920462)
 
-## 工程化建设
-
-应用脚手架;业务组件;创建解决方案,sdk (软件开发工具包: 类似api,但是提供了某一项功能)
-
 ## queueMicrotask
 
 ## chrome控制台
@@ -193,17 +108,52 @@ node --expose-gc
 前端架构选型
 架构设计
 
-## 数据属性和访问器属性
-
-[Js中的数据属性和访问器属性](https://www.cnblogs.com/yanan-boke/p/7771264.html)
-数据属性:
-    configurable
-    writable
-    enumerable
-    value
-通过 `Object.getOwnPropertyDescription(obj, key)`
-访问器属性:
-    get
-    set
-
 ## 前端架构:从入门到微前端 pdf
+
+## 多端异构
+
+## 小程序框架原理(Mpvue)
+
+## 动画 canvas(旋转) svg
+
+## 富文本编辑框
+
+## bff (Backend for frontend)
+
+服务于前端的后端(逻辑分层,而非技术)
+BFF调用后端的rpc，BFF给前端提供http
+
+[什么是RPC？](https://www.jianshu.com/p/7d6853140e13)
+
+1. rpc (remote Procedure Call)远程调用过程 ,理解成一个节点调用另外一个节点提供的服务
+2. 本地调用 调用本地的函数
+3. 远程调用 方法在服务端,通过调用接口
+
+serverless
+
+## api网关 (需要统一的 RESTful api)
+
+作为所有客户端访问服务器的唯一入口
+
+## vue-loader (写个vue的编译器)
+
+webpack 如何提取vue中的标签
+vue的style标签如何提取
+[关于Vue-loader的那些事儿](https://www.cnblogs.com/Indomite/p/13256530.html)
+
+## ivew
+
+[iVew](https://iview.github.io/docs/guide/install)
+
+## 高阶组件
+
+[Vue 进阶必学之高阶组件 HOC](https://zhuanlan.zhihu.com/p/126552443)
+
+## 前端难点
+
+[前端开发的难点到底在什么地方?](https://www.zhihu.com/question/275915023)
+
+## 工程化建设
+
+应用脚手架;业务组件;创建解决方案,sdk (软件开发工具包: 类似api,但是提供了某一项功能)
+[前端工程化建设](https://zhuanlan.zhihu.com/p/117486284)

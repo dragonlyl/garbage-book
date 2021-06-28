@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUI和JS线程</title>
+</head>
+<body>
+    <div class="div">
+        1
+    </div>
+    <div class="div1">
+        2
+    </div>
+    <script>
+        // 死循环
+        // js主线程和gui渲染线程是互斥的(页面渲染不出来)
+    </script>
+    <!-- <script>
+        const div = document.getElementById('div');
+        const div1 = document.getElementById('div1');
+    
+        //使用下面的代码会让js引擎一直执行下去，不会有空闲时间把页面就渲染不出来，所以要通过异步来修改dom，如下
+        // div.innerHTML = "111"
+        // div1.innerHTML = "222"
+        // while (true) { }
+    
+        //所以用异步来操作dom,但是这里面有个细节，就是浏览器的刷新频率一般是60hz的，也就是16毫秒刷新一次，这就意味着如果、//timeout设置的太小,setTimeout中的内容会先执行，会阻塞后面的Gui渲染，页面一直会停留在空白
+        const timeout = 16;
+        setTimeout(function name(params) {
+          div.innerHTML = '11';
+          div1.innerHTML = '12';
+          while (true) { }
+        }, timeout)
+    
+      </script> -->
+    <div class="div2">
+        3
+    </div>
+
+
+</body>
+</html>
