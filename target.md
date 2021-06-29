@@ -1,5 +1,17 @@
 # 新内容
 
+## 目录内容(工程化)
+
+1. Git flow
+2. 代码自动话部署
+3. ts的学习
+4. 模块化组件化学习(ui组件)
+5. bff 端的开发
+6. ssr 的开发
+7. react的学习(源码 ui框架  hooks)
+8. 用户量大的情况下,对于前端的优化
+9. 错误监控提升(包括处理时间的监控)
+
 ## Git flow
 
 代码提交
@@ -157,3 +169,14 @@ vue的style标签如何提取
 
 应用脚手架;业务组件;创建解决方案,sdk (软件开发工具包: 类似api,但是提供了某一项功能)
 [前端工程化建设](https://zhuanlan.zhihu.com/p/117486284)
+
+[前端架构有哪些核心问题？](https://zhuanlan.zhihu.com/p/192640184)
+
+[前端架构，前端工程化](https://blog.csdn.net/qq_33150267/article/details/79213054)
+
+[浅谈前端架构的工程化、模块化、组件化、规范化](https://blog.csdn.net/qq_42068550/article/details/93333487) 概念上的表述
+
+[前端工程化实践：大前端的转变之路](https://zhuanlan.zhihu.com/p/28769103)
+
+[有哪些值得关注学习的使用TypeScript的开源项目？](https://www.zhihu.com/question/54460468)
+[TypeScript 优秀开源项目大合集](https://www.cnblogs.com/brookshi/p/6505599.html)
