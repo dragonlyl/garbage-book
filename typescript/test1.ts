@@ -64,3 +64,22 @@ class Animal {
       // this.name = name;
     }
   }
+
+interface Alarm {
+    alert(): void
+}
+class Door {
+
+}
+class MyDoor extends Door implements Alarm {
+    alert() {
+        console.log('My door alarm');
+    }
+}
+class Car implements Alarm {
+    alert() {
+        console.log('car alarm');
+    }
+}
+
+const greet = (name: string): string => `Hello ${name}`

@@ -107,9 +107,9 @@ a.name = 'Tom'; // setter: Tom
 console.log(a.name); // Jack
 ```
 
-### 静态方法 (static)
+#### 静态方法 (static)
 
-### 私有修饰符 (private)
+#### 私有修饰符 (private)
 
 公有修饰符 可以在任意地方访问到 (默认所有属性方法都是`public`)
 私有修饰符 不能在 类外部访问 `private`
@@ -146,7 +146,7 @@ class Point {
 
 ```
 
-### 参数属性 (除上面 还有 readonly)
+#### 参数属性 (除上面 还有 readonly)
 
 可以在构造函数参数中,等同于类中定义该属性同时给属性赋值
 
@@ -161,6 +161,18 @@ class Animal {
 }
 ```
 
-### 抽象类
+#### 抽象类
 
 抽象类不运行被实例化, 且抽象方法必须被子类实现
+
+```js
+abstract class Animal {
+    abstract function test ();
+}
+```
+
+### 接口与类
+
+抽离不同类共同特性 implement
+
+定义多个接口  implement A, B
