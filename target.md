@@ -182,8 +182,24 @@ vue的style标签如何提取
 
 ## 知识点
 
-1. Module Federation
+1. Module Federation(模块联邦)
 2. Web Components (微组件)
+3. bash脚本
 
 [Module Federation](https://zhuanlan.zhihu.com/p/141390589)
 [Web Components 入门实例教程](https://www.ruanyifeng.com/blog/2019/08/web_components.html)
+
+## 知识小点
+
+figcaption
+
+## 微服务
+
+微应用、微组件、微模块
+
+模块联邦是可选的，如果实现了，服务粒度就是微模块；而如果没有实现，服务粒度就是微应用。
+
+[微前端解决方案](https://segmentfault.com/a/1190000040275586)
+[再谈微前端](https://zhuanlan.zhihu.com/p/234964127)
+[react错误监测](https://mp.weixin.qq.com/s/yw-4sgnLz1DLxlYqedqg_Q)
+[es修饰器](https://es6.ruanyifeng.com/#docs/decorator)
