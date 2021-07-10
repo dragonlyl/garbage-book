@@ -83,3 +83,5 @@ class Car implements Alarm {
 }
 
 const greet = (name: string): string => `Hello ${name}`
+
+type testType = | 'a'
