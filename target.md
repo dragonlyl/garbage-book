@@ -203,3 +203,13 @@ figcaption
 [再谈微前端](https://zhuanlan.zhihu.com/p/234964127)
 [react错误监测](https://mp.weixin.qq.com/s/yw-4sgnLz1DLxlYqedqg_Q)
 [es修饰器](https://es6.ruanyifeng.com/#docs/decorator)
+
+## 下一个阶段准备内容
+
+[学习计划](https://jcmpd975ac.feishu.cn/base/appNuDKPaGtimrdkB0JnXmpoktZ?table=tblhwIrxYTiY1SSP&view=vew9iquA45)
+[大厂面试题每日一题](https://q.shanyue.tech/)
+
+## 前端体系
+
+关键字搜索 前端体系
+[前端技术体系大局观](https://zhuanlan.zhihu.com/p/23185351)
