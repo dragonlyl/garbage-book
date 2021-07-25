@@ -161,6 +161,9 @@ vue的style标签如何提取
 
 [iVew](https://iview.github.io/docs/guide/install)
 
+## index db
+
+[HTML5 indexedDB前端本地存储数据库实例教程](https://www.zhangxinxu.com/wordpress/2017/07/html5-indexeddb-js-example/)
 ## 高阶组件
 
 [Vue 进阶必学之高阶组件 HOC](https://zhuanlan.zhihu.com/p/126552443)
@@ -213,3 +216,14 @@ figcaption
 
 关键字搜索 前端体系
 [前端技术体系大局观](https://zhuanlan.zhihu.com/p/23185351)
+
+## 指令
+
+ga . // zsh
+
+## 概念内容
+
+DDD [https://juejin.cn/post/6844903997678026760](https://juejin.cn/post/6844903997678026760)
+SOA [SOA](https://baike.baidu.com/item/SOA/2140650)
+RPC [写给自己的 SOA 和 RPC 理解](https://www.cnblogs.com/java-class/p/10653404.html)
+PWA 渐进式Web应用开发
