@@ -27,3 +27,11 @@ console.log(isObject(a), String(a))
 // 判断对象里面是否有该key值
 const hasOwnProperty = Object.prototype.hasOwnProperty
 const hasOwn = (val: object, key: string|symbol):key is keyof typeof val => hasOwnProperty.call(val, key)
+
+// 从数组里面移除同一类型的item
+const remove = <T> (arr: T[], el: T): void => {
+    const i = arr.indexOf(el);
+    if (i > -1) {
+        arr.splice(i, 1)
+    }
+}

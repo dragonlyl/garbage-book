@@ -1,3 +1,5 @@
+
+```ts
 // 这里表示 该函数返回的是个方法  (key: string) => boolean
 function makeMap(str: string, expectsLowerCase ?: boolean): (key: string) => boolean {
     // 这个是高级写法 看ts写法
@@ -18,8 +20,10 @@ const toDisplayString = (val: unknown): string => {
 }
 let a = function () {console.log(222)};
 console.log(isObject(a), String(a))
+```
 
 [第二个参数](https://juejin.cn/post/6844904034290106381)
+
 1. 如果是函数就是下面的情况
 2. 如果是数组, 表示过滤,只会展示数组里面的匹配的key值
 第一次 是 key 空, value为能被格式化的value, 后面才是对obj 的key值各个遍历
@@ -67,4 +71,34 @@ const toTypeString = (val: any): string => objectToString.call(val)
 // 判断对象里面是否有该key值(主语上面的写法)
 const hasOwnProperty = Object.prototype.hasOwnProperty
 const hasOwn = (val: object, key: string|symbol):key is keyof typeof val => hasOwnProperty.call(val, key)
+```
+
+## is
+
+用来判断是不是
+`val is Map<any, any>` 用来判断是不是 map类型的数据
+
+## Record
+
+判断是否为对象
+
+```ts
+const isObject = (val: unknow): val is Record<any, any> => {
+    val !== null && typeof val === 'object'
+}
+```
+
+例子介绍
+
+```ts
+// 例子
+type keys = 'name' | 'age'
+// 对象里面的 key必须为keys里面,且类型必须为 string
+const result: Record<keys, string> = {name: 'jack', age: '18'}
+
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
+};
+
+
 ```
