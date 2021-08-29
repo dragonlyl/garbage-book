@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rrweb</title>
+</head>
+<body>
+    <div id="dom2" style="width: 40px;height: 40px;">
+
+    </div>
+    <div id="dom4" style="width: 40px;height: 40px;">
+
+    </div>
+    <script>
+        setTimeout(() => {
+            let dom2 = document.getElementById("dom2");
+            dom2.style.background = "red";
+            // let dom4 = document.getElementById("dom4");
+            // dom4.style.background = "green";
+        }, 5000);
+
+        const callback = function (mutationsList, observer) {
+            console.log(mutationsList, observer, '===')
+            for (const mutation of mutationsList) {
+                if (mutation.type === "childList") {
+                    console.log("子元素增加或者删除.");
+                } else if (mutation.type === "attributes") {
+                    console.log("元素属性发生改变");
+                }
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const observer = new MutationObserver(callback);
+            observer.observe(document.body, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+            });
+        });
+
+    </script>
+</body>
+</html>

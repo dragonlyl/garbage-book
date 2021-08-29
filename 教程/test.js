@@ -23,5 +23,16 @@ console.log(process.argv0, process.execArgv) // 前者获取 argv[0]的值, 后�
 // [npm link的使用](https://www.jianshu.com/p/aaa7db89a5b2)
 // 通过 npm link xx 来链接到文件
 // 通过 npm unlink xx 来取消链接
-let test = require('my-node-cli')
-console.log(test)
+// let test = require('my-node-cli')
+// console.log(test)
+
+// 引入 events 模块
+var EventEmitter = require('events').EventEmitter; 
+// 创建 eventEmitter 对象
+var event = new EventEmitter(); 
+event.on('some_event', function() { 
+    console.log('some_event 事件触发'); 
+}); 
+setTimeout(function() { 
+    event.emit('some_event'); 
+}, 1000); 
