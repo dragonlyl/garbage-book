@@ -55,3 +55,47 @@ record
 void 0 // 用来表示 undefined
 
 maskInputOptions
+
+wrappedEmit
+wrappedMutationEmit
+
+takeFullSnapshot // 获取dom 调用 snapshot 调 serializeNodeWithId // 返回的内容给 data.node
+observe_1  initObservers// 监听变化 doc就是document节点
+handlers_1 push进去
+document.readyState // document 的加载状态
+在 可交互和完成阶段 开始调用内容函数 takeFullSnapshot 和 observe_1
+否则 用 `document.addEventLister('load')`
+`loading（正在加载）`
+document 仍在加载。
+`interactive（可交互）`
+文档已被解析，"正在加载"状态结束，但是诸如图像，样式表和框架之类的子资源仍在加载。
+`complete（完成）`
+文档和所有子资源已完成加载。表示 load (en-US) 状态的事件即将被触发。
+
+如何生成 全局快照： 调用takeFullSnapshot =》 snapshot =》 serializeNodeWithId
+serializeNodeWithId 先调用 serializeNode (序列化节点)
+
+id有就用原来的 ,没有就递增生成
+
+```js
+function serializeNodeWithId(n, options) {
+    ...
+    var serializedNode = Object.assign(_serializedNode, { id: id });
+    // sn 指向自己
+    n.__sn = serializedNode;
+    // 如果是meta ,就不需要标注id, 在slimDOMExcluded处理
+    // map记录id 和对应的节点 (hash表)
+    map[id] = n;
+    
+    // 然后遍历childNodes 节点 (element, document, frame(需要先加载完才开始处理))
+    for (var _i = 0, _h = Array.from(n.childNodes); _i < _h.length; _i++) { // n是原及诶单
+        var childN = _h[_i];
+        var serializedChildNode = serializeNodeWithId(childN, bypassOptions); // 返回序列化后的子节点节点
+        if (serializedChildNode) {
+            // serializedNode 是序列化后的父节点
+            serializedNode.childNodes.push(serializedChildNode); // 将序列化后的字节点添加到序列化的节点上
+        }
+    }
+    ...
+}
+```
