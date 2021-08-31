@@ -36,3 +36,42 @@ event.on('some_event', function() {
 setTimeout(function() { 
     event.emit('some_event'); 
 }, 1000); 
+
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    // i = o[Symbol.iterator]()
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+let o = {c: function(){console.log(1)}}
+let t = {c: function(){console.log(2)}}
+let test = o.c
+o.c = function () {
+    var p = [];
+    for (let _i = 0; _i < arguments.length; _i++) {
+        p[_i] = arguments[_i];
+        if (t.c) {
+            t.c.apply(t, __spread(p))
+        }
+        test.apply(void 0, __spread(p))
+        
+    }
+}
+o.c()
