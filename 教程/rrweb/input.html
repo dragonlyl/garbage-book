@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="1" placeholder="id #1">
+    <input type="text" id="2" placeholder="id #2">
+    <script>
+        var events = ['input', 'change'];
+        var handlers = events.map(function (eventName) { return on(eventName, eventHandler, document); });
+        function on(type, fn, target) {
+            if (target === void 0) { target = document; }
+            var options = { capture: true, passive: true };
+            target.addEventListener(type, fn, options);
+            return function () { return target.removeEventListener(type, fn, options); };
+        }
+        function eventHandler(event) {
+            var target = getEventTarget(event);
+            console.log(target, '===')
+        }
+        function getEventTarget(event) {
+            try {
+                if ('composedPath' in event) {
+                    var path = event.composedPath();
+                    if (path.length) {
+                        return path[0];
+                    }
+                }
+                else if ('path' in event &&
+                    event.path.length) {
+                    return event.path[0];
+                }
+                return event.target;
+            }
+            catch (_a) {
+                return event.target;
+            }
+        }
+    </script>
+</body>
+</html>
