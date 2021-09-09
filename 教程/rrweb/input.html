@@ -13,6 +13,24 @@
         var events = ['input', 'change'];
         // 事件名, 事件处理 (查找dom源)
         var handlers = events.map(function (eventName) { return on(eventName, eventHandler, document); });
+        var propertyDescriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+        var hookProperties = [
+            [HTMLInputElement.prototype, 'value'],
+            [HTMLInputElement.prototype, 'checked'],
+            [HTMLSelectElement.prototype, 'value'],
+            [HTMLTextAreaElement.prototype, 'value'],
+            [HTMLSelectElement.prototype, 'selectedIndex'],
+        ];
+        if (propertyDescriptor && propertyDescriptor.set) {
+            handlers.push.apply(handlers, __spread(hookProperties.map(function (p) {
+                // 劫持 prototype  set方法
+                return hookSetter(p[0], p[1], {
+                    set: function () {
+                        eventHandler({ target: this });
+                    },
+                });
+            })));
+        }
         // 绑定事件
         function on(type, fn, target) {
             if (target === void 0) { target = document; }
@@ -43,6 +61,46 @@
                 return event.target;
             }
         }
+        function hookSetter(target, key, d, isRevoked, win) {
+            if (win === void 0) { win = window; }
+            var original = win.Object.getOwnPropertyDescriptor(target, key);
+            win.Object.defineProperty(target, key, isRevoked
+                ? d
+                : {
+                    set: function (value) {
+                        var _this = this;
+                        setTimeout(function () {
+                            d.set.call(_this, value);
+                        }, 0);
+                        if (original && original.set) {
+                            original.set.call(this, value);
+                        }
+                    },
+                });
+            return function () { return hookSetter(target, key, original || {}, true); };
+        }
+        function __spread() {
+            for (var ar = [], i = 0; i < arguments.length; i++)
+                ar = ar.concat(__read(arguments[i]));
+            return ar;
+        }
+        function __read(o, n) {
+            var m = typeof Symbol === "function" && o[Symbol.iterator];
+            if (!m) return o;
+            var i = m.call(o), r, ar = [], e;
+            try {
+                while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+            }
+            catch (error) { e = { error: error }; }
+            finally {
+                try {
+                    if (r && !r.done && (m = i["return"])) m.call(i);
+                }
+                finally { if (e) throw e.error; }
+            }
+            return ar;
+        }
+
     </script>
 </body>
 </html>

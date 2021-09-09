@@ -26,6 +26,7 @@ console.log(process.argv0, process.execArgv) // 前者获取 argv[0]的值, 后�
 // let test = require('my-node-cli')
 // console.log(test)
 
+
 // 引入 events 模块
 var EventEmitter = require('events').EventEmitter; 
 // 创建 eventEmitter 对象
