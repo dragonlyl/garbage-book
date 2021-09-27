@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>grid</title>
+    <style>
+        .container {
+            /* 也有 inline_grid 和grid区别 */
+            display: grid;
+            /* 3 * 3 共展示9个 ,多出来的元素不会展示 */
+            /* 当然也可以用百分比   根据父容器的百分比*/
+            /* repeat(3, 33.33%) */
+            /* 宽度占据 300px */
+            grid-template-columns: 100px 100px 100px;
+            /* grid-template-columns: repeat(3 * 33.33%); */
+            grid-template-rows: 100px 100px 100px;
+            /* 可以使用 自动填充  */
+            /* grid-template-columns: repeat(auto-fill, 100px); */
+            /* 同百分比 ,但是写起来优雅点; 同时可以混合绝对长度使用 */
+            /* grid-template-columns: 1fr 1fr; */
+            /* 还有  minmax 在给出的两个值中间取值 */
+            /* 还有 auto 通过浏览器自己确认宽度 */
+            /* 中间的gap */
+            grid-column-gap: 20px;
+            grid-row-gap: 10px;
+            /* 上面两个的缩写 */
+            /* grid-gap: <grid-row-gap> <grid-column-gap>; */
+            /* 元素排列顺序 , 默认row先行后列  */
+            /* grid-auto-flow: row */
+        }
+        .container div {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <!-- https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html -->
+    <div class="container">
+        <!-- 子项目的float, display:inline-block;display:table-cell,vertical-align,column-*都会失效 -->
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <!-- <div></div> -->
+    </div>
+</body>
+</html>

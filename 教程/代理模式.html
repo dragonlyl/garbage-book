@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代理</title>
+</head>
+<body>
+    <div>test</div>
+    <img src="" id="img">
+    <script>
+        var domImage = (function() {
+            var imgEle = document.createElement('img');
+            document.body.appendChild(imgEle);
+            return {
+                setSrc: function(src) {
+                    imgEle.src = src;
+                }
+            };
+        })();
+        console.log(domImage, 'img')
+        var proxyImage = (function() {
+            var img = new Image();
+            img.onload = function() {
+                domImage.setSrc(this.src); // 图片加载完设置真实图片src
+            };
+            return {
+                setSrc: function(src) {
+                domImage.setSrc('./repo.png'); // 预先设置图片src为loading图
+                img.src = src;
+                }
+            };
+        })();
+        // 外部调用
+        proxyImage.setSrc('https://i0.hdslb.com/bfs/bangumi/image/f3e092bf66daba5024629641a2e0574d36a4bc7e.png@268w_358h.webp');
+
+    </script>
+</body>
+</html>
