@@ -3,6 +3,7 @@
 ## 代码运行
 
 通过nvm切换node版本到大版本 10或者12
+nvm alias default v5.0.0 // 切换nvm 默认版本
 
 公司查看管理
 
