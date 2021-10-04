@@ -1,0 +1,10 @@
+# Git actions
+
+[Github actions 部署vue项目](https://blog.csdn.net/dikentoujing99/article/details/103681903)
+![Github actions 部署vue项目](github_actions.png)
+
+## git action
+
+生成 tokens  Settings / Developer settings / Personal access tokens
+
+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
