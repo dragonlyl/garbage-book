@@ -29,3 +29,10 @@ Generator(@`babel/generator`): 将AST树转换为源代码,支持sourceMap
 访问者 以深度优先顺序 (递归遍历) 对 AST进行遍历
 
 [Babel 插件手册](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-visitors)
+
+## @babel/cli, 
+
+它是一个终端运行工具, 内置的插件,运行你从终端使用babel的工具.
+
+npx babel src --out-dir lib // 转完可以使用babel指令 (将src目录下文件转换为lib文件)
+npx babel test.js --out-dir lib // 单文件转换
