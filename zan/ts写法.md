@@ -34,3 +34,24 @@ export default Coupon
 
 
 ```
+
+```tsx
+interface IHelloProps {
+    message?: string;
+}
+
+const Hello: React.FC<IHelloProps> = (props) => {
+
+}
+
+// ts 内部处理代码
+type FC<P = {}> = FunctionComponent<P>;
+
+interface FunctionComponent<P = {}> {
+    (props: PropsWithChildren<P>, context?: any): ReactElement<any, any> | null;
+    propTypes?: WeakValidationMap<P> | undefined;
+    contextTypes?: ValidationMap<any> | undefined;
+    defaultProps?: Partial<P> | undefined;
+    displayName?: string | undefined;
+}
+```
