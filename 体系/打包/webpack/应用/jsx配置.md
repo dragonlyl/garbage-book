@@ -7,6 +7,7 @@
 配置babel 同时配置 `babel-plugin-transform-react-js` 插件
 [babel-plugin-transform-react-jsx](https://www.npmjs.com/package/babel-plugin-transform-react-jsx)
 [](https://babeljs.io/docs/en/babel-plugin-transform-react-jsx#docsNav)
+
 ```js
 mode: "development", // 开发模式
 optimization: {
