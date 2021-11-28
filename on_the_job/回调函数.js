@@ -10,7 +10,7 @@ var Done = function (res) {
 }
 test (123, Done);
 //上面的 Done 和 test可以合并成下面的代码
-// test(123,(res)=>
+// test(123, (res) =>
 //     console.log(res)
 // )
 function test2(content, done) {
