@@ -36,6 +36,7 @@ Generator(@`babel/generator`): 将AST树转换为源代码,支持sourceMap
 [Babel简介](https://juejin.cn/post/6844904065223098381)
 
 `babel/core` `babel/cli`  `plugins` `presets` `polyfill`
+
 ## @babel/cli
 
 它是一个终端运行工具, 内置的插件,运行你从终端使用babel的工具.
@@ -48,4 +49,3 @@ npx babel test.js --out-dir lib // 单文件转换
 `npm i --save-dev @babel/plugin-transform-arrow-functions`
 
 `npx babel src --out-dir lib --plugins=@babel/plugin-transform-arrow-functions`
-
