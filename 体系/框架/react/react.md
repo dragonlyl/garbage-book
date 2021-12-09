@@ -17,4 +17,7 @@
 4. 不要忘记清理副作用
 5. 不要在不需要重新渲染时使用useState
    1. useState 和 useRef 区别(有视图层呈现)
-6. 
+
+## React Hook 中 createContext & useContext 跨组件透传上下文与性能优化
+
+[React Hook 中 createContext & useContext 跨组件透传上下文与性能优化](http://www.ptbird.cn/react-createContex-useContext.html)
