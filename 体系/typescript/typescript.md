@@ -38,7 +38,7 @@
 
 ## ts跟react结合
 
-[](https://juejin.cn/post/6952696734078369828)
+[React + TypeScript实践](https://juejin.cn/post/6952696734078369828)
 
 ```tsx
 

@@ -21,3 +21,13 @@
 ## React Hook 中 createContext & useContext 跨组件透传上下文与性能优化
 
 [React Hook 中 createContext & useContext 跨组件透传上下文与性能优化](http://www.ptbird.cn/react-createContex-useContext.html)
+
+## memo 和 callback的区别
+
+React.memo()
+React.useCallback()
+React.useMemo()
+
+[useCallback()、useMemo() 解决了什么问题？](https://www.jianshu.com/p/014ee0ebe959)
+
+## 
