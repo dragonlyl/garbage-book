@@ -30,4 +30,86 @@ React.useMemo()
 
 [useCallback()、useMemo() 解决了什么问题？](https://www.jianshu.com/p/014ee0ebe959)
 
-## 
+## ts跟react结合
+
+[React + TypeScript实践](https://juejin.cn/post/6952696734078369828)
+
+```tsx
+
+type AppProps = {
+    message: string
+}
+const App: React.FC<AppProps> = ({ message, children }) => (
+    <div>
+        {message}
+        {children}
+    </div>
+)
+// 代码中的demo
+const Main: React.FC<IProps> = props => {
+  const state = props.location.state
+  const userId = state && state.userId
+}
+```
+
+### useEffect 的回调函数返回值必须是 undefined 或者 函数
+
+```tsx
+function App() {
+  // undefined作为回调函数的返回值
+  React.useEffect(() => {
+    // do something...
+  }, [])
+  // 返回值是一个函数
+  React.useEffect(() => {
+    // do something...
+    return () => {}
+  }, [])
+}
+```
+
+### 自定义hook 如果返回值是数组类型,ts会自动推导为 `Union` 类型, 我们需要手动添加 const 断言进行处理
+
+```tsx
+
+
+function useLoading() {
+  const [isLoading, setState] = React.useState(false)
+  const load = (aPromise: Promise<any>) => {
+    setState(true)
+    return aPromise.then(() => setState(false))
+  }
+  // 实际需要: [boolean, typeof load] 类型
+  // 而不是自动推导的：(boolean | typeof load)[]
+  return [isLoading, load] as const
+}
+
+```
+
+### 使用 Type 还是 Interface ?
+
+* 在定义公共API时(比如编辑一个库) 使用 interface, 这样方便使用者继承接口
+* 在定义组件属性 (Props) 和 状态 (State), 建议使用 `Type`, type 约束性更强
+
+两者最大的区别 是, interface 可随时扩展
+
+```ts
+interface A {
+    name: string
+}
+interface A {
+    color: string // A 扩展 color 属性
+}
+
+type B = {
+ name: string
+}
+type B = {
+    color: string // 报错 ,Duplicate identifier
+}
+```
+
+### 获取未导出的 Type
+
+通过 ComponentProps / ReturnType 来获取想要的类型
+
