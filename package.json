@@ -5,6 +5,7 @@
   "scripts": {
     "test": "node test.js",
     "commitlint": "commitlint --config commitlint.config.js -e -V",
+    "cz": "cz",
     "prepare": "husky install"
   },
   "repository": {
@@ -22,6 +23,13 @@
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
+    "commitizen": "^4.2.4",
+    "cz-customizable": "^6.3.0",
     "husky": "^7.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
   }
 }
