@@ -47,8 +47,17 @@ function test (ctx) {
     // resolve(res)
   })
 }
-
-console.log(test().then(res => {console.log(res ,'res')}))
+function test1 () {
+    return test().then(res => {
+        console.log(res, 'test1 这里提前获取了 res')
+        // 下面return 返回就好了
+        return res;
+    })
+}
+console.log(test().then(res => {console.log(res ,'test')}))
+console.log(test1().then(res => {
+    console.log(res, 'test1')
+}))
 function main(ctx, utils) {
   return {
   }
