@@ -67,3 +67,88 @@ browser+mjs 这 5 种情况。
 前者依赖es模块化,后者babel 配置就是一个简单的 `"presets: ["env"]"`是包含 `ES2015 modules to CommonJS transform` 的 plugin，也就是转化成 `CommonJS` 导致 tree-shaking失败, 所以babel transform 需要保留es module
 
 [package.json 中的 Module 字段是干嘛的](https://segmentfault.com/a/1190000014286439)
+
+## webpack 指定config文件
+
+--config xx  来指定 运行的webpack config 文件
+
+## webpack 不同环境merge
+
+npm install webpack-merge -D
+
+## 实时查看页面
+
+yarn add webpack-dev-server html-webpack-plugin -D
+
+只需要配置 文件 就能够将输入文件的内容在最终的文件引入
+
+```js
+plugins: [
+    new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, '../public/index.html'),
+    }),
+]
+```
+
+## 清除dist文件
+
+`yarn add clean-webpack-plugin -D`
+
+```js
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+plugins: [
+    new CleanWebpackPlugin(),
+]
+```
+
+## 添加其他loader 来处理文件
+
+`yarn add style-loader css-loader -D`
+
+```js
+module.exports = {
+  // other...
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: false, // 默认就是 false, 若要开启，可在官网具体查看可配置项
+              sourceMap: isDev, // 开启后与 devtool 设置一致, 开发环境开启，生产环境关闭
+              importLoaders: 0, // 指定在 CSS loader 处理前使用的 laoder 数量
+            },
+          },
+        ],
+      },
+    ]
+  },
+}
+
+```
+
+## webpack 配置react和ts
+
+### 配置react
+
+1. 安装react
+react react-dom
+
+2. 需要babel
+
+babel-loader @babel/core @babel/preset-react
+
+### 配置ts
+
+1. 配置babel
+@babel/preset-typescript
+配置webpack resolve
+
+2. 安装ts的react申明
+@types/react @types/react-dom
+
+3. 配置 `tsconfig.json`
+`npx tsc --init`
