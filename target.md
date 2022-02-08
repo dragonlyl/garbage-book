@@ -14,8 +14,6 @@
 10. 用户量大的情况下,对于前端的优化
 11. 错误监控提升(包括处理时间的监控)
 
-## OKR
-
 ## Git flow
 
 代码提交
@@ -44,7 +42,6 @@ Jenkins
 
 关闭tab或者关闭整个浏览器
 但是如果撤销操作还是能够访问到的(原理?)
-
 
 ## vuex和全局变量的区别
 
@@ -164,9 +161,23 @@ vue的style标签如何提取
 ## index db
 
 [HTML5 indexedDB前端本地存储数据库实例教程](https://www.zhangxinxu.com/wordpress/2017/07/html5-indexeddb-js-example/)
+
 ## 高阶组件
 
 [Vue 进阶必学之高阶组件 HOC](https://zhuanlan.zhihu.com/p/126552443)
+
+## 组件
+
+### vue组件
+
+[封装Vue组件的一些技巧](https://juejin.cn/post/6844903821513064456) // 必看 封装组件
+
+### 组件库
+
+[Element-UI 技术揭秘（2）- 组件库的整体设计](https://juejin.cn/post/6844903925632466951) // 必看
+[Element源码分析系列3-Button(按钮)](https://juejin.cn/post/6844903661127237639) // 必看
+[怎么学习Element-ui的源码?](https://www.zhihu.com/question/60706223) // 必看
+
 
 ## 前端难点
 
@@ -175,13 +186,23 @@ vue的style标签如何提取
 ## 工程化建设
 
 应用脚手架;业务组件;创建解决方案,sdk (软件开发工具包: 类似api,但是提供了某一项功能)
-[前端工程化建设](https://zhuanlan.zhihu.com/p/117486284)
+[前端工程化建设](https://zhuanlan.zhihu.com/p/117486284) 必看, 后续可以详细看,里面有各个内容的推荐链接
+
+1. 规范:团队规范,代码规范,ui规范,项目结构规范,git commit 规范
+2. 性能优化: 代码优化,非代码优化
+3. 测试
+4. 构建部署 (这步我还缺失) Jenkins,Docker
+5. 性能和错误监控
+
+[if 我是前端团队 Leader，怎么制定前端协作规范?](https://juejin.cn/post/6844903897610321934) // 必读 必看,将代码规范,隶属于第一栏里面的内容
+
 [前端架构有哪些核心问题？](https://zhuanlan.zhihu.com/p/192640184)
 [前端架构，前端工程化](https://blog.csdn.net/qq_33150267/article/details/79213054)
 [浅谈前端架构的工程化、模块化、组件化、规范化](https://blog.csdn.net/qq_42068550/article/details/93333487) 概念上的表述
 [前端工程化实践：大前端的转变之路](https://zhuanlan.zhihu.com/p/28769103)
 [有哪些值得关注学习的使用TypeScript的开源项目？](https://www.zhihu.com/question/54460468)
 [TypeScript 优秀开源项目大合集](https://www.cnblogs.com/brookshi/p/6505599.html)
+[2021年如何从零创建一个TypeScript项目](https://www.wangwl.net/static/pages/starting_ts_project.html) // 必看 `esbuild`
 
 ## 知识点
 
@@ -215,7 +236,21 @@ figcaption
 ## 前端体系
 
 关键字搜索 前端体系
-[前端技术体系大局观](https://zhuanlan.zhihu.com/p/23185351)
+关键字搜索 大前端
+关键字搜索 web 总体框架设计
+[前端技术体系大局观](https://zhuanlan.zhihu.com/p/23185351) // 必读,可以按照这个建立自己的知识体系
+
+## 业务性能优化
+
+关键字搜索 js 业务开发性能问题
+
+[Web业务性能优化技术总结](https://blog.csdn.net/horkychen/article/details/63033913) // 带来一些思考
+
+## js执行原理
+
+[JavaScript的执行原理](https://blog.csdn.net/GY_U_YG/article/details/72869315)
+webkit的渲染过程
+event looper
 
 ## 指令
 
@@ -227,3 +262,49 @@ DDD [https://juejin.cn/post/6844903997678026760](https://juejin.cn/post/68449039
 SOA [SOA](https://baike.baidu.com/item/SOA/2140650)
 RPC [写给自己的 SOA 和 RPC 理解](https://www.cnblogs.com/java-class/p/10653404.html)
 PWA 渐进式Web应用开发
+
+## 架构的技术选型
+
+[资深前端架构师对于框架的技术选型](https://zhuanlan.zhihu.com/p/81461207)
+
+## 算法
+
+### js数据结构与算法
+
+[你可能知道的 javaScript 数据结构与算法](https://github.com/sunzhaoye/blog/issues/19)
+
+### 排序算法
+
+[前端常见算法的JS实现](https://segmentfault.com/a/1190000008593715)
+
+## 手写代码
+
+[最全的手写JS面试题](https://juejin.cn/post/6968713283884974088)
+
+## webpack
+
+[「一劳永逸」由浅入深配置webpack4](https://juejin.cn/post/6859888538004783118) // 必看
+各种loader介绍
+各种plugin介绍
+然后webpack 高级概念
+
+[编写一个loader](https://www.webpackjs.com/contribute/writing-a-loader/#%E7%AE%80%E5%8D%95%E7%94%A8%E6%B3%95)
+
+[webpack内部机制](https://juejin.cn/post/6872590966466576397) // 必看
+
+## 面试
+
+### 基础
+
+[2万字 | 前端基础拾遗90问](https://juejin.cn/post/6844904116552990727) // 必看 面试
+
+### vue面试题 (入门到精通,原理)
+
+[30 道 Vue 面试题，内含详细讲解（涵盖入门到精通，自测 Vue 掌握程度）](https://juejin.cn/post/6844903918753808398) // 必看
+[让你30分钟快速掌握vue 3](https://juejin.cn/post/6887359442354962445) // vue3 必看
+搜索关键字  vue 长列表性能优化
+[Vue 项目性能优化 — 实践指南（网上最全 / 详细）](https://juejin.cn/post/6844903913410314247)
+
+## 搜索
+
+compiler.hooks.done // webpack内容
