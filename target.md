@@ -121,7 +121,9 @@ Jenkins
 前端架构选型
 架构设计
 
-## 前端架构:从入门到微前端 pdf
+## 前端架构:从入门到微前端 pdf (还没有获取)
+
+[读书笔记 前端架构：从入门到微前端](https://www.yuque.com/shenyangdong/kb/zcvox9)
 
 ## 多端异构
 
@@ -172,12 +174,15 @@ vue的style标签如何提取
 
 [封装Vue组件的一些技巧](https://juejin.cn/post/6844903821513064456) // 必看 封装组件
 
+### 组件库搭建
+
+[每个前端都值得拥有自己的组件库，就像每个夏天都拥有西瓜](https://juejin.cn/post/6983854006124675108#heading-0) // 必看 然后也看看这个作者
+
 ### 组件库
 
 [Element-UI 技术揭秘（2）- 组件库的整体设计](https://juejin.cn/post/6844903925632466951) // 必看
 [Element源码分析系列3-Button(按钮)](https://juejin.cn/post/6844903661127237639) // 必看
 [怎么学习Element-ui的源码?](https://www.zhihu.com/question/60706223) // 必看
-
 
 ## 前端难点
 
@@ -203,6 +208,10 @@ vue的style标签如何提取
 [有哪些值得关注学习的使用TypeScript的开源项目？](https://www.zhihu.com/question/54460468)
 [TypeScript 优秀开源项目大合集](https://www.cnblogs.com/brookshi/p/6505599.html)
 [2021年如何从零创建一个TypeScript项目](https://www.wangwl.net/static/pages/starting_ts_project.html) // 必看 `esbuild`
+
+搜索关键词: 工程化建设
+[工程化](https://juejin.cn/search?query=%E5%B7%A5%E7%A8%8B%E5%8C%96) // 必看 掘金搜索
+[手把手带你入门前端工程化——超详细教程](https://juejin.cn/post/6892003555818143752) // 必看
 
 ## 知识点
 
@@ -269,6 +278,11 @@ PWA 渐进式Web应用开发
 
 ## 算法
 
+### 准备
+
+[前端该如何准备数据结构和算法？](https://juejin.cn/post/6844903919722692621) // 必读
+[用JavaScript实现的算法和数据结构](http://www.conardli.top/docs/) // 必读
+
 ### js数据结构与算法
 
 [你可能知道的 javaScript 数据结构与算法](https://github.com/sunzhaoye/blog/issues/19)
@@ -276,6 +290,7 @@ PWA 渐进式Web应用开发
 ### 排序算法
 
 [前端常见算法的JS实现](https://segmentfault.com/a/1190000008593715)
+[二叉树——前序遍历、中序遍历、后序遍历、层序遍历详解(递归非递归) ](https://www.cnblogs.com/bigsai/p/11393609.html)
 
 ## 手写代码
 
@@ -287,10 +302,19 @@ PWA 渐进式Web应用开发
 各种loader介绍
 各种plugin介绍
 然后webpack 高级概念
-
 [编写一个loader](https://www.webpackjs.com/contribute/writing-a-loader/#%E7%AE%80%E5%8D%95%E7%94%A8%E6%B3%95)
 
+### webpack 内部原理
+
 [webpack内部机制](https://juejin.cn/post/6872590966466576397) // 必看
+
+[webpack打包原理 ? 看完这篇你就懂了 !](https://zhuanlan.zhihu.com/p/101541041)
+
+### webpack 热更新
+
+搜索关键词 webpack热更新原理
+[轻松理解webpack热更新原理](https://blog.csdn.net/chern1992/article/details/106893227) // 必看
+[简单了解webpack热更新原理](https://zhuanlan.zhihu.com/p/222582852)
 
 ## 面试
 
@@ -304,6 +328,20 @@ PWA 渐进式Web应用开发
 [让你30分钟快速掌握vue 3](https://juejin.cn/post/6887359442354962445) // vue3 必看
 搜索关键字  vue 长列表性能优化
 [Vue 项目性能优化 — 实践指南（网上最全 / 详细）](https://juejin.cn/post/6844903913410314247)
+
+### vue源码查看
+
+[Vue源码学习笔记](https://github.com/LaoChen1994/Essays/tree/master/vue/source_code_learn)
+[Vue3.x源码调试](https://juejin.cn/post/6844903957836333069)
+
+## ts开源内容
+
+[有哪些值得关注学习的使用TypeScript的开源项目？](https://www.zhihu.com/question/54460468)
+[TypeScript 优秀开源项目大合集](https://www.cnblogs.com/brookshi/p/6505599.html)
+
+### ts封装
+
+[ts封装ajax](https://blog.csdn.net/qq_42235030/article/details/110787015)
 
 ## 搜索
 
