@@ -212,6 +212,43 @@ vue的style标签如何提取
 搜索关键词: 工程化建设
 [工程化](https://juejin.cn/search?query=%E5%B7%A5%E7%A8%8B%E5%8C%96) // 必看 掘金搜索
 [手把手带你入门前端工程化——超详细教程](https://juejin.cn/post/6892003555818143752) // 必看
+技术选型 (选人多,ui框架也是)
+统一规范:
+ 代码规范(促进团队合作,降低维护成本,帮助code review,养成规范习惯)
+ 推荐了几个代码规范的库 [airbnb/javascript](https://github.com/airbnb/javascript)
+ (react,style命名(参考BEM), CSS-in-JavaScript)
+ > 注: BEM就是名字太长了, 但是规范性好,用在公共组件或者公共样式可以这么写
+
+### BEM
+
+[CSS — BEM 命名规范](https://juejin.cn/post/6844903672162304013)
+
+```jsx
+
+<div class="article">
+    // 两个下划线表示 父和子两个块之间的连接
+    <div class="article__body">
+        <div class="tag"></div>
+        // -- 表示不同的状态 (button不同的状态)
+        <button class="article__button--primary"></button>
+        <button class="article__button--success"></button>
+    </div>
+</div>
+
+// sass 写法
+.article {
+    max-width: 1200px;
+    &__body {
+        padding: 20px;
+    }
+    &__button {
+        padding: 5px 8px;
+        &--primary {background: blue;}
+        &--success {background: green;}
+    }
+}
+
+```
 
 ## 知识点
 
