@@ -52,3 +52,23 @@ noValue ?? 'Nothing'; // => 'Nothing'
 value   ?? 'Nothing'; // => 'Hello'
 
 ```
+
+## Event对象
+
+`event = new Event(typeArg, eventInit);`
+typeArg: 事件名
+eventInit: bubbles(是否冒泡), cancelable(是否能被取消), composed (影子dom根节点之外触发侦听器)
+
+例子: 用于兄弟节点触发事件
+
+```js
+
+const CUSTOMER_INFO_EVENT_NAME = 'customer-detail-customer-info-reload'
+// 创建event
+export const CUSTOMER_INFO_EVENT = new Event(CUSTOMER_INFO_EVENT_NAME)
+// 添加event监听
+window.addEventListener(CUSTOMER_INFO_EVENT_NAME, fetchCustomerProfile, false)
+
+// 另外的文件引入 触发事件调用
+window.dispatchEvent(CUSTOMER_OPERATE_RECORD_REFRESH_EVENT)
+```

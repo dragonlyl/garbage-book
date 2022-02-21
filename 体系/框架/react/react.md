@@ -4,7 +4,7 @@
 
 `npx create-react-app my-app --template typescript`
 
-[create-react-app搭建一个完整的项目](https://www.jianshu.com/p/1fb6c11676d2)
+[create-react-app搭建一个完整的项目](https://www.jianshu.com/p/1fb6c11676d2) // todo
 
 ## hook注意事项
 
@@ -22,7 +22,29 @@
 
 [React Hook 中 createContext & useContext 跨组件透传上下文与性能优化](http://www.ptbird.cn/react-createContex-useContext.html)
 
-## memo 和 callback的区别
+## 性能优化
+
+同个父组件,有A,B两个子组件,若A组件发生更新会导致重新构建,即使B无数据更新也会重新构建
+
+### shouldComponentUpdate
+
+通过比较 nextProp 和 prop 的关键值来比较是否需要更新
+
+### PureComponet
+
+内部自动实现了`shouldComponentUpdate`, 缺点是只会进行一层比较,数据是嵌套的对象或者数组的时候，它就无法比较了。
+所以`PureComponent`最好只用于`展示型组件`
+
+### Memo
+
+上面是用于 `class` 组件, 函数式组件用 `memo`, 
+
+```tsx
+const Son3: React.FC<Iprops> = (props) => {}
+export default memo(Son3)
+```
+
+## memo 和 callback的区别 (主要一部分也是性能优化)
 
 React.memo()
 React.useCallback()
@@ -112,4 +134,5 @@ type B = {
 ### 获取未导出的 Type
 
 通过 ComponentProps / ReturnType 来获取想要的类型
+
 
