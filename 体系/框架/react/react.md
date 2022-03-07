@@ -134,5 +134,3 @@ type B = {
 ### 获取未导出的 Type
 
 通过 ComponentProps / ReturnType 来获取想要的类型
-
-

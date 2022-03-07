@@ -22,3 +22,18 @@ type C = A[B] // number | "b", 这里 never 去除了
 
 // 条件类型中待检查的类型（即extends左边的类型）必须是裸类型（naked type parameter）。
 // 即没有被诸如数组，元组或者函数包裹
+
+
+type Test<T> = T extends true ? 1 : 2;
+
+type res = Test<boolean>; // boolean 也是联合类型会把每个类型单独传入
+// [TypeScript 类型 原因](https://juejin.cn/post/7066745410194243597)
+
+// 重要: 条件类型当 checkType（左边的类型）是类型参数的时候，会有 distributive 的性质，
+// 也就是传入联合类型时会把每个类型单独传入做计算，最后把结果合并返回。这叫做分布式条件类型。
+
+// 此外，条件类型遇到 never 会直接返回 never，遇到 any 会返回 trueType 和 falseType 的联合类型。
+
+// 再就是 boolean 也是联合类型，是 true | false。
+
+// any 不是联合类型 
