@@ -11,6 +11,13 @@ type c = fn<2 | 'a'> //  所以是 true | false
 type Without<A, B> = A extends B ? never : A
 type d = Without<boolean | number | string, boolean> // type d = string | number
 
+interface objE {
+    a: string,
+    b: boolean
+}
+type ValueOf<T> = T[keyof T];
+type valueType = ValueOf<objE>
+type e = Without<valueType, boolean> // 移除 objE 为boolean 类型的值
 //  never作用: 它可以用于指定一个永远无法返回的函数的返回类型。
 // [never 问题](https://www.zhihu.com/question/354601204)
 // 什么函数不会返回值呢？比如：错误处理函数，无限循环函数。 // 比如死循环,区分与void 
