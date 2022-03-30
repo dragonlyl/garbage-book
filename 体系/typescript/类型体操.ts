@@ -57,3 +57,19 @@ type IsEqual<A, B> = (<T>() => T extends A ? 1 : 2) extends <
   ? true
   : false
 type a1 = IsEqual<{a: 1,b: 2}, {a: 1}>
+
+// (toString)
+
+type CanStringified = string | number |bigint| boolean|null| undefined
+type Stringify<T extends CanStringified> = `${T}`
+type Example3 = Stringify<0.4>
+
+// (循环)
+// 循环: 递归; 分布式条件类型; 映射类型
+
+// 分布式条件类型
+type Example4<T> = T extends number ? T : never
+type example41 = Example4<1 | '1' | true>
+// 映射类型
+type Example5<T> = {[K in T]: K}
+type example51 = Example5<1 | '2' | 3>

@@ -65,3 +65,94 @@ let quickSort = function (arr) {
     return quickSort(left).concat([pivot], quickSort(right));
 }
  
+let quickSort1 = function (arr) {
+    let mid = Math.floor(arr.length /2)
+    let pivot =  arr[mid]
+    let left = []
+    let right = []
+    for (let i = 0; i < arr.length; i++) {
+        const element = arr[i];
+        if(i === mid){
+            continue
+        }
+        if (element < pivot) {
+            left.push(element)
+        } else {
+            right.push(element)
+        }
+    }
+    return quickSort(left).concat(pivot, quickSort(right))
+
+}
+
+// 归并排序 合并排序 (二叉树后序遍历)
+// 每次按照数组一半分,直到分成一项或者空项
+// [排序算法](https://javascript.ruanyifeng.com/library/sorting.html#toc9)
+
+function merge(left, right){
+    var result  = [],
+        il      = 0,
+        ir      = 0;
+
+    while (il < left.length && ir < right.length){
+        if (left[il] < right[ir]){
+            result.push(left[il++]);
+        } else {
+            result.push(right[ir++]);
+        }
+    }
+
+    return result.concat(left.slice(il)).concat(right.slice(ir));
+}
+
+function mergeSort(myArray){
+
+    if (myArray.length < 2) {
+        return myArray;
+    }
+
+    var middle = Math.floor(myArray.length / 2),
+        left    = myArray.slice(0, middle),
+        right   = myArray.slice(middle);
+        params = merge1(mergeSort(left), mergeSort(right));
+    
+    // 在返回的数组头部，添加两个元素，第一个是0，第二个是返回的数组长度
+    params.unshift(0, myArray.length);
+	// splice用来替换数组元素，它接受多个参数，
+	// 第一个是开始替换的位置，第二个是需要替换的个数，后面就是所有新加入的元素。
+	// 因为splice不接受数组作为参数，所以采用apply的写法。
+	// 这一句的意思就是原来的myArray数组替换成排序后的myArray
+    Array.prototype.splice.apply(myArray, params);
+	// 返回排序后的数组
+    return myArray;
+}
+
+
+function merge(nums, left, mid,  right) {
+    let result = []
+    let il = left, ir = mid + 1
+    while(il <= mid && ir <= right) {
+        if (nums[il] < nums[ir]) {
+            result.push(nums[il++])
+        } else {
+            result.push(nums[ir++])
+        }
+    }
+    while(il <= mid) {
+        result.push(nums[il++])
+    }
+    while(ir <= right) {
+        result.push(nums[ir++])
+    }
+    return nums.splice.apply(nums, [0, result.length, ...result])
+}
+function mergeSort(nums, left, right) {
+    if (left >= right) {
+        return nums
+    }
+    let mid = Math.floor((left + right) / 2)
+    mergeSort(nums, left, mid)
+    mergeSort(nums, mid + 1, right)
+    return merge(nums, left, mid, right)
+   
+}
