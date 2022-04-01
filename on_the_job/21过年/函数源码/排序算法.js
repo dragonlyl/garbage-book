@@ -127,24 +127,38 @@ function mergeSort(myArray){
     return myArray;
 }
 
-
+// on_the_job/节点_过年/算法/leetcode/code/912.排序数组.js
 function merge(nums, left, mid,  right) {
     let result = []
+    for (let i = left; i <= right; i++) {
+        result[i] = nums[i]
+    }
     let il = left, ir = mid + 1
-    while(il <= mid && ir <= right) {
-        if (nums[il] < nums[ir]) {
-            result.push(nums[il++])
+    for (let i = left; i <= right; i++) {
+        if(il === mid) {
+            nums[i] = result[ir++]
+        } else if (ir === right) {
+            nums[i] = result[il++]
+        } else if (nums[il] < nums[ir]) {
+            nums[i] = nums[il++]
         } else {
-            result.push(nums[ir++])
+            nums[i] = nums[ir++]
         }
     }
-    while(il <= mid) {
-        result.push(nums[il++])
-    }
-    while(ir <= right) {
-        result.push(nums[ir++])
-    }
-    return nums.splice.apply(nums, [0, result.length, ...result])
+    // while(il <= mid && ir <= right) {
+    //     if (nums[il] < nums[ir]) {
+    //         result.push(nums[il++])
+    //     } else {
+    //         result.push(nums[ir++])
+    //     }
+    // }
+    // while(il <= mid) {
+    //     result.push(nums[il++])
+    // }
+    // while(ir <= right) {
+    //     result.push(nums[ir++])
+    // }
+    // return nums.splice.apply(nums, [0, result.length, ...result])
 }
 function mergeSort(nums, left, right) {
     if (left >= right) {
@@ -153,6 +167,7 @@ function mergeSort(nums, left, right) {
     let mid = Math.floor((left + right) / 2)
     mergeSort(nums, left, mid)
     mergeSort(nums, mid + 1, right)
-    return merge(nums, left, mid, right)
+    // return merge(nums, left, mid, right)
+    merge(nums, left, mid, right)
    
 }
