@@ -502,3 +502,8 @@ PWA 渐进式Web应用开发
 ## 搜索
 
 compiler.hooks.done // webpack内容
+
+## svelte
+
+[我为什么选择 Svelte 来开发我们的官网](https://juejin.cn/post/6944355557495013412)
+[尤雨溪这样评价svelte](https://juejin.cn/post/6844904063369216007)

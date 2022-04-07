@@ -1,224 +1,149 @@
 # react
 
-## 事件的题目
+## 受控非受控
 
-1. 我们写的事件是绑定在dom上么，如果不是绑定在哪里？
-    不是绑定到dom上, 而是`container`或者`document`上
-    我们绑定的事件 `onClick` 不是原生事件,而是由原生事件合成的`React`事件, `click`合成 `onClick`
-2. 为什么我们的事件不能绑定给组件？
-    1. 防止事件直接绑定在dom上,造成不可控。
-    2. 提供全浏览器一致的事件系统,磨平差异 (不需要跨浏览器单独处理兼容问题，交给React底层统一处理比如 `stopPropagation`和`preventDefault`等方法)
-3. 为什么我们的事件手动绑定this(不是箭头函数的情况)
-4. 为什么不能用 return false 来阻止事件的默认行为？
-    因为react统一处理了, e.preventDefault()
-5. react怎么通过dom元素，找到与之对应的 fiber对象的？
-    dom 记录了fiber (`'__reactInternalInstance$' + randomKey` dom上属性) ,fiber记录了dom (stateNode)
-6. onClick是在冒泡阶段绑定的？ 那么onClickCapture 就是在事件捕获阶段绑定的吗？
-    无论是onClick还是onClickCapture都是发生在冒泡阶段
-    scorll,focus,blur等是在事件捕获阶段 [发生阶段](###react16事件)
+[受控非受控](https://juejin.cn/post/6858276396968951822)
+html表单元素通常维护着一套状态(`state`),并随着用户输入然后展现在ui上(不受我们控制)叫非受控. 如果让表单元素值和`react`的`state`建立依赖关系,再通过事件和`setState`来控制用户输入的表单发生的操作这就叫做受控组件
 
-### react 17事件改变
+非受控,可以通过 `ref` 的形式拿到里面的值
 
-[关于react v17版本的事件系统](https://juejin.cn/post/6955636911214067720#heading-29)
+## 生命周期
 
-1. 取消了事件池
-2. 事件绑定到`container`上,而不是`document`上(微前端, 一个系统有多个应用)
-3. 对齐原生浏览器事件(blur , change , input , keydown , keyup合成为onChange)
+[生命周期](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
-事件池: 创建的事件源对象,在事件函数执行之后,~~通过`releaseTopLevelCallbackBookKeeping`等方法~~将事件源对象释放到事件池中,
-这样就不用每次创建事件源对象了,从事件池里面取出复用,
+## 优化
 
-### react 16事件
-
-**总结: 1. 通过统一的 `dispatchEvent` 函数 进行批量更新 `batchUpdate`; 2. 然后执行事件对应的处理插件中的 `extractEvents`, 合成事件都会从事件源开始 向上遍历为dom类型的fiber,判断props是否有 onClick 事件, 最终形成一个事件执行队列, (用这个模拟 事件捕获->事件源->事件冒泡这一过程); 3. 最后通过 `runEventInBatch` 执行事件队列, 遇到阻止冒泡就停止循环,最后重置事件源, 返回到事件池中.**
-
-1. 初始化: 构建React合成事件和原生事件的映射,以及合成事件跟事件处理插件的关系
+1. `pureComponent` 做浅比较, `props` `state`, 来决定是否重新渲染组件 **用于性能优化,减少`render`次数**
 
     ```js
-    const SimpleEventPlugin = {
-        eventTypes:{ 
-            'click':{ /* 处理点击事件  */
-                phasedRegistrationNames:{
-                    bubbled: 'onClick',       // 对应的事件冒泡 - onClick 
-                    captured:'onClickCapture' //对应事件捕获阶段 - onClickCapture
-                },
-                dependencies: ['click'], //事件依赖
-                ...
-            },
-            'blur':{ /* 处理失去焦点事件 */ },
-            ...
-        }
-        extractEvents:function(topLevelType,targetInst,){ /* eventTypes 里面的事件对应的统一事件处理函数，接下来会重点讲到 */ }
-    }
-    ```
-
-2. 事件绑定: diff DOM 的Fiber props时候,发现是合成事件,就会去找对应的原生事件类型,大部分事件按照冒泡逻辑处理,然后调用 dispatchEvent 为统一的事件处理函数。
-    * 将真实事件绑定到Fiber上 `__reactInternalInstance$i3b6hys6rh9` (instance ,后面是key)。
-
-    ```js
-    memoizedProps = {
-    onClick:function handerClick(){},
-    className:'button'
-    }
-    ```
-
-    * 在 `diff` 阶段, ~~`diffProperties`~~ 判断是否为合成事件,向`document`注册事件
-
-    ```js
-    function diffProperties(){
-        /* 判断当前的 propKey 是不是 React合成事件 */
-        if(registrationNameModules.hasOwnProperty(propKey)){
-            /* 这里多个函数简化了，如果是合成事件， 传入成事件名称 onClick ，向document注册事件  */
-            legacyListenToEvent(registrationName, document）;
-        }
-    }
-    ```
-
-    * 找到合成事件的依赖(`onClick => click`), 对于 `click` 事件都会按照冒泡阶段事件处理 ~~(所以onChange ,document 上有 blur , change , input , keydown , keyup)~~ 同时也会有事件在 `legacyTrapCapturedEvent` 捕获阶段处理 **scorll,focus,blur等是在事件捕获阶段发**
-
-    ```js
-    //  registrationName -> onClick 事件
-    //  mountAt -> document or container
-    function legacyListenToEvent(registrationName，mountAt){
-        const dependencies = registrationNameDependencies[registrationName]; // 根据 onClick 获取  onClick 依赖的事件数组 [ 'click' ]。
-            for (let i = 0; i < dependencies.length; i++) {
-            const dependency = dependencies[i];
-            //这个经过多个函数简化，如果是 click 基础事件，会走 legacyTrapBubbledEvent ,而且都是按照冒泡处理
-            legacyTrapBubbledEvent(dependency, mountAt);
-        }
-    }
-
-    /*
-        targetContainer -> document
-        topLevelType ->  click
-        capture = false
-    */
-    function addTrappedEventListener(targetContainer,topLevelType,eventSystemFlags,capture){
-        const listener = dispatchEvent.bind(null,topLevelType,eventSystemFlags,targetContainer) 
-        if(capture){
-            // 事件捕获阶段处理函数。
-        }else{
-            /* TODO: 重要, 这里进行真正的事件绑定。*/
-            targetContainer.addEventListener(topLevelType,listener,false) // document.addEventListener('click',listener,false)
-        }
-    }
-
-    ```
-
-3. 事件触发: 触发`dispatchEvent`,传递`nativeEvent` (真正的事件源 e),找到触发事件`target`的最近`Fiber`,然后去 `legacy` 事件处理系统进行批量更新
-
-    下面也说明了,为什么同一时间调用 `setState`, `state` 的值不会马上变化,`isBatchingEventUpdates` 因为在批量更新,要等下一次事件循环才会拿到新数据(`setTimeout`)
-
-    ```js
-    // 触发dispatchEvent 事件
-    function dispatchEvent(topLevelType,eventSystemFlags,targetContainer,nativeEvent){
-        /* 尝试调度事件 */
-        const blockedOn = attemptToDispatchEvent( topLevelType,eventSystemFlags, targetContainer, nativeEvent);
-    }
-
-    // 找到target 对应的fiber
-    function attemptToDispatchEvent(topLevelType,eventSystemFlags,targetContainer,nativeEvent){
-        /* 获取原生事件 e.target */
-        const nativeEventTarget = getEventTarget(nativeEvent)
-        /* 获取当前事件，最近的dom类型fiber ，我们 demo中 button 按钮对应的 fiber */
-        let targetInst = getClosestInstanceFromNode(nativeEventTarget); 
-        /* 重要：进入legacy模式的事件处理系统 */
-        dispatchEventForLegacyPluginEventSystem(topLevelType,eventSystemFlags,nativeEvent,targetInst,);
-        return null;
-    }
-
-    // batchedEventUpdates 实际上是 handleTopLevel(bookKeeping),所有的事件都是在这里面执行(对同一个数据的更新) js是单线程 此时调用两次setState, 是同一次事件循环,所以打印出的 state值是一样的
-    /* topLevelType - click事件 ｜ eventSystemFlags = 1 ｜ nativeEvent = 事件源对象  ｜ targetInst = 元素对应的fiber对象  */
-    function dispatchEventForLegacyPluginEventSystem(topLevelType,eventSystemFlags,nativeEvent,targetInst){
-        /* 从React 事件池中取出一个，将 topLevelType ，targetInst 等属性赋予给事件  */
-        const bookKeeping = getTopLevelCallbackBookKeeping(topLevelType,nativeEvent,targetInst,eventSystemFlags);
-        try { /* 执行批量更新 handleTopLevel 为事件处理的主要函数 */
-            batchedEventUpdates(handleTopLevel, bookKeeping);
-        } finally {
-            /* 释放事件池 */  
-            releaseTopLevelCallbackBookKeeping(bookKeeping);
-        }
-    }
-
-    export function batchedEventUpdates(fn,a){
-        isBatchingEventUpdates = true;
-        try{
-        fn(a) // handleTopLevel(bookKeeping)
-        }finally{
-            isBatchingEventUpdates = false
-        }
-    }
-
-    ```
-
-    * 事件池是什么? `handleTopLevel` 做了什么?
-    即找到插件的 `extractEvents` 运行, 为什么?  因为react是 事件合成，事件统一绑定, 并且 event 也是 react 封装的, 为的就是在不同跨浏览器下进行兼容性处理 (例如stopPropagation和preventDefault)
-
-    ```js
-    // 流程简化后 
-    // topLevelType - click  
-    // targetInst - button Fiber
-    // nativeEvent
-    function handleTopLevel(bookKeeping){
-        const { topLevelType,targetInst,nativeEvent,eventTarget, eventSystemFlags} = bookKeeping
-        // 找插件,
-        for(let i=0; i < plugins.length;i++ ){
-            const possiblePlugin = plugins[i];
-            /* 找到对应的事件插件，形成对应的合成event，形成事件执行队列  */
-            const  extractedEvents = possiblePlugin.extractEvents(topLevelType,targetInst,nativeEvent,eventTarget,eventSystemFlags)  
-        }
-        if (extractedEvents) {
-            events = accumulateInto(events, extractedEvents);
-        }
-        /* 执行事件处理函数 */
-        runEventsInBatch(events);
-    }
-
-    ```
-
-    extractedEvents 代码里面是 从 事件源出发, 然后返回该 `fiber` `instance.return` 属性(即父节点,一直到`document`) 遇到 Click push, captureClick 是 unshift
-
-    所以 ,下面的顺序是 push(click), unshifit(click1), push(click2), unshift(click3)
-
-    [click3, click1, click, click2] // 4 2 1 3
-
-    ```js
-    click = () => console.log(1)
-    click1 = () => console.log(2)
-    click2 = () => console.log(3) 
-    click3= () => console.log(4)
-    render(){
-        return <div onClick={ this.click2 } onClickCapture={this.click3}  > 
-            <button onClick={ this.click }  onClickCapture={ this.click1  }  className="button" >点击</button>
-        </div>
-    }
-
-    ```
-
-    ```js
-    // 阻止事件冒泡和阻止默认事件
-    SyntheticEvent.prototype={
-        stopPropagation(){ this.isPropagationStopped = () => true;  }, /* React单独处理，阻止事件冒泡函数 */
-        preventDefault(){ },  /* React单独处理，阻止事件捕获函数  */
-        ...
-    }
-
-
-    function runEventsInBatch(){
-        const dispatchListeners = event._dispatchListeners;
-        const dispatchInstances = event._dispatchInstances;
-        if (Array.isArray(dispatchListeners)) {
-        for (let i = 0; i < dispatchListeners.length; i++) {
-            if (event.isPropagationStopped()) { /* 判断是否已经阻止事件冒泡 */
-                break;
-            }
-            
-            dispatchListeners[i](event)
+    class Index extends React.PureComponent{
+        // 这样就会失效, 因为指向的是同一个data对象
+        // this.setState({ data: {...data} }) 的浅拷贝来解决问题
+        this.state = {
+            data: {
+                count: 0
             }
         }
-        /* 执行完函数，置空两字段 */
-        event._dispatchListeners = null;
-        event._dispatchInstances = null;
     }
-
     ```
+
+    类似于`shouldComponentUpdate()` (首次调用或使用forceUpdate不会使用), 为true表示要重新渲染, 为false 会跳过 componentDidUpdate()
+
+2. `memo`, 和前者类似, React.memo是高阶组件, (函数组件和类组件都能用)
+但是后者只能 对props情况确定是否渲染 (state不行)
+
+接收两个参数, 第一个是 组件本身, 第二个是判断是否要渲染(param old 和 next, return boolean, true 为不渲染)
+类似于 shouldComponentUpdate 但是true false 是相反的
+
+## createElement
+
+用 `jsx` 写的代码会 `babel` 转换成 `createElement` 形式
+
+```js
+// 第一个属性 type
+// 第二个是 props
+// 第三个是child
+React.createElement("div", { className: "item" }, "text"),
+```
+
+## cloneElement
+
+可以 传入新 props , 返回元素 是跟之前的props联立
+
+`const newChildren = React.cloneElement(children, { age: 18})`
+
+## createContext
+
+创建 `Context` 对象, 包含用于 传递 `Context` 对象值的 `value` 的 `Provider` , 和接受 `value` 变化订阅的 `Consumer`
+
+即创建了三样
+
+```js
+// 传入 default 对象, 只有在 Consumer 没有找到Provider (即没有被这个标签包裹 )
+let MyContext = React.createContext({age: 0})
+
+// 这里传入新值
+<MyContext.Provider age={2}><MyContext.Provider>
+<MyContent.Consumer>
+// 这里进行消化, 如果不在MyContext.Provider 标签内就是 age: 0
+// 如果是在标签内(即子节点) age: 2
+{(value) => {console.log(value)}} // {age: 0}
+</MyContent.Consumer>
+```
+
+## createRef
+
+```js
+// class组件
+class Index extends React.Component {
+    this.node = React.createRef()
+}
+
+// 函数式组件
+function Index () {
+    const node = React.useRef(null)
+    return <div ref= {node}>test</div>
+}
+```
+
+## isValidElement
+
+可以用来检测是否为 react element 元素
+
+//type标签 ,但是如果是字符串就过不去 (用来过滤非element)
+`children.filer(item => React.isValidElement(item))`
+
+## React.Children
+
+### children 透明数据结构和不透明
+
+过map遍历后的元素，react底层会处理，默认在外部嵌套一个`<Fragment>`。
+
+若是 `Array(2).fill(0).map` + 普通元素结构是下述
+`[Array(2), {...}]`
+// 这样第一个 是 false 第二个是true (table组件中的问题)
+`children.map((v) => console.log(React.isValidElement(v)))`
+
+若是直接元素的话
+
+`[{...}, {...}, {...}]`
+
+Children.map 方法来处理
+可以用 `React.Children.map(children, (item) => item)`
+
+`Children.forEach` // 纯遍历
+`Children.count` // 返回同一级别子组件的数量
+`Children.toArray` // 返回拍平后数组
+`Children.only` // 是否只有一个child, 否抛出错误
+
+## useMemo
+
+之前用 `const dateRangeVal = useMemo(() => [pageInfo.fromDate, pageInfo.toDate], [pageInfo.fromDate, pageInfo.toDate])`
+来返回 `dataTime` 的 `val`
+
+## useReducer
+
+```js
+// 返回 state 和 reducer
+// 接收方法 (state, action)  和初始state 值
+const [number, dispatchNumber] = useReducer((state, action) => {
+    const {type} = action
+    if (type === 'add') {
+        return state + 1
+    }
+}, 1)
+```
+
+## useContext
+
+```js
+const value = useContext(MyContext)
+return <div> my name is {value.name}</div>
+代替下面的代码块
+
+<MyContent.Consumer>
+    {/*  my name is alien  */}
+    {(value) => <div> my name is {value.name}</div>}
+</MyContent.Consumer>
+
+```
