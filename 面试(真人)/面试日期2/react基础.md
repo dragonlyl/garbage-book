@@ -24,6 +24,19 @@
 ## useState不能写在循环,条件或嵌套函数中的原因
 
 (确保hook在每一次渲染中都按照同样的顺序调用)
+在 重渲染,每调用一次hook都会将其从原链表取出,进行相应的更新操作,再将其挂载到新链表上,如果有if逻辑就会造成错位
+a => b => c 后续按链表调用,如果b没有运行,那么就会将原先给b的值赋给c
+
+## react hook
+
+useState, useEffect, useCallback, useMemo, useRef, useReducer
+
+### hook原理
+
+[这几个关键的数据结构都不会，还怎么学react源码](https://juejin.cn/post/6993150359317250085)
+fiber.memoizedState 在class组件存储的是 state内容
+
+在函数组件,指向的是hooks链表,hooks链表里面存储的都是hook对象
 
 ## webpack事件流机制
 
@@ -168,11 +181,9 @@ tag和key不变,用oldFiber clone 一个新的fiber,props从...
 按照上述先比对当前节点,之后比较子节点,遍历子节点,遇到 tag和key不一致的情况中断循环,并判断是否只剩下新增和只剩下删除,否则开始进行移动操作
 将剩下的oldFiber放到以key为键的map里,以上个循环最后一个相同节点为基准,开始节点比较,如果找到的oldFiber索引在基准右边,那么以其为新的基准并从map中移除.如果在左边,那么移动改fiber不改变基准.不存在就新增fiber. 循环结束后最后删除剩下多余的节点
 
-## react hook
-
-useState, useEffect, useCallback, useMemo, useRef, useReducer
-
 ## ts高级类型
+
+交叉类型, 联合类型
 
 ## react和vue的区别
 
