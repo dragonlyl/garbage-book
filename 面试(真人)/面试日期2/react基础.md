@@ -6,11 +6,20 @@
 
 ## react不推荐使用 componentWillMount 等生命周期原因
 
-(被废弃都是在render之前,fiber出现,可能高优先级任务打断现有任务导致被执行多次)
+(被废弃都是在render之前,fiber出现,可能高**优先级任务**打断现有任务导致被执行多次)
 
 ## react为什么是合成事件
 
-(采用事件池减少内存开销, 不会频繁创建和销毁事件对象; 统一的处理,兼容浏览器)
+因为fiber的机制特点,生成fiber节点他对应的dom可能还没有挂载(onClick为props又不能挂载到dom上) 所以react 提供了顶层注册,事件收集,统一触发
+同时带来了一些其他好处:
+
+1. 事件进行归类,可以在事件任务上包含不同的优先级
+2. 采用事件池减少内存开销, 不会频繁创建和销毁事件对象; 
+3. 提供合成事件对象,磨平浏览器的兼容性差异
+
+[深入React合成事件机制原理](https://www.zhihu.com/tardis/sogou/art/347531057)
+
+事件对象的合成, 事件收集(事件执行路径), 事件执行
 
 ## useState不能写在循环,条件或嵌套函数中的原因
 
@@ -134,6 +143,36 @@ commonjs, es module
 ## useCallback使用场景,不用有什么区别
 
 ## 状态管理
+
+## react diff
+
+[深入理解React Diff算法](https://segmentfault.com/a/1190000039021724)
+
+通过oldFiber 跟reactElement比较(以它为标准生成新fiber节点), 打上effectTag (更新,新增,删除), 形成effectList链表进行操作.
+
+使用tag 和 key 比较是否一样(都一致)
+
+单节点更新:
+单节点是新为单节点 ,而不是旧为单节点
+先找到key相同的节点,删除剩余的其他oldFiber,再用匹配匹配到的oldFiber跟newChild(reactElement)新的props来生成新的fiber
+
+多节点更新:
+
+1. 节点删除: `newIdx === newChildren.length`, 删除剩余child,并将其以链表形式加入到父节点的effectList, 并打上effectTag = 'Delete'
+2. 节点新增: `oldFiber === null`, 并将newFiber连接成以sibling为指针的单项链表
+3. 节点移动: 以最后一个相同的为固定点`lastPlacedIndex`, 剩余oldFiber放入key 为键的map,里面根据key去匹配, oldFiber在`lastPlacedIndex`的右边那么以此为新基准且从map中删除,在`lastPlacedIndex`左边那么就移动位置不改变基准
+
+tag和key不变,用oldFiber clone 一个新的fiber,props从...
+
+总结: react的diff 通过比较oldFiber跟newChildren的tag和key,依次打上effectTag(更新,新增,删除),将其以链表的形式加入到父节点的effectList
+按照上述先比对当前节点,之后比较子节点,遍历子节点,遇到 tag和key不一致的情况中断循环,并判断是否只剩下新增和只剩下删除,否则开始进行移动操作
+将剩下的oldFiber放到以key为键的map里,以上个循环最后一个相同节点为基准,开始节点比较,如果找到的oldFiber索引在基准右边,那么以其为新的基准并从map中移除.如果在左边,那么移动改fiber不改变基准.不存在就新增fiber. 循环结束后最后删除剩下多余的节点
+
+## react hook
+
+useState, useEffect, useCallback, useMemo, useRef, useReducer
+
+## ts高级类型
 
 ## react和vue的区别
 
