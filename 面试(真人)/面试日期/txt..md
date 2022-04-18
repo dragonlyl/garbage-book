@@ -1,19 +1,25 @@
 # React知识点
 
-react的调试工具 react-developer-tools
-模拟数据的工具 charles(抓包发送出去的数据进行出出力)
-React初级知识点
+## react的调试工具
 
+react-developer-tools
+模拟数据的工具 charles(抓包发送出去的数据进行出出力)
+
+## React初级知识点
+
+```js
 结构赋值
 import {component} from 'react'
 等价于
 import React from 'react'
-const Component=React.Component
+const Component = React.Component
+```
 
 只要用了jsx语法就要引入react文件，不然无法编译
 
-Fragemnt 
-React中常见的一种模式是为一个组件返回多个元素。Fragment可以让你聚合一个
+Fragment
+
+React中常见的一种模式是为一个组件返回多个元素。`Fragment`可以让你聚合一个
 子元素的列表，并且不在DOM中增加额外的节点
 
 React框架的特点
@@ -24,11 +30,12 @@ React框架的特点
 5、视图层框架(只解决数据和渲染的问题) 需要用到redux、mobox等数据层框架
 6、函数式编程(更容易实现前端自动化测试)
 
-什么是虚拟DOM ?(react的虚拟DOM是同层比对的)
+### 什么是虚拟DOM ?(react的虚拟DOM是同层比对的)
+
 1、state 数据
 2、JSX   模版
 3、数据+模版 结合，生成真实的DOM，来显示
-<div id='abc'><span>hello world</span></div>
+`<div id='abc'><span>hello world</span></div>`
 4、生成虚拟DOM(虚拟DOM就是一个JS对象，用它来描述真实DOM) (损耗了性能)
 ['div',{id:'abc'},['span',{},'hello']]
 5、state发生变化
@@ -47,15 +54,14 @@ e.target 获取元素节点
 setState
 1、这个方法时异步的
 2、两个参数的含义
-setState(()=>{},()=>{})；
+`setState(()=>{},()=>{})；`
   第一个参数是设置状态
   第二个参数是一个回调函数，在setState() 的异步操作结束并且组件已经重新渲染的时候执行,
   这个回调来拿到更新的state的值
- 
- REF是什么时候使用的(尽量不要使用)
- 是帮助我们在react中直接获取dom元素的使用
- <i ref={(Icon)=>{this.spinIcon=Icon}}></i>
 
+ ref是什么时候使用的(尽量不要使用)
+ 是帮助我们在react中直接获取dom元素的使用
+ `<i ref={(Icon)=>{this.spinIcon=Icon}}></i>`
 
  ************************react组件交互***********************
 1、父组件想子组件传值
@@ -86,7 +92,6 @@ setState(()=>{},()=>{})；
  componentDidUpdate(){} 组件更新完成后，会执行
 4、Unmounting
 componentWillUnmount(){} 当这个组件即将被页面移除的时候会被执行
-
 
 ************************redux*********************************
  安装redux npm install redux或者 yarn add redux
@@ -130,9 +135,10 @@ class TodoListUI extends Component{
     }
 }
 export default TodoListUI;
+
 ## 无状态组件
 
-什么是无状态组件：无状态就是一个函数，同时会接受一个props，并且返回一个jsx.
+什么是无状态组件：无状态就是一个函数，同时会接受一个props，并且返回一个jsx
 什么时候去使用：当一个组件只有render函数的时候可以用无状态组件来代替UI组件。
 为什么要使用无状态组件：无状态组件性能更优：既要执行render方法还要执行声明周期组件
 const TodoListUI=(props)=>{
@@ -185,7 +191,6 @@ export default connect(mapStateToProps,mapDisptchToProps)(TodoList);
 2、className={["title", index === this.state.active?"active":null].join(' ')}  拼接
 3、className={value.class + " " + value.class2} 拼接
 
-
 reducer放过多的数据会导致代码不可维护我们把一个reducer拆分成多个维护，最后再做一个整合。
 combineReducers可以将多个reducer文件整合成为一个：
 export default combinReducers ({
@@ -200,7 +205,6 @@ facebook团队建立的immutable.js
 4、设置值set().set()需要一个一个，除了set()还可以用merga({})可以可以同时设置多个值
 5、merge({})可以一次合并对个属性
 6、immutable有个List可以把普通数组转化成immutable对象的数组
-
 
  focused:state.header.get('focused')中state是js对象header是immutable对象我们要把对象进行统一
  就需要使用redux-immutable库的：
@@ -317,7 +321,7 @@ event.stopPropagation()阻止事件的传递行为. event.preventDefault();阻�
 　　503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）。
 3、什么是同步什么是异步？
 同步:发送一个请求,等待返回,然后再发送下一个请求
-异步:发送一个请求,不等待返zhi回,随时可以再发送下一个请求
+异步:发送一个请求,不等待返回,随时可以再发送下一个请求
 
 4、setState是同步还是异步方法？
 setState有可能是异步的。

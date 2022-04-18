@@ -131,3 +131,36 @@ function myNew (target) {
     return typeof ret === 'object' ? ret : obj
 
 }
+
+function flatter (arr) {
+    while(arr.some(v => Array.isArray(v))) {
+        arr = [].concat(...arr)
+    } 
+    return arr
+}
+function flatter (arr) {
+    return arr.reduce((pre, cur) => {
+        Array.isArray(cur) ? pre.concat(flatter(cur)) : pre.concat(cur)
+    }, [])
+}
+
+debounce(fn, time) {
+    let timeout = null
+    return () => {
+        if (timeout) return 
+        timer = setTimeout(() => {
+            fn()
+        }, time)
+    }
+}
+throttle (fn, time) {
+    let can = true
+    return () => {
+        if (!can) return 
+        can = false
+        setTimeout(() => {
+            fn()
+            can = true
+        }, time)
+    }
+}

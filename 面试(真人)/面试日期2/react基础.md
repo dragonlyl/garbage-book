@@ -4,7 +4,7 @@
 
 (更改事件委托,移除事件池)
 
-## react不推荐使用componentWillMount 等生命周期原因
+## react不推荐使用 componentWillMount 等生命周期原因
 
 (被废弃都是在render之前,fiber出现,可能高优先级任务打断现有任务导致被执行多次)
 
@@ -70,15 +70,56 @@ new Promise((resolve, reject) => {
 
 ## 基本数据类型
 
-number, string, boolean, null, undefined, symbol, bigInt, 
+number, string, boolean, null, undefined, symbol, bigInt
 
 ## ts基本数据类型
 
+元组, never , void, any, 数组, 枚举, object(表示非原始类型)
+
 ## type 和 interface区别
+
+[type 和 interface区别](https://juejin.cn/post/6844903749501059085)
+共同点: 都能用于描述对象和函数
+
+前者用于描述 类型关系 , 后者用于描述 数据结构
+
+1. 前者能用于基本类型别名, 联合类型, 元组类型
+2. 后者能申明合并,前者会报错
+3. 前后者都能用于扩展, type 不能用 extends关键字符扩展
+
+```ts
+type Name = { 
+  name: string; 
+}
+type User = Name & { age: number  };
+```
+
+```ts
+interface User {
+  name: string
+  age: number
+}
+
+interface User {
+  sex: string
+}
+
+/*
+User 接口为 {
+  name: string
+  age: number
+  sex: string 
+}
+*/
+```
 
 ## 模块机制
 
+commonjs, es module
+
 ## treeShaking会不会有意外效果
+
+会有, effectSide 为false
 
 ## commonjs模块机制 ,esm模块机制对循环引用问题
 
@@ -93,3 +134,56 @@ number, string, boolean, null, undefined, symbol, bigInt,
 ## useCallback使用场景,不用有什么区别
 
 ## 状态管理
+
+## react和vue的区别
+
+[有react fiber，为什么不需要vue fiber？](https://www.mybj123.com/16657.html)
+基于响应式是实现:
+react组件状态不能修改, setState没有修改原来那块内存的变量,而是新开一块内存 (自顶向下重新渲染组件)
+vue是精准知道那一块数据,直接修改重新渲染(Object.defineProperty Proxy劫持数据的getter和setter方法,)
+
+### fiber出现
+
+由于数据更新,fiber需要生成较大的虚拟dom树, 给diff带来很大的压力
+(js占据主线程去做比较,渲染线程无法做其他工作,用户界面就会卡顿)
+
+那么就将diff分成一小段一小段 (需要保存工作进度(即运行比较到哪一段))
+会比较一部分虚拟dom,让渡主线程让浏览器做其他工作,然后继续比较,依次往复,等到最后比较完成,一次性更新到视图上
+
+requestIdleCallback 在浏览器闲置的时间, timeRemaining 返回还有多少时间处理节点
+
+fiber这种结构使节点可以回溯到其父节点,只要保留中断的节点,就可以回复之前的工作进度(老架构是树,)
+
+### 优劣
+
+那么react是不是比vue性能差呢
+vue精准更新是有代价的, 需要给每个组件配置"监视器", 管理着视图依赖收集和数据更新时发布通知(性能消耗). 2.模板语法,实现静态编译,而不同于 jsx语法的灵活性
+
+## 数据监测
+
+Navigator.sendBeacon(url,data), 由于浏览器兼容,会用 image 来做兜底
+image 能够跨域,且不需要挂载到dom上, 只需要设置src就会发送请求. 同时静态页面会禁用脚本,影响script使用
+发送的请求是1*1的Gif图片,因为同格式下,gif大小更小(性能消耗更小)
+
+### 性能监测
+
+通过 performance.timing api 获取
+
+### 错误监测
+
+原生 dom 用 onError 和 unhandledrejection(promise内部抛出的error)
+
+react 可以用错误边界 `ErrorBoundary` 包起来, 通过其静态返回错误,用`componentDidCatch`来接收返回
+
+```js
+static getDerivedStateFromError(error) {
+    return { error }
+  }
+  componentDidCatch(error, errorInfo) {
+    // 调用我们实现的SDK实例
+    insSDK.error(error, errorInfo)
+  }
+```
+
+vue 用 errorhandler
+监听vue.config.errorhandler 方法（捕获vue生命周期，自定义事件，v-on内容，和promise链的错误内容）并解析错误内容，通过ravenjs来处理错误栈里面的信息将其转换为对象形式，然后提交错误信息内容。然后写了webpack的插件，在webpack的done的钩子去提交sourcemap内容，然后后续通过后端查询source-map去解析出错误真实的行列数。最后在页面中集成错误内容用echart进行展示分析错误原因
