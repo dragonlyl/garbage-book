@@ -30,14 +30,14 @@
 
 通过比较 nextProp 和 prop 的关键值来比较是否需要更新
 
-### PureComponet
+### PureComponent
 
 内部自动实现了`shouldComponentUpdate`, 缺点是只会进行一层比较,数据是嵌套的对象或者数组的时候，它就无法比较了。
 所以`PureComponent`最好只用于`展示型组件`
 
 ### Memo
 
-上面是用于 `class` 组件, 函数式组件用 `memo`, 
+上面是用于 `class` 组件, 函数式组件用 `memo`
 
 ```tsx
 const Son3: React.FC<Iprops> = (props) => {}

@@ -27,6 +27,11 @@
 在 重渲染,每调用一次hook都会将其从原链表取出,进行相应的更新操作,再将其挂载到新链表上,如果有if逻辑就会造成错位
 a => b => c 后续按链表调用,如果b没有运行,那么就会将原先给b的值赋给c
 
+## react渲染流程
+
+[react渲染流程](https://itcn.blog/p/160887.html)
+[react渲染流程](https://www.cnblogs.com/axl234/p/15979080.html) // 必看
+
 ## react hook
 
 useState, useEffect, useCallback, useMemo, useRef, useReducer
@@ -40,9 +45,18 @@ fiber.memoizedState 在class组件存储的是 state内容
 
 ## webpack事件流机制
 
-taptable
+tapable: compiler 由此继承而来
+[Webpack5的事件流和插件机制](https://juejin.cn/post/6918998088010956807)
+[Webpack 源码（一）—— Tapable 和 事件流](https://segmentfault.com/a/1190000008060440) // 更全面
 
 ## koa洋葱模型, redux中间件(实现和区别)
+
+[详解redux中间件](https://segmentfault.com/a/1190000023787306)
+[Redux 入门教程（二）：中间件与异步操作](https://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_two_async_operations.html)
+将中间件放在数组里面,然后分别传入含有getStore, dispatch属性的对象,
+然后通过compose 嵌套执行直至最后执行`store.dispatch`
+
+订阅 `store.subscribe()`
 
 ## 权限系统设计
 
@@ -134,6 +148,11 @@ User 接口为 {
 }
 */
 ```
+
+如何类型收缩 (交叉类型,联合类型)
+
+1. 类型断言 `值 as 类型` 或者` <类型>值`
+2. typeof  instanceof
 
 ## 模块机制
 
@@ -237,3 +256,13 @@ static getDerivedStateFromError(error) {
 
 vue 用 errorhandler
 监听vue.config.errorhandler 方法（捕获vue生命周期，自定义事件，v-on内容，和promise链的错误内容）并解析错误内容，通过ravenjs来处理错误栈里面的信息将其转换为对象形式，然后提交错误信息内容。然后写了webpack的插件，在webpack的done的钩子去提交sourcemap内容，然后后续通过后端查询source-map去解析出错误真实的行列数。最后在页面中集成错误内容用echart进行展示分析错误原因
+
+## js垃圾回收
+
+标记清除法: 从根节点出发被引用的对象打上标记,清除没有标记的对象
+引用计数: 一个值如果被引用就计数加一,如果引用为0,就被清除(循环引用)
+
+## Symbol作用
+
+1. 产生一个不会重复的变量(用来标记对象属性)
+2. 用来标识可遍历的对象 `arr[Symbol.iterator]` // 是个`function`
