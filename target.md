@@ -507,3 +507,86 @@ compiler.hooks.done // webpack内容
 
 [我为什么选择 Svelte 来开发我们的官网](https://juejin.cn/post/6944355557495013412)
 [尤雨溪这样评价svelte](https://juejin.cn/post/6844904063369216007)
+
+## react源码
+
+[全栈潇晨](https://xiaochen1024.com/article_page)
+
+## proxy和reflect
+
+[为什么Proxy一定要配合Reflect使用？](https://juejin.cn/post/7080916820353351688)
+
+```js
+const parent = {
+  name: 'parentName',
+  get value() {
+    // return 'parentName';
+    return this.name;
+  },
+};
+
+const handler = {
+  get(target, key, receiver) {
+    // this 指向handler对象
+    console.log(this === handler); // log: true
+    // 不仅仅代表proxy本身,还会代表继承proxy的对象
+    console.log(receiver === obj); // log: true
+    return target[key];
+    // 相对于 return target[key]
+    // 由于obj没有value()会调用parent的value,那么会返回parentName
+    return Reflect.get(target, key);
+    // 可以理解成 target[key].call(receiver) 此时为childName
+    return Reflect.get(target, key, receiver);
+  },
+};
+
+const proxy = new Proxy(parent, handler);
+
+const obj = {
+  name: 'childName',
+};
+
+// 设置obj继承与parent的代理对象proxy
+Object.setPrototypeOf(obj, proxy);
+
+console.log(obj.value)
+```
+
+## 虚拟列表
+
+1. 分片 `requestAnimationFrame`, 然后在`DocumentFragment`去添加pageCount的数量,最后将其添加上去
+
+    ```js
+    //需要插入的容器
+    let ul = document.getElementById('container');
+    // 插入十万条数据
+    let total = 100000;
+    // 一次插入 20 条
+    let once = 20;
+    //总页数
+    let page = total/once
+    //每条记录的索引
+    let index = 0;
+    //循环加载数据
+    function loop(curTotal,curIndex){
+        if(curTotal <= 0){
+            return false;
+        }
+        //每页多少条
+        let pageCount = Math.min(curTotal , once);
+        window.requestAnimationFrame(function(){
+            let fragment = document.createDocumentFragment();
+            for(let i = 0; i < pageCount; i++){
+                let li = document.createElement('li');
+                li.innerText = curIndex + i + ' : ' + ~~(Math.random() * total)
+                fragment.appendChild(li)
+            }
+            ul.appendChild(fragment)
+            loop(curTotal - pageCount,curIndex + pageCount)
+        })
+    }
+    loop(total,index);
+    ```
+
+2. 虚拟列表
+[「前端进阶」高性能渲染十万条数据(虚拟列表)](https://juejin.cn/post/6844903982742110216)
