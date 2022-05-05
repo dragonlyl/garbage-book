@@ -200,6 +200,13 @@ tag和key不变,用oldFiber clone 一个新的fiber,props从...
 按照上述先比对当前节点,之后比较子节点,遍历子节点,遇到 tag和key不一致的情况中断循环,并判断是否只剩下新增和只剩下删除,否则开始进行移动操作
 将剩下的oldFiber放到以key为键的map里,以上个循环最后一个相同节点为基准,开始节点比较,如果找到的oldFiber索引在基准右边,那么以其为新的基准并从map中移除.如果在左边,那么移动改fiber不改变基准.不存在就新增fiber. 循环结束后最后删除剩下多余的节点
 
+## react生命周期
+
+挂载阶段: constructor; getDerivedStateFromProps; render; componentDidMounted
+更新阶段: getDerivedStateFromProps; shouldComponentUpdate; render; getSnapshotBeforeUpdate; componentDidUpdate
+卸载阶段: componentWillUnMount
+错误阶段: getDerivedStateFromError; componentDidCatch
+
 ## ts高级类型
 
 交叉类型, 联合类型
@@ -234,6 +241,8 @@ Navigator.sendBeacon(url,data), 由于浏览器兼容,会用 image 来做兜底
 image 能够跨域,且不需要挂载到dom上, 只需要设置src就会发送请求. 同时静态页面会禁用脚本,影响script使用
 发送的请求是1*1的Gif图片,因为同格式下,gif大小更小(性能消耗更小)
 
+>sendBeacon: 1. cors(不需要预q请求); 2. 优先级较低; 3.可以放到unload处理[用 sendBeacon 发送分析信息的优点](https://www.csdn.net/tags/NtzaggwsMTg0NTYtYmxvZwO0O0OO0O0O.html)
+
 ### 性能监测
 
 通过 performance.timing api 获取
@@ -266,3 +275,30 @@ vue 用 errorhandler
 
 1. 产生一个不会重复的变量(用来标记对象属性)
 2. 用来标识可遍历的对象 `arr[Symbol.iterator]` // 是个`function`
+
+## setState是同步还是异步
+
+[setState 是同步还是异步的呀](https://juejin.cn/post/6996846391108567077)
+
+1. 能被react控制的范围调用是异步的, 因为会收集批量更新(状态合并后再进行dom调用) ( `setState` 的合并动作不是单纯地将更新累加。比如这里对于相同属性的设置，React 只会为其保留最后一次的更新)
+2. 在原生js控制范围是同步的(`addEventListener`, 定时器回调函数,ajax回调) setState会立即更新dom
+
+总结: react控制得到的就是异步,控制不到的就是同步
+
+> 1. setState是同样的值也会触发render;
+> 2. 接连的setState操作会合并(即对同一个数据进行操作会只变成一次)
+> 3. 如果是setState通过函数改变,那么函数调用无法合并会操作两次
+
+总结: 调用setState就会触发render (除了 `setState(null)` 不会)
+
+## vite对比webpack
+
+1. 后者需要打包成 `bundle`, 前者(依赖: 用 `esbuild` 预构建依赖; 源码: 用`es module` 方式给浏览器(按需加载))
+
+2. 更新: 模块内容改变时,让浏览器重新去请求该模块,而不是像后者重新将该模块所有依赖重新编译
+
+热更新: 通过服务以及websocket(浏览器和服务器通信, 当模块修改, 发送消息给客户端)
+
+## ts和js
+
+静态类型判断
