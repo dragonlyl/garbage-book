@@ -1,6 +1,3 @@
-
-// 手写promise
-
 // MyPromise.js
 
 // 先定义三个常量表示状态
@@ -66,6 +63,7 @@ class MyPromise {
   then(onFulfilled, onRejected) {
     const realOnFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
     const realOnRejected = typeof onRejected === 'function' ? onRejected : reason => {throw reason};
+
     // 为了链式调用这里直接创建一个 MyPromise，并在后面 return 出去
     const promise2 = new MyPromise((resolve, reject) => {
       const fulfilledMicrotask = () =>  {
@@ -150,7 +148,6 @@ function resolvePromise(promise2, x, resolve, reject) {
   }
 }
 
-
 let b2 = new MyPromise((resolve, reject) => {
     // setTimeout(() => {
         resolve(3)
@@ -168,100 +165,3 @@ b2.then(res => {
 }).then(res => {
     console.log(res, 'then2')
 })
-
-return
-class MyPromise2 {
-    constructor(fn) {
-        this.status = 'pending'
-        this.value = ''
-        this.reason = ''
-        const resolve = (value) => {
-            if (this.status === 'pending') {
-                this.status = 'resolve'
-                this.value = value
-                /** 1. 异步处理 */
-                // this.resolveCallbacks && this.resolveCallbacks(value)
-                /** 2. 多次调用then处理 要用while是因为这里后触发*/
-                while(this.resolveCallbacks.length) {
-                    this.resolveCallbacks.shift()(value)
-                }
-            }
-        }
-        const reject = (reason) => {
-            if (this.status === 'pending') {
-                this.status = 'reject'
-                this.reason = reason
-                // this.rejectCallbacks && this.rejectCallbacks(reason)
-                while(this.rejectCallbacks.length) {
-                    this.rejectCallbacks.shift()(reason)
-                }
-            }
-        }
-        try {
-            fn(resolve, reject)
-        } catch (error) {
-            resolve(error)
-        }
-    }
-    resolveCallbacks = []
-    rejectCallbacks = []
-    then = (onFull, onReject) => {
-        /** 3 then的链式调用 现在是只有同步的 */
-        const promise = new MyPromise2((resolve, reject) => {
-
-            if (this.status === 'resolve') {
-                queueMicrotask(() => {
-                    /**5 添加错误捕获 */
-                    try {
-                        const x = onFull(this.value)
-                        /**4 调用自己 */
-                        resolvePromise(promise, x, resolve, reject)
-                    } catch (error) {
-                        reject(error)
-                    }
-                })
-            }else if (this.status === 'reject') {
-                onReject(this.reason)
-            }else if (this.status === 'pending') {
-                this.resolveCallbacks.push(onFull)
-                this.rejectCallbacks.push(onReject)
-            }
-        })
-        return promise
-    }
-}
-function resolvePromise(promise, x, resolve, reject) {
-    if (promise === x) {
-        throw Error('链式调用自己')
-    }
-    if (x instanceof MyPromise2) {
-        x.then(resolve, reject)
-    } else {
-        resolve(x)
-    }
-}
-
-let b = new MyPromise2((resolve, reject) => {
-    // setTimeout(() => {
-        resolve(3)
-    // })
-})
-function other () {
-    return new MyPromise2((resolve, reject) =>{
-      resolve('other')
-    })
-  }
-// b.then(res => {
-//     console.log(res, 'then1')
-// })
-b.then(res => {
-    console.log(res, 'then2')
-    // return 4
-    return other()
-}).then(res => {
-    console.log(res, 'then2')
-})
-
-// const c = b.then(res => {
-//     return c
-// })

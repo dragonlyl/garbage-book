@@ -214,7 +214,7 @@ tag和key不变,用oldFiber clone 一个新的fiber,props从...
 ## react和vue的区别
 
 [有react fiber，为什么不需要vue fiber？](https://www.mybj123.com/16657.html)
-基于响应式是实现:
+(前者是函数式思想, 后者响应式基于模板语法)
 react组件状态不能修改, setState没有修改原来那块内存的变量,而是新开一块内存 (自顶向下重新渲染组件)
 vue是精准知道那一块数据,直接修改重新渲染(Object.defineProperty Proxy劫持数据的getter和setter方法,)
 

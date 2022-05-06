@@ -75,7 +75,8 @@ hiper "baidu.com?a=1&b=2" //如何url中含有任何参数，请使用双引号�
 相当于
 `<input type="text" :value="msg" @input="msg = $event.target.value">`
 
-```<div class="share-btn" @click="confirm">确定</div>
+```html
+<div class="share-btn" @click="confirm">确定</div>
 
 所以子组件
 props: {
@@ -91,17 +92,20 @@ xx() {
 
 可以使用model选项来避免冲突
 
-```model 改进版 一般用这种
-<div class="share-btn" @click="confirm">确定</div>
+```html
+model 改进版 一般用这种
+<div class="share-btn" @click="confirm" v-model='show'>确定</div>
 
-// model选项用来避免冲突
-// prop属性用来指定props属性中的哪个值用来接收父组件v-model传递的值
-// 例如这里用props中的show来接收父组件传递的v-model值
-// event：为了方便理解，可以简单理解为父组件@input的别名，从而避免冲突
-// event的值对应了你emit时要提交的事件名，你可以叫aa，也可以叫bb，但是要命名要有意义哦！！！
-model: {
-    prop: 'show',
-    event: 'changed'
+<script>
+    // model选项用来避免冲突
+    // prop属性用来指定props属性中的哪个值用来接收父组件v-model传递的值
+    // 例如这里用props中的show来接收父组件传递的v-model值
+    // event：为了方便理解，可以简单理解为父组件@input的别名，从而避免冲突
+    // event的值对应了你emit时要提交的事件名，你可以叫aa，也可以叫bb，但是要命名要有意义哦！！！
+    model: {
+        prop: 'show',
+        event: 'changed'
+    }
 },
 props: {
     // 由于model选项中的prop属性指定了，所以show接收的是父组件v-model传递的值
@@ -117,6 +121,7 @@ methods: {
         this.$emit('changed', false)
     }
 }
+</script>
 ```
 
 ![avatar](组件化.png)

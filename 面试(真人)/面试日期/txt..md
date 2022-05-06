@@ -310,7 +310,7 @@ event.stopPropagation()阻止事件的传递行为. event.preventDefault();阻�
 
 　　401 Unauthorized 请求未授权。
 
-　　403 Forbidden 禁止访问。
+　　403 Forbidden 禁止访问(权限)。
 
 　　404 Not Found 找不到如何与 URI 相匹配的资源。
 

@@ -1,7 +1,7 @@
 /**
  * [获取变量类型](https://juejin.cn/post/6844904169925509127)
  */
-const obj = {
+const obj:{name: string, age: number} = {
     name: "name",
     age: 12,
   };

@@ -15,6 +15,25 @@ v-model.trim 过滤首尾空白字符
 prevent.self //阻止所有的点击
 self.prevent //只会阻止对元素自身的点击
 once //点击事件将只会触发一次
+.native // 变为原 html 标签
+
+## async
+
+[v-model](../../on_the_job/关于vue的优化.md)
+
+```html
+<child :name.sync="name"></child>  // 父组件
+ 
+<script>
+// 子组件事件
+changePropsInChild(){
+    this.$emit('update:name', 'I am from child');
+}
+
+:name.sync
+:name="name" @update:name="name = $event"的缩写
+</script>
+```
 
 ## 按键修饰符
 

@@ -25,7 +25,7 @@
 
 1. 函数的声明 `function xx (x: number, y: number) : number {}`
 2. 函数的表达式较为复杂 `let xx : (x: number, y: number) => number = function xx (x: number, y: number) : number {}`
-3. 函数默认值 
+3. 函数默认值
 
 ## 类型断言
 
