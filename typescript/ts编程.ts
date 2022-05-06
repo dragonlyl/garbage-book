@@ -32,7 +32,7 @@ type Foo1 = (name: string) => void；
  * 获取类的构造器和静态成员类型
  */
 
- class Person {
+ class Person1 {
     name = "st";
     age = 12;
     static lifetime = 100;
@@ -40,7 +40,7 @@ type Foo1 = (name: string) => void；
     method() {}
   }
   
-  type PersonConstructor = typeof Person;
+  type PersonConstructor = typeof Person1;
   
   // 等价于
   type PersonConstructor1 = {
@@ -136,3 +136,33 @@ interface DeepObj {
   
   type PartialDeepOjb = DeepPartial<DeepObj>;
  
+
+
+type myPartial<T> = {
+    [K in keyof T]?: T[K]
+}
+type p1 = myPartial<typeof obj>
+
+type myPick<T, K extends keyof T> ={
+    [P in K]: T[P]
+}
+type p2 = myPick<typeof obj, 'name'>
+type myExclude<T, U> = 
+    // [U extends T ? never: U]: T[U]
+    T extends U ? never: T
+
+type myOmit<T, K extends keyof T> = 
+    // [(P in keyof T) extends K ? never: P]: T[P]
+    // myPick<T, myExclude<keyof T, K>>
+    myPick<T, myExclude<keyof T, K>>
+type p3 = myOmit<typeof obj, 'name'>
+/**
+ * 关键字总结
+ * typeof obj (obj 是值 ,转变成 type {name: string})
+ * keyof obj (obj 是值, 解析出所有key类型 string | number)
+ * keyof typeObj (obj是type, 解析出所有key名 xx|xx)
+ * in type (将type内容各个拆分成单个)
+ * K extends T  (前者是后者的子集)
+ */
+
+type a = keyof typeof obj
