@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id='test' style="width: 50px;height: 50px; background: yellow; display: inline-block;"></div>
+    <br>
+    <button id="btn">click</button>
+
+    <script>
+        let btn = document.getElementById('btn')
+        let target = document.getElementById('test')
+        btn.addEventListener('click', () => {
+            target.style.transform = 'translateX(500px)';
+            target.style.transition = 'transform ease-in-out .01s'
+            // getComputedStyle(target).transform
+            requestAnimationFrame(() => {
+                // target.style.transform = 'translateX(500px)';
+                target.style.background = 'red';
+                requestAnimationFrame(() => {
+                    target.style.transform = 'translateX(100px)' // raf 的callback在渲染线程的前面
+                })
+            })
+        })
+    </script>
+</body>
+</html>
