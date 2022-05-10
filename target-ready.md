@@ -99,3 +99,7 @@ node --expose-gc
 
 一种是直接创建了一个数组，一个是调用字符串的构造函数创建字符串对象然后再创建这个字符串，中间多了一个创建对象的过程
 Array()是一个对象，[]是一个数据原型, 用new Array()系统每次都会新生成一个对象（浏览器每生成一个对象都会耗费资源去构造他的属性和方法），他的子集是[]
+
+## three.js使用
+
+[冰墩墩实现](https://github.com/dragonir/3d/tree/master/src/containers/Olympic)

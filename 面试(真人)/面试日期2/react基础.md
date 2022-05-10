@@ -49,6 +49,8 @@ tapable: compiler 由此继承而来
 [Webpack5的事件流和插件机制](https://juejin.cn/post/6918998088010956807)
 [Webpack 源码（一）—— Tapable 和 事件流](https://segmentfault.com/a/1190000008060440) // 更全面
 
+创建 compiler`[kəmˈpaɪlər]`, 加载config.js文件, compilation 开始(make, after-compiler) emit(获取完整的构建数据), done(最终写入chunk后)
+
 ## koa洋葱模型, redux中间件(实现和区别)
 
 [详解redux中间件](https://segmentfault.com/a/1190000023787306)
