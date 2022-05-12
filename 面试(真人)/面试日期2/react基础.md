@@ -181,6 +181,7 @@ commonjs, es module
 ## react diff
 
 [深入理解React Diff算法](https://segmentfault.com/a/1190000039021724)
+[React的diff算法详解](https://www.jianshu.com/p/6b80e1d806b6) // 必看
 
 通过oldFiber 跟reactElement比较(以它为标准生成新fiber节点), 打上effectTag (更新,新增,删除), 形成effectList链表进行操作.
 
@@ -211,7 +212,7 @@ tag和key不变,用oldFiber clone 一个新的fiber,props从...
 
 ## ts高级类型
 
-交叉类型, 联合类型
+交叉类型, 联合类型, Pick, Omit, Partial
 
 ## react和vue的区别
 
@@ -243,7 +244,7 @@ Navigator.sendBeacon(url,data), 由于浏览器兼容,会用 image 来做兜底
 image 能够跨域,且不需要挂载到dom上, 只需要设置src就会发送请求. 同时静态页面会禁用脚本,影响script使用
 发送的请求是1*1的Gif图片,因为同格式下,gif大小更小(性能消耗更小)
 
->sendBeacon: 1. cors(不需要预q请求); 2. 优先级较低; 3.可以放到unload处理[用 sendBeacon 发送分析信息的优点](https://www.csdn.net/tags/NtzaggwsMTg0NTYtYmxvZwO0O0OO0O0O.html)
+>sendBeacon: 1. cors(不需要预请求); 2. 优先级较低; 3.可以放到unload处理[用 sendBeacon 发送分析信息的优点](https://www.csdn.net/tags/NtzaggwsMTg0NTYtYmxvZwO0O0OO0O0O.html)
 
 ### 性能监测
 
@@ -304,3 +305,14 @@ vue 用 errorhandler
 ## ts和js
 
 静态类型判断
+
+## react link
+
+a标签页面跳转,页面会重新加载
+link只会去触发匹配对应页面, 拦截a标签默认操作, 通过 history的 pushState进行修改
+
+withRouter, 可以让组件有能力获取router中的内容,子组件的 props就有如下属性 history, location ,match{params}
+
+## forwardRef
+
+用来给函数式组件绑定ref的引用

@@ -118,7 +118,7 @@ class TodoListUI extends Component{
         return(
             <div>
             <div>
-                <Input placeholder="Basic usage" style={{width:'300px',margin:'20px'}} 
+                <Input placeholder="Basic usage" style={{width:'300px',margin:'20px'}}
                 value={this.props.inputValue}
                 onChange={(e)=>{this.props.inputOnchang(e)}}
                 />
@@ -145,7 +145,7 @@ const TodoListUI=(props)=>{
     return(
         <div>
         <div>
-            <Input placeholder="Basic usage" style={{width:'300px',margin:'20px'}} 
+            <Input placeholder="Basic usage" style={{width:'300px',margin:'20px'}}
             value={props.inputValue}
             onChange={(e)=>{props.inputOnchang(e)}}
             />
@@ -164,6 +164,7 @@ export default TodoListUI;
 *********************中间件********************
 什么是中间件：中间件指redux的中间件，指的是action和store之间的中间件，也就是对dispatch方法的升级
 -------------------------------------------------------
+
 一、redux-thunk处理异步操作
 是什么：redux的中间件
 为什么要使用：
@@ -256,7 +257,7 @@ id在this.props.location.search中，但是要进行处理
 
 ====================================性能提升===================================================
 why：由于connect()每次跟store连接，都会改变数据，导致所有的组件都会重新render()一遍
-how:1\可以用shouldComponentUpdate()进行判断当数据更新以后再执行 
+how:1\可以用shouldComponentUpdate()进行判断当数据更新以后再执行
 2、使用react的{PureComponent} from 'react'，这个底层进行了数据更新的判断，只会更新改变数据的组件，最好搭配immtable一起进行数据管理
 不然会报错
 为什么要使用immtable进行数据管理
@@ -278,6 +279,7 @@ XAMPP 可以帮助在本地起服务器 PHP
 1、npm run build 打包
 2、把build文件给后端(前端的代码放到后端项目里面，访问后端地址)
 ===============================================================================================
+
 面试题：
 
 1、说下事件委托和事件代理
@@ -370,7 +372,7 @@ bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调�
     则返回undefine。
 
     原型对象:prototype
-    原型指针:__proto__
+    原型指针:**proto**
 10、  new 运算符
     1\一个对象被创建。它继承自foo.prototype
     2\构造函数foo被执行。执行的时候，相应的 传参会被传入，同时上下文（this）
@@ -387,7 +389,7 @@ bind 是返回对应函数，便于稍后调用；apply 、call 则是立即调�
 4.如果该函数没有返回对象，则返回 this。（ 实际是返回一个空对象， new Object()就是返回一个空对象{} ）
 function _new(constructor, ...arg) {
   var obj = {}; // 对应于上面的步骤 1
-  obj.__proto__ = constructor.prototype; // 对应于上面的步骤 2
+  obj.**proto** = constructor.prototype; // 对应于上面的步骤 2
 
   var res = constructor.apply(obj, arg); // 对应于上面的步骤 3
 
@@ -512,11 +514,11 @@ User-Agent 作用：告诉服务器，客户端使用的操作系统、浏览器
                     arrList.push(arr[i].id);
                     array.push(arr[i])
                 }  
-           }              
+           }
         }
 20、网页输入url以后敲回车发生了什么
     1、解析url
-    http://www.haapmall.com:80/get-data.do?product=1#title
+    <http://www.haapmall.com:80/get-data.do?product=1#title>
     协议      域名        端口号    路径      参数    哈希
     域名用来查找服务器位置
     http默认端口80
@@ -536,10 +538,10 @@ User-Agent 作用：告诉服务器，客户端使用的操作系统、浏览器
 所谓同源是指，域名、协议、端口均相同。
 解决办法：
 1、代理配置
-2、jsop(只适用于get请求)
+2、jsonp(只适用于get请求)
 jsonp原理是html中的link，href,src属性都不受跨域影响的，link可以调用
 远程的css文件，href可以链接到随便的url上。图片的src可以随意引用图片
-，scriptde src属性可以随意引入不同源的js文件。jsonp?callback=func1，或者用jquery的$.getJSON或者jquery的ajax请求的方法
+，script的 src属性可以随意引入不同源的js文件。jsonp?callback=func1，或者用jquery的$.getJSON或者jquery的ajax请求的方法
 3、CORS(跨资源共享)W3C新标准，浏览器检测到响应头的一些字段的值后，跳过同源策略
 有哪些响应头字段，以及它们分别是怎么定义的？
 // 前端设置是否带cookie
@@ -568,8 +570,6 @@ window.postMessage('我要发送的消息','指定域名，*表示不管什么�
 5、通过修改document.domain来夸字域
 上述方法只能解决请求跨域，而无法解决跨域操作dom,操作dom必须两个域名属于同一个基础域名，而且所用的协议，端口都要一致。
 
-
-
 22、深拷贝浅拷贝以及es6\es5的实现方法
 浅拷贝是按位拷贝对象，它会创造一个新对象，赋值原对象的属性，如果是基本类型就是值引用类型就是内存地址。浅拷贝只复制某个对象的指针不是复制对象本身。
 深拷贝是拷贝对象的具体内容，内存地址是自主分配的，拷贝后两个对象的值一样但是地址不一样，互不影响。
@@ -586,7 +586,7 @@ JSON.prase(JSON.stringfy())的缺陷
 
 2、手写递归实现深度克隆：
 递归实现深度克隆的原理：遍历对象、数组直到里面都是基本数据类型，然后再去复制就是深度拷贝
-内存溢出(Out Of Memory，简称OOM)是指应用系统中存在无法回收的内存或使用的内存过多，最终使得程序运行要用到的内存大于能提供的最大内存。此时程序就运行不了，系统会提示内存溢出   
+内存溢出(Out Of Memory，简称OOM)是指应用系统中存在无法回收的内存或使用的内存过多，最终使得程序运行要用到的内存大于能提供的最大内存。此时程序就运行不了，系统会提示内存溢出
 普通版本：function clone(target) {
     if (target &&typeof target === 'object') {
         let cloneTarget = Array.isArray(target) ? [] : {};
@@ -626,7 +626,6 @@ function  deepClone(data) {
       return obj;
     }
 
-
 function  judgeType(obj) {
   // tostring会返回对应不同的标签的构造函数
       const toString = Object.prototype.toString;
@@ -647,7 +646,6 @@ function  judgeType(obj) {
       }
       return map[toString.call(obj)];
     }
-
 
 26、怎么用effectState实现ComponentDidiMount()方法？
 27、react怎么渲染的页面
@@ -697,9 +695,9 @@ CSRF
 3、内容安全策略(CSP)
 内容安全策略实际就是白名单制度，开发者明确告诉客户端，哪些资源可以加载执行增加网页的安全性。
 一种是 HTTP头信息Content-Security-Policy
-Content-Security-Policy: script-src 'self'; 
+Content-Security-Policy: script-src 'self';
                          object-src 'none';
-                         style-src cdn.example.org third-party.org; 
+                         style-src cdn.example.org third-party.org;
                          child-src https:
 一种是通过网页的 <meta> 标签
 <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'none'; style-src cdn.example.org third-party.org; child-src https:">
@@ -746,7 +744,7 @@ useEffect代替声明周期函数的方法：
  `React首次渲染和之后的每次渲染都会调用一遍useEffect函数，而之前我们要用两个生命周期函数分别表示首次渲染(componentDidMonut)和更新导致的重新渲染(componentDidUpdate)。
 
  `useEffect中定义的函数的执行不会阻碍浏览器更新视图，也就是说这些函数时异步执行的，而componentDidMonut和componentDidUpdate中的代码都是同步执行的。个人认为这个有好处也有坏处吧，比如我们要根据页面的大小，然后绘制当前弹出窗口的大小，如果时异步的就不好操作了。
- `componentWillUnmount可以理解为解绑副作用
+`componentWillUnmount可以理解为解绑副作用
  通过返回函数的形式进行解绑
  useEffect的第二个参数是，改值状态变化时进行解绑
  useContent 解决父子组件传值的问题：状态全局化并能统一管理
@@ -764,12 +762,11 @@ useEffect、useMemo、useCallback都是自带闭包的。也就是说，每一�
  2、存在多个值的情况下面怎么使用useContext
  3、为什么要用useCallback来缓存方法
 
-
 35、webpack配置用法
 36、hash路由和broswer路由的区别
 37、Object的hasOwnProperty()方法返回一个布尔值，判断对象是否包含特定的自身(非继承)属性。
 38、合并对象的方法：
-Object.assign(target，obj); 
+Object.assign(target，obj);
 第一个参数是目标对象，后面的参数都是源对对象。注意：如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性。
 39、判断是不是数组 Array.isArray()；
 40、React.createElement()和React.cloneElement();
@@ -813,51 +810,32 @@ Object.assign(target，obj);
 
        }
 
-42、编写一个正则表达式，用于验证合法的URL，比如 https://www.aliyun.com/;编写一个 正则表达式讲URL的二级域名提取出来，比如，https://www.aliyun.com/提取aliyun
-
-
+42、编写一个正则表达式，用于验证合法的URL，比如 <https://www.aliyun.com/>;编写一个 正则表达式讲URL的二级域名提取出来，比如，<https://www.aliyun.com/提取aliyun>
 
 43、根据提示代码中的内容，写出这些代码按次打印出的结果，并在每个结果后面从promise特性的角度阐述为什么打印出来会是这样的结果。
 
-// var p1 = Promise.resolve(1);
-
-// var p2 = Promise.resolve(p1);
-
-// var p3 = new Promise(function (resolve, reject) {
-
-//  resolve(1);
-
-// });
-
-// var p4 = new Promise(function (resolve, reject) {
-
-// console.log('success')
-
-//  resolve(p1);
-
-// });
-
-// console.log(p1 === p2);
-
-// console.log(p1 === p3);
-
-// p4.then(function (value) {
-
-//  console.log('p4=' + value);
-
-// });
-
-// p2.then(function (value) {
-
-//  console.log('p2=' + value);
-
-// });
-
-// p1.then(function (value) {
-
-//  console.log('p1=' + value);
-
-// });
+```js
+var p1 = Promise.resolve(1);
+var p2 = Promise.resolve(p1);
+var p3 = new Promise(function (resolve, reject) {
+ resolve(1);
+});
+var p4 = new Promise(function (resolve, reject) {
+console.log('success')
+ resolve(p1);
+});
+console.log(p1 === p2);
+console.log(p1 === p3);
+p4.then(function (value) {
+ console.log('p4=' + value);
+});
+p2.then(function (value) {
+ console.log('p2=' + value);
+});
+p1.then(function (value) {
+ console.log('p1=' + value);
+});
+```
 
 event Loop(事件线):
 什么是event Loop?
@@ -939,7 +917,7 @@ this.setSate((prevState,props)=>{
 62、node做请求
 63、useCallback和useMemo，在组件第一次渲染的时候执行，之后会依赖变量再次执行，之后会在其变量发生改变时进行二次执行，并且这两个hooks都返回缓存的值，useMemo返回缓存的变量，useCallback返回缓存的函数
 64、数组平铺的方法
-递归判断是否是数据 转化为字符串join()方法 
+递归判断是否是数据 转化为字符串join()方法
 65、js实现回文
 用reverse()反转之后比较
 66、css的隐藏元素的方法
@@ -957,8 +935,7 @@ opacity:0; 元素透明
 75、自己踩过的坑比如兼容性的问题
 76、实现1px的优化
 77、css选择器的几种方法
-78、
-https的传输过程
+78、https的传输过程
 在服务器端存在一个公钥及私钥
 客户端从服务器取得这个公钥
 客户端产生一个随机的密钥
@@ -986,6 +963,7 @@ promise是异步编程的一种解决方案，解决多个异步方法串行的�
 /1.exectutor执行器 立即执行
 //三种状态默认是等待态 resolve成功态  reject失败态
 
+```js
 const PENDING='PENDING'
 const RESOLVE='RESOLVE'
 const REJECT='REJECT'
@@ -1032,6 +1010,8 @@ class Promise{
         }
     }
 }
+```
+
 82、axios实现并行请求
 axios.all([]).then(res);
 res为返回的请求结果
@@ -1099,7 +1079,7 @@ useCallback返回的是函数，主要用来缓存函数，因为函数式组件
 97、react的优化做了什么
 98、setState的回调函数什么时候执行
 setState((state,props)=>{})的回调函数在state更新完毕后执行
-setState是同步的还是异步的 
+setState是同步的还是异步的
 在React中， 如果是由React引发的事件处理（比如通过onClick引发的事件处理），调用setState不会同步更新this.state，除此之外的setState调用会同步执行this.state 。所谓“除此之外”，指的是绕过React通过addEventListener直接添加的事件处理函数，还有通过setTimeout/setInterval产生的异步调用。
 原因： 在React的setState函数实现中，会根据一个变量isBatchingUpdates判断是直接更新this.state还是放到队列中回头再说，而isBatchingUpdates默认是false，也就表示setState会同步更新this.state，但是，有一个函数batchedUpdates，这个函数会把isBatchingUpdates修改为true，而当React在调用事件处理函数之前就会调用这个batchedUpdates，造成的后果，就是由React控制的事件处理过程setState不会同步更新this.state 。
 99、传输控制协议（Transmission Control Protocol，TCP）是一种面向连接的、可靠的、基于字节流的运输层通信协议，通常由IETF的RFC 793说明。在简化的计算机网络OSI模型中，它完成运输层所指定的功能。
@@ -1194,7 +1174,6 @@ cookie的新的属性
 怎么阻止第三方攻击
 设计一个秒杀页面会想到哪些场景和应对方式
 
-
 1、接口处理
 2、权限处理：
 通过劫持渲染以及权限透传
@@ -1205,11 +1184,10 @@ DOMContentLoaded不同的浏览器对其支持不同，所以在实现的时候�
 
 2）IE6、IE7不支持DOMContentLoaded，但它支持onreadystatechange事件，该事件的目的是提供与文档或元素的加载状态有关的信息。
 
-3)  更低的ie还有个特有的方法doScroll， 通过间隔调用：document.documentElement.doScroll("left");
+3) 更低的ie还有个特有的方法doScroll， 通过间隔调用：document.documentElement.doScroll("left");
 
   可以检测DOM是否加载完成。 当页面未加载完成时，该方法会报错，直到doScroll不再报错时，就代表DOM加载完成了。该方法更接近DOMContentLoaded的实现。
   使用hash-router
-
 
   1、本地数据复制到网页上
   2、三张表格联动功能
