@@ -103,3 +103,9 @@ Array()是一个对象，[]是一个数据原型, 用new Array()系统每次都�
 ## three.js使用
 
 [冰墩墩实现](https://github.com/dragonir/3d/tree/master/src/containers/Olympic)
+
+## 重中之重
+
+1. react各组件的实现
+2. 组件难度
+3. react hook 的实现

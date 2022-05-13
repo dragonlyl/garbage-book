@@ -38,7 +38,7 @@ useState, useEffect, useCallback, useMemo, useRef, useReducer
 
 ### hook原理
 
-[这几个关键的数据结构都不会，还怎么学react源码](https://juejin.cn/post/6993150359317250085)
+[这几个关键的数据结构都不会，还怎么学react源码](https://juejin.cn/post/6993150359317250085) // 必看
 fiber.memoizedState 在class组件存储的是 state内容
 
 在函数组件,指向的是hooks链表,hooks链表里面存储的都是hook对象
@@ -123,7 +123,7 @@ number, string, boolean, null, undefined, symbol, bigInt
 
 1. 前者能用于基本类型别名, 联合类型, 元组类型
 2. 后者能申明合并,前者会报错
-3. 前后者都能用于扩展, type 不能用 extends关键字符扩展
+<!-- 3. 前后者都能用于扩展, type 不能用 extends关键字符扩展 -->
 
 ```ts
 type Name = { 
@@ -153,8 +153,8 @@ User 接口为 {
 
 如何类型收缩 (交叉类型,联合类型)
 
-1. 类型断言 `值 as 类型` 或者` <类型>值`
-2. typeof  instanceof
+1. 类型断言 `值 as 类型` 或者` <类型>值` `(str as string).length; // (str as any).length;`
+2. `in` `typeof`  `instanceof`
 
 ## 模块机制
 
@@ -168,9 +168,18 @@ commonjs, es module
 
 ## 自定义hook
 
+[一文搞定常用的自定义 React Hooks](https://juejin.cn/post/6921491766638018573)
+自定义hooks集合
+[Collection of React Hooks](https://nikgraf.github.io/react-hooks/)
+
 ## h5性能优化
 
 ## 图片懒加载原理
+
+window.innerHeight
+element.offsetTop
+document.documentElement.scrollTop
+后两者的值大于前者就要去加载图片
 
 ## 长列表优化
 
@@ -214,6 +223,24 @@ tag和key不变,用oldFiber clone 一个新的fiber,props从...
 
 交叉类型, 联合类型, Pick, Omit, Partial
 
+### 类型保护
+
+`in`, `typeof`, `instanceof`
+
+```ts
+
+if ("privileges" in emp) {
+    console.log("Privileges: " + emp.privileges);
+}
+if (typeof padding === "number") {
+    return Array(padding + 1).join(" ") + value;
+}
+
+if (typeof padding === "string") {
+    return padding + value;
+}
+```
+
 ## react和vue的区别
 
 [有react fiber，为什么不需要vue fiber？](https://www.mybj123.com/16657.html)
@@ -232,6 +259,8 @@ vue是精准知道那一块数据,直接修改重新渲染(Object.defineProperty
 requestIdleCallback 在浏览器闲置的时间, timeRemaining 返回还有多少时间处理节点
 
 fiber这种结构使节点可以回溯到其父节点,只要保留中断的节点,就可以回复之前的工作进度(老架构是树,)
+
+[fiber调度机制](https://zhuanlan.zhihu.com/p/422640825)
 
 ### 优劣
 
@@ -316,3 +345,7 @@ withRouter, 可以让组件有能力获取router中的内容,子组件的 props�
 ## forwardRef
 
 用来给函数式组件绑定ref的引用
+
+## dan的采访
+
+[](https://mp.weixin.qq.com/s/SBVE34dW9g4BsabmLJV9wg)

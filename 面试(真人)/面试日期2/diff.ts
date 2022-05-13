@@ -146,3 +146,10 @@ function reconcileChildrenArray(
     }
     return resultingFirstChild;
  }
+
+ type a = string
+ interface b {
+     a: number
+ }
+ type d =[a] 
+ type c= [b]
