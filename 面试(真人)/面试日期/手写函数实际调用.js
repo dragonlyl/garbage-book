@@ -66,7 +66,7 @@ new YAxisPoint(17, 42) instanceof Point; // true
 最终稿子
 
 fn.myCall(target, arguments)
-Function.prototype.myCall (target) {
+Function.prototype.myCall = function (target) {
     // 必须是函数调用
     if (typeof this !== 'function') {
         throw Error('非函数')
@@ -84,7 +84,7 @@ Function.prototype.myCall (target) {
     return ret
 }
 
-Function.prototype.myApply(target) {
+Function.prototype.myApply = function (target) {
     if (typeof this !== 'function') {
         throw Error('非函数')
     }
@@ -94,7 +94,12 @@ Function.prototype.myApply(target) {
     // 将方法绑定到 target上
     ctx.fn = this
     // 运行该方法
-    let ret = ctx.fn(...arg[0])
+    let ret
+    if(arg[0]) {
+        ret = ctx.fn(...arg[0])
+    } else {
+        ret = ctx.fn()
+    }
     // 删除定义的属性
     delete ctx.fn
     return ret
@@ -144,22 +149,20 @@ function flatter (arr) {
     }, [])
 }
 
-debounce(fn, time) {
+function debounce(fn, time) {
     let timeout = null
     return () => {
-        if (timeout) return 
-        timer = setTimeout(() => {
-            fn()
-        }, time)
+        if (timeout) clearTimeout(timeout) 
+        timer = setTimeout(fn, time)
     }
 }
-throttle (fn, time) {
+function throttle (fn, time) {
     let can = true
     return () => {
         if (!can) return 
         can = false
         setTimeout(() => {
-            fn()
+            fn.apply(this, arguments)
             can = true
         }, time)
     }

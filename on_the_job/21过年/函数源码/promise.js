@@ -230,6 +230,7 @@ class MyPromise2 {
         return promise
     }
 }
+
 function resolvePromise(promise, x, resolve, reject) {
     if (promise === x) {
         throw Error('链式调用自己')

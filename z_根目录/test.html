@@ -7,15 +7,27 @@
     <title>页面</title>
 </head>
 <body>
+    <input type="text" id="input">
     <script>
         // window.addEventListener('error', (message, source, line, column, error) => { console.log(message, source, line, column, error) })
         window.onerror = function (message, source, line, column, error) { console.log(message, source, line, column, error) }
         // window.addEventListener('unhandledrejection', (e,l,r) => { console.log(e,l,r) })
         a= null;
-        console.log(a.b);
+        // console.log(a.b);
         let testP = new Promise((resolve, reject) => {
             reject(new Error('错误'))
         })
+        let input = document.getElementById('input')
+        let changeFn = (type) => (e) => {
+            console.log(type, e)
+        }
+        let changeFn2 = function(type) {
+            return function (e) {
+                console.log(type, e)
+            }
+        }
+        input.addEventListener('change', changeFn2('测试')) 
+        console.log(222)
         // testP()  
     </script>
 </body>

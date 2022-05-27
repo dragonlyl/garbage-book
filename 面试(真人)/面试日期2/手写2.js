@@ -168,7 +168,7 @@ function B(a) {
 B.prototype = Object.create(A.prototype, {
     constructor: {
         value: B,
-        writable: true,
+        writable: true, // 默认是true
         configurable: false,
         enumerable: false
     }
@@ -214,7 +214,7 @@ function throttle(fn, time) {
         if (!can) return
         can = false
         setTimeout(() => {
-            fn
+            fn.apply(this, arguments)
             can = true
         }, time)
     }
@@ -281,10 +281,14 @@ function _const (target, value) {
         value
     })
 }
-_const(obj, {a: 2})
+_const('obj', {a: 2})
 return
+// let
 (function (){
     for(var i = 0 ; i < 5; i++) {
         console.log(i)
     }
 })()
+// for语句 里面包裹一个立即执行函数,然后传入参数i
+// 判断语句 将判断语句内容 写到立即执行函数,这样var就不是变量提升了
+// [ES6之let声明的实现](https://blog.csdn.net/qq_32758013/article/details/79574558)

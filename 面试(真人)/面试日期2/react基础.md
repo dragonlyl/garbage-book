@@ -194,7 +194,7 @@ document.documentElement.scrollTop
 
 通过oldFiber 跟reactElement比较(以它为标准生成新fiber节点), 打上effectTag (更新,新增,删除), 形成effectList链表进行操作.
 
-使用tag 和 key 比较是否一样(都一致)
+使用 tag 和 key 比较是否一样(都一致)
 
 单节点更新:
 单节点是新为单节点 ,而不是旧为单节点
@@ -236,9 +236,6 @@ if (typeof padding === "number") {
     return Array(padding + 1).join(" ") + value;
 }
 
-if (typeof padding === "string") {
-    return padding + value;
-}
 ```
 
 ## react和vue的区别
@@ -256,7 +253,7 @@ vue是精准知道那一块数据,直接修改重新渲染(Object.defineProperty
 那么就将diff分成一小段一小段 (需要保存工作进度(即运行比较到哪一段))
 会比较一部分虚拟dom,让渡主线程让浏览器做其他工作,然后继续比较,依次往复,等到最后比较完成,一次性更新到视图上
 
-requestIdleCallback 在浏览器闲置的时间, timeRemaining 返回还有多少时间处理节点
+requestIdleCallback 在浏览器闲置的时间, timeRemaining 返回还有多少时间处理节点 (`messageChannel` `setTimeout`)
 
 fiber这种结构使节点可以回溯到其父节点,只要保留中断的节点,就可以回复之前的工作进度(老架构是树,)
 
@@ -349,3 +346,85 @@ withRouter, 可以让组件有能力获取router中的内容,子组件的 props�
 ## dan的采访
 
 [](https://mp.weixin.qq.com/s/SBVE34dW9g4BsabmLJV9wg)
+
+## redux和mobx的各个区别
+
+[Vuex、Flux、Redux、Redux-saga、Dva、MobX](https://juejin.cn/post/6844903742672748558)
+
+## react hooks
+
+### setState既可以接收对象，也可以接收函数，因为这里处理了一
+
+```tsx
+function basicStateReducer<S>(state: S, action: BasicStateAction<S>): S {
+  return typeof action === 'function' ? action(state) : action;
+}
+```
+
+### Hook和fiber如何关联
+
+1. beginWork调用renderWithHooks的时候会传入workInProgress，会被放到currentlyRenderingFiber这个全局变量。mount阶段mountWorkInProgressHook时会执行currentlyRenderingFiber.memoizedState = workInProgressHook = hook把hook挂在fiber上，这样就关联起来了。
+
+2. mount阶段按顺序执行Hook构建了workInProgressHook链表，按顺序保存了组件内每个Hook的数据。update阶段执行Hook时，需要按顺序使用workInProgressHook链表的数据（上一次的状态，更新任务队列等），计算出下一次的状态。因此，官网上会提示说Hook不能写在循环、条件语句里，因为可能造成mount、update时链表顺序对不上。比如某个Hook A在mount时加进链表了，但update时又因为条件语句没有被执行，那么下一个执行的Hook就会使用Hook A的state、queue以及dispatch，太可怕了。
+
+3. renderWithHooks中，就是调用Component()渲染组件，Hooks就是挨个执行，但不同阶段执行的方法不同（虽然方法名一样）。原因是调用Component()之前会先设置好dispatcher，因此会使用不同dispatcher中的useState方法，这种模式也可以借鉴，不一定要通过传参的形式解决问题。
+
+4. batchUpdates是如何实现的呢？
+    更新函数的代码在dispatchSetState，其核心就是enqueueUpdate任务入队以及scheduleUpdateOnFiber调度任务，由于调度是异步的，所以同步的代码（更新）都执行完之后，那边下一轮事件循环才会执行渲染，这时queue里（可能）已经有很多任务了。
+
+## react hooks为什么又链表而不是用数组
+
+存储形式?
+
+## vue编译原理
+
+[Vue模板编译原理](https://juejin.cn/post/6863241580753616903)
+
+根据template 转换 成render函数, 通过ast(正则匹配, 栈匹配标签)
+
+## react fiber 双缓冲机制
+
+1. 一颗用于渲染页面(current), 另一颗`workInProgress Fiber`树 用于在内存中构建,在构建完成后替换current Fiber树
+2. `workInProgress Fiber` 的 `alternate` 指向`current` tree 的对应节点
+3. 当`workInProgress Fiber` 构建完成就替换 `current` 渲染到页面,之前的current缓存起来成为下次 `workInProgress Fiber`
+
+## tob和toc
+
+[ToB和ToC的区别](https://www.jianshu.com/p/ef929fd1e6d6)
+
+1. 用户群体
+2. 产品形态(crm, erp) 后者 app
+3. 决策与使用 (企业管理层, 企业用户 后续替换意愿低有学习成本) 决定权在用户,无学习成本,上手快
+4. 使用场景 (办公场所)
+5. 业务型态
+6. 盈利模式 后者广告变形,产品影流
+7. 数据分析 ()
+8. 侧重点
+
+## css对dom的影响
+
+1. 不影响dom的解析
+2. 影响dom的渲染(style rules 跟 dom tree 结合生成render tree)
+
+小结
+
+1. CSS 不会阻塞 DOM 的解析，但会阻塞 DOM 渲染。
+2. JS 阻塞 DOM 解析，但浏览器会"偷看"DOM，预先下载相关资源。
+3. 浏览器遇到 `<script>`且没有defer或async属性的 标签时，会触发页面渲染，因而如果前面CSS资源尚未加载完毕时，浏览器会等待它加载完毕在执行脚本。
+
+## crm在saas中的作用
+
+1. 客户资源积累 (除了销售自己拓客, sdr `Sales Development Rep`.，销售开发代表 将清洗后的线索通过资源流转到具体的资源池子里)
+2. 优化销售策略 ()
+
+## 有赞crm
+
+1. 客户关系管理(crm)
+2. 订单管理(OMS)
+3. 企业资源管理(ERP)
+4. 供应链管理(SCM)
+5. 知识管理(KMS)
+
+销售: 以手机号维度的资源绑定关系管理, 资源跟进记录, 资源阶段和任务, 业绩计算
+
+包括: 客户管理, 店铺管理, 业绩管理, 大客管理, 知识库
