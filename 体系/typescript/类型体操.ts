@@ -5,8 +5,8 @@
 
 //  (if else 条件类型)
 type A1 = 1
-type B1 = 2
-type example1 = A1 extends B1 ? true : false // false 
+type B12 = 2
+type example1 = A1 extends B12 ? true : false // false 
 
 // (模式匹配)
 type A2 = [1, 2, 3]
@@ -24,7 +24,7 @@ type number1 = getPromiseVal<Promise<number[]>> // 就能拿到promise 里面的
 type Pop<T extends unknown[]> = T extends [...infer Rest, infer R] ? [...Rest] : never;
 type res1 =  Pop<[1, 2, 3]>
 type res2 = Pop<[]>
-type res3 = Pop<12>
+// type res3 = Pop<12>
 
 // 字符串模式匹配
 // 出掉前面的 空格,制表符,换行符
@@ -56,7 +56,7 @@ type IsEqual<A, B> = (<T>() => T extends A ? 1 : 2) extends <
 >() => T1 extends B ? 1 : 2
   ? true
   : false
-type a1 = IsEqual<{a: 1,b: 2}, {a: 1}>
+type a12 = IsEqual<{a: 1,b: 2}, {a: 1}>
 
 // (toString)
 
@@ -71,5 +71,5 @@ type Example3 = Stringify<0.4>
 type Example4<T> = T extends number ? T : never
 type example41 = Example4<1 | '1' | true>
 // 映射类型
-type Example5<T> = {[K in T]: K}
-type example51 = Example5<1 | '2' | 3>
+// type Example5<T> = {[K in T]: K}
+// type example51 = Example5<1 | '2' | 3>

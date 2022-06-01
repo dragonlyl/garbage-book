@@ -1,3 +1,41 @@
+// 解析url
+// [正则使用]('../on_the_job/节点_过年/正则.md')
+function sortUrl(url) {
+    const reg = /.+\?(.+)$/; // + 是至少一个; * 至少0个; ? 用来贪婪; . 是任意字符; []是括号内容字符一个匹配
+    let query = reg.exec(url)?.[1]; // exec 第0项是字符全匹配, 第1项是捕获内容
+    if(query) {
+        let queryArr = query.split('&')
+        let o = {}
+        queryArr.forEach(v => {
+            let keyVal = v.split('=')
+            o[keyVal[0]] = keyVal[1]
+        })
+        return o
+    }
+    return {}
+
+}
+console.log(sortUrl('https://juejin.cn/search?query=测试&utm_source=gold_browser_extension&utm_medium=search'))
+console.log(sortUrl('https://juejin.cn/search'))
+return
+// 去重
+var arr7 = [1,2,2,3,4,1,2]
+function deleteNum (arr) {
+    return arr.filter((v,i) => arr.indexOf(v) === i)
+}
+console.log([...new Set(arr7)])
+console.log(deleteNum(arr7))
+return
+// typeof 
+function myTypeof(target) {
+    return Object.prototype.toString.call(target).slice(8,-1).toLowerCase()
+}
+console.log(myTypeof('2'))
+console.log(myTypeof(2))
+console.log(myTypeof({}))
+console.log(myTypeof([]))
+
+return 
 class Event {
     constructor() {
         this.event = {}
@@ -80,10 +118,10 @@ function curry (fn) {
 function add (a, b, c) {
     return a+ b+ c;
 }
-let fn2 = curry(add);
+var fn2 = curry(add);
 console.log(fn2(1)(2)(3))
 
-let fn1 = curry(add, 1);
+var fn1 = curry(add, 1);
 console.log(fn1(1)(2))
 return
 function compose() {
@@ -105,8 +143,8 @@ function fn3(x) {
 function fn4(x) {
     return x * 4;
 }
-const a = compose(fn1, fn2, fn3, fn4);
-console.log(a(1));
+const a6 = compose(fn1, fn2, fn3, fn4);
+console.log(a6(1));
 return
 function myIterator(arr) {
     let index = 0
@@ -150,8 +188,8 @@ function myInstanceof(a, b) {
         a = a.__proto__
     }
 }
-function a () {}
-console.log(myInstanceof(a, Function))
+function a3 () {}
+console.log(myInstanceof(a3, Function))
 return
 class B1 extends A {
     constructor(val) {
@@ -180,11 +218,11 @@ function myNew (ctx) {
     let ret = ctx.call(target, ...arg)
     return typeof ret === 'object' ? ret : target
 }
-function a (val) {this.val = val}
-var b = myNew(a, 2)
+function a1 (val) {this.val = val}
+var b = myNew(a1, 2)
 console.log(b)
 return
-const arr = [1, [1,2], [1,2,3]]
+// const arr = [1, [1,2], [1,2,3]]
 function flatter(arr) {
     while(arr.some(v => Array.isArray(v))) {
         arr = [].concat(...arr)
@@ -232,8 +270,9 @@ Function.prototype.myBind = function (ctx) {
     }
 }
 let obj2 = {a: 2}
-function a (val) {console.log(this.a, val)}
-let fn = a.myBind(obj2)
+var a = 3
+function a4 (val) {console.log(this.a, val)}
+let fn = a4.myBind(obj2)
 fn(3)
 
 return
@@ -255,8 +294,8 @@ Function.prototype.myApply = function(ctx) {
     return ret
 }
 let obj1 = {a: 2}
-function a(val) {console.log(this.a, val)}
-a.myApply(obj1, [3])
+function a2(val) {console.log(this.a, val)}
+a2.myApply(obj1, [3])
 return
 Function.prototype.myCall = function(ctx) {
     if (typeof this !== 'function') {
@@ -271,8 +310,8 @@ Function.prototype.myCall = function(ctx) {
     return ret
 }
 let obj = {a: 2}
-function a(val) {console.log(this.a, val)}
-a.myCall(obj, 3)
+function a5(val) {console.log(this.a, val)}
+a5.myCall(obj, 3)
 
 return
 function _const (target, value) {

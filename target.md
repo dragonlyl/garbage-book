@@ -590,3 +590,10 @@ console.log(obj.value)
 
 2. 虚拟列表
 [「前端进阶」高性能渲染十万条数据(虚拟列表)](https://juejin.cn/post/6844903982742110216)
+
+## 向hr问问题
+
+[面试时，可以向HR询问哪些问题？](http://www.kmcaishui.com/caijinnews/article_18993.html)
+
+1. 薪酬福利
+2. 岗位发展方向是怎么样的 ,通常如何考核
