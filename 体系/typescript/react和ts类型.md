@@ -19,4 +19,6 @@ type prop = {
 new Date().getTime() // 创建时间戳
 
 ReactDOM.unmountComponentAtNode(container) //卸载某个元素
+
+rcf  // 快速生成函数式组件
 ```

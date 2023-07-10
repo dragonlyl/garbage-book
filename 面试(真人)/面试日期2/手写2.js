@@ -1,3 +1,5 @@
+// [扁平数据结构转Tree](https://juejin.cn/post/6983904373508145189)
+
 // 解析url
 // [正则使用]('../on_the_job/节点_过年/正则.md')
 function sortUrl(url) {
@@ -15,6 +17,7 @@ function sortUrl(url) {
     return {}
 
 }
+
 console.log(sortUrl('https://juejin.cn/search?query=测试&utm_source=gold_browser_extension&utm_medium=search'))
 console.log(sortUrl('https://juejin.cn/search'))
 return
